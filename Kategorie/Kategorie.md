@@ -1,20 +1,20 @@
-#Slaboproud
+# Slaboproud
  - Rezistory
    - Pevné rezistory
-###		Nastavitelné rezistory
-####			Potenciometry 
-####			Trimry
-####			Reostaty
-####			PTC
-####			NTC
-##	Kondenzátory
-		Keramické
-		Fóliové
-		Tantalové
-		Superkondenzátory
-		Elektrolytické
-	Cívky/tlumivky
-	Diody
+     - Nastavitelné rezistory
+       - Potenciometry 
+	     - Trimry
+		 - Reostaty
+		 - PTC
+		 - NTC
+   - Kondenzátory
+     - Keramické
+	 - Fóliové
+     - Tantalové
+	 - Superkondenzátory
+	 - Elektrolytické
+   - Cívky/tlumivky
+   - Diody
 		Usměrňovací
 		Zenerovy
 		Schottkyho
