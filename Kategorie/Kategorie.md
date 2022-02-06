@@ -8,7 +8,7 @@
 	- PTC
 	- NTC
 - Kondenzátory
-  - Keramické 1
+  - Keramické
   - Fóliové
   - Tantalové
   - Superkondenzátory
