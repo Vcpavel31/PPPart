@@ -41,7 +41,8 @@
 - Integrované obvody
   - Paměti
   	- FLASH
-  	- EPROM/EEPROM
+  	- EPROM / EEPROM
+  	- SRAM / DRAM
   - Mikroprocesory
   - Hradla
 	- AND
@@ -50,6 +51,15 @@
 	- NOR
 	- Invertory
 	- Ostatní
+  - Analaogové a kombinované obvody
+    - Převodníky A/D
+    - Převodníky D/A
+    - Operační zesilovače
+  - Stabilizátory
+  - Periferní obvody
+  - Multiplexery
+  - Dekodéry
+  - Posuvné registry
 - Spínací prvky
   - Relé do 10A
   - Triaky
