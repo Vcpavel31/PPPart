@@ -1,6 +1,6 @@
 #Slaboproud
-##	Rezistory
-###		Pevné rezistory
+ - Rezistory
+   - Pevné rezistory
 ###		Nastavitelné rezistory
 ####			Potenciometry 
 ####			Trimry
