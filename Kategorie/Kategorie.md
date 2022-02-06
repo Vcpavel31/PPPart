@@ -118,3 +118,79 @@
   - Nehořlavé
   - Výstražné (Cedule, pásky, nálepky)
   - Bužírky / pásky
+
+# Kabely
+- Vodiče
+- Pevné (K)
+- Lankové (S)
+- Sdělovací 
+  - UTP
+  - STP
+  - KOAX
+  - Optické
+  - Speciální
+- Ovládací
+- Speciální
+
+# Stavebniny
+- Hrubá stavba
+- Klempířské prvky
+- Drenáže a odvodnění
+- Stavební směsi
+- Dřevo
+- Sádrokarton
+- Ostatní
+
+# Spojovací materiál
+- Vruty
+- Šrouby metrické
+- Šrouby Whitwort
+- Šrouby ostatní
+- Kování
+- Ostatní
+
+# Voda topení sanita
+- Trubky vodovodní / topenářské
+  - Plastové 
+  - Měděné
+  - Kovové
+- Trubky sanitní
+- Fitinky
+  - Plastové 
+  - Měděné
+  - Kovové
+- Kohouty
+- Ostatní
+
+# Kov
+- Profily
+- Armování
+- Sváření
+  - MMA (111)
+  - MIG/MAG (131/136)
+  - TIG (141)
+  - Plamen (311)
+- Obrábění
+  - Frézování
+  - Soustružení
+
+# Strojní součásti
+- Ložiska
+- Gufera
+- Auta
+- Těžká technika
+- Stroje
+- Pneu
+- Maziva
+  - Oleje
+  - Vazelíny
+  - Maznice
+
+# Sítě
+- Routery
+- Switche
+- Patchpanely / síťové zásuvky
+- Konektory
+- Optika
+- Antény
+- Ostatní
