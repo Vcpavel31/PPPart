@@ -68,10 +68,10 @@
 - Optoelektronika
 - Vývojové platformy
   - RPI
-	- Shieldy
+	  - Shieldy
   - Arduino
-	- Shieldy
-  - Ostatní PLC
+	  - Shieldy
+  - PLC
 - Čidla
   - Teplota / Vlhkost
   - Pohyb
@@ -204,3 +204,14 @@
 - Optika
 - Antény
 - Ostatní
+
+# 3D tisk
+- Filamenty
+  - PLA
+  - PETG
+  - ABS
+  - ASA
+  - CPE
+  - Nylon
+- Trysky
+- Náhradní díly
