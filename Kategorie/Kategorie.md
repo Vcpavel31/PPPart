@@ -124,7 +124,7 @@
 - Pojistky
   - Nožové
   - Šroubové
-- Ochranní materiály
+- Ochranné materiály
   - Nehořlavé
   - Výstražné (Cedule, pásky, nálepky)
   - Bužírky / pásky
