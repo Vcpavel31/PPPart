@@ -107,7 +107,8 @@ CREATE TABLE `Minimální počet skladem` (
 CREATE TABLE `Pouzdro` (
 	`ID` INT NOT NULL AUTO_INCREMENT,
 	`Interni_ID` INT(32) NOT NULL,
-	`Pouzdro` TEXT NOT NULL,
+	`Pouzdro_W` TEXT NOT NULL,
+	`Pouzdro_S` INT(16),
 	PRIMARY KEY (`ID`)
 );
 
@@ -349,7 +350,7 @@ ALTER TABLE `Minimální počet skladem` ADD CONSTRAINT `Minimální počet skla
 
 ALTER TABLE `Pouzdro` ADD CONSTRAINT `Pouzdro_fk0` FOREIGN KEY (`Interni_ID`) REFERENCES `Interni_ID`(`ID`);
 
-ALTER TABLE `Pouzdro` ADD CONSTRAINT `Pouzdro_fk1` FOREIGN KEY (`Pouzdro`) REFERENCES `Pouzdra`(`ID`);
+ALTER TABLE `Pouzdro` ADD CONSTRAINT `Pouzdro_fk1` FOREIGN KEY (`Pouzdro_S`) REFERENCES `Pouzdra`(`ID`);
 
 ALTER TABLE `Cena` ADD CONSTRAINT `Cena_fk0` FOREIGN KEY (`Interni_ID`) REFERENCES `Interni_ID`(`ID`);
 
