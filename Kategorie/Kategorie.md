@@ -3,10 +3,10 @@
   - Pevné rezistory
   - Nastavitelné rezistory
     - Potenciometry 
-	- Trimry
-	- Reostaty
-	- PTC
-	- NTC
+    - Trimry
+    - Reostaty
+    - PTC
+    - NTC
 - Kondenzátory
   - Keramické
   - Fóliové
@@ -40,17 +40,17 @@
     - Polyswitch
 - Integrované obvody
   - Paměti
-  	- FLASH
-  	- EPROM / EEPROM
-  	- SRAM / DRAM
+    - FLASH
+    - EPROM / EEPROM
+    - SRAM / DRAM
   - Mikroprocesory
   - Hradla
-	- AND
-	- NAND
-	- OR
-	- NOR
-	- Invertory
-	- Ostatní
+    - AND
+    - NAND
+    - OR
+    - NOR
+    - Invertory
+    - Ostatní
   - Analaogové a kombinované obvody
     - Převodníky A/D
     - Převodníky D/A
@@ -68,9 +68,9 @@
 - Optoelektronika
 - Vývojové platformy
   - RPI
-	  - Shieldy
+    - Shieldy
   - Arduino
-	  - Shieldy
+    - Shieldy
   - PLC
 - Čidla
   - Teplota / Vlhkost
@@ -86,40 +86,40 @@
 # Silnoproud
 - Rozvodnice
   - Modulární přístroje
-	- Jističe
-	- MIR (Multifunkční impulzní relé)
-	- MCR (Multifunkční časové relé)
-	- Nadproudové jistící relé
-	- Ochranné relé
-	- Stykače
-	- Chrániče
-	- KOMBI (jistič + chránič)
-	- Elektroměry na DIN
-	- Oblouková ochrana
-	- Odpínače
-	- Pomocné kontakty
-	- Propojovací lišty
-	- Relé
-	- Vypínače na DIN
-	- Ostatní
+    - Jističe
+    - MIR (Multifunkční impulzní relé)
+    - MCR (Multifunkční časové relé)
+    - Nadproudové jistící relé
+    - Ochranné relé
+    - Stykače
+    - Chrániče
+    - KOMBI (jistič + chránič) 
+    - Elektroměry na DIN
+    - Oblouková ochrana
+    - Odpínače
+    - Pomocné kontakty
+    - Propojovací lišty
+    - Relé
+    - Vypínače na DIN
+    - Ostatní
   - Rozváděče
 - Instalace
   - Krabice
   - Ventilátory
   - Svítidla
-	- Světelné zdroje
-	- Svítidla
-	- Stmívače
-	- Objímky
+    - Světelné zdroje
+    - Svítidla
+    - Stmívače
+    - Objímky
   - Zásuvky a spínače
-	- Zásuvky 230V
-	- Zásuvky 400V
-	- Zásuvky speciální
-	- Spínače
+    - Zásuvky 230V
+    - Zásuvky 400V
+    - Zásuvky speciální
+    - Spínače
   - Svorky
-	- WAGO + Čokolády
-	- RSA
-	- Můstky
+    - WAGO + Čokolády
+    - RSA
+    - Můstky
 - Fotovoltaika
 - Pojistky
   - Nožové
@@ -213,5 +213,7 @@
   - ASA
   - CPE
   - Nylon
+  - FLEX
+  - Speciální
 - Trysky
 - Náhradní díly
