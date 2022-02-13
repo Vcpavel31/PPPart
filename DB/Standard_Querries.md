@@ -18,6 +18,17 @@ Odesíláme ID kategorie, pro kteou chceme získat součástky. Vrací ID jednot
 ``` SQL
 SELECT `Soucastka` FROM `Prirazeni_kategorii` WHERE `Kategorie` = ""
 ```
+# Získání názvu součástky z jejího ID
+Odesíláme ID součástky
+``` SQL
+SELECT `Název` FROM `Interni_ID` WHERE `ID` = ""
+```
+# Získání dat pro sloupec do tabulky se součástkami z jejího ID
+Odesíláme ID součástky
+Název sloupce odpovídá názvu tabulky a názvu sloupce v DB
+``` SQL
+SELECT `Jmenovité napětí` FROM `Jmenovité napětí` WHERE `Interni_ID` = ""
+```
 
 # Vyprázdnění tabulky "Usporadani_kategorii"
 ``` SQL
