@@ -1,8 +1,3 @@
-# 
-``` SQL
-
-```
-
 # Vyprázdnění tabulek vynulování AI
 ``` SQL
 SET FOREIGN_KEY_CHECKS = 0; 
@@ -224,4 +219,17 @@ INSERT INTO `Kategorie`(`Nazev`) VALUES ("FLEX");
 INSERT INTO `Kategorie`(`Nazev`) VALUES ("Speciální"); 
 INSERT INTO `Kategorie`(`Nazev`) VALUES ("Trysky"); 
 INSERT INTO `Kategorie`(`Nazev`) VALUES ("Náhradní díly");
+```
+# Základní uspořádání (vložení kategorií které nemají nadřazenou kategorii)
+``` SQL
+INSERT INTO `Usporadani_kategorii` (`ID`, `Kategorie`, `Nadrazena`) VALUES (NULL, (SELECT `ID` FROM `Kategorie` WHERE `Nazev` = "Slaboproud" ORDER BY `Kategorie`.`ID` ASC LIMIT 1), NULL); 
+INSERT INTO `Usporadani_kategorii` (`ID`, `Kategorie`, `Nadrazena`) VALUES (NULL, (SELECT `ID` FROM `Kategorie` WHERE `Nazev` = "Silnoproud" ORDER BY `Kategorie`.`ID` ASC LIMIT 1), NULL); 
+INSERT INTO `Usporadani_kategorii` (`ID`, `Kategorie`, `Nadrazena`) VALUES (NULL, (SELECT `ID` FROM `Kategorie` WHERE `Nazev` = "Kabely" ORDER BY `Kategorie`.`ID` ASC LIMIT 1), NULL); 
+INSERT INTO `Usporadani_kategorii` (`ID`, `Kategorie`, `Nadrazena`) VALUES (NULL, (SELECT `ID` FROM `Kategorie` WHERE `Nazev` = "Stavebniny" ORDER BY `Kategorie`.`ID` ASC LIMIT 1), NULL); 
+INSERT INTO `Usporadani_kategorii` (`ID`, `Kategorie`, `Nadrazena`) VALUES (NULL, (SELECT `ID` FROM `Kategorie` WHERE `Nazev` = "Spojovací materiál" ORDER BY `Kategorie`.`ID` ASC LIMIT 1), NULL); 
+INSERT INTO `Usporadani_kategorii` (`ID`, `Kategorie`, `Nadrazena`) VALUES (NULL, (SELECT `ID` FROM `Kategorie` WHERE `Nazev` = "Voda topení sanita" ORDER BY `Kategorie`.`ID` ASC LIMIT 1), NULL); 
+INSERT INTO `Usporadani_kategorii` (`ID`, `Kategorie`, `Nadrazena`) VALUES (NULL, (SELECT `ID` FROM `Kategorie` WHERE `Nazev` = "Kov" ORDER BY `Kategorie`.`ID` ASC LIMIT 1), NULL); 
+INSERT INTO `Usporadani_kategorii` (`ID`, `Kategorie`, `Nadrazena`) VALUES (NULL, (SELECT `ID` FROM `Kategorie` WHERE `Nazev` = "Strojní součásti" ORDER BY `Kategorie`.`ID` ASC LIMIT 1), NULL); 
+INSERT INTO `Usporadani_kategorii` (`ID`, `Kategorie`, `Nadrazena`) VALUES (NULL, (SELECT `ID` FROM `Kategorie` WHERE `Nazev` = "Sítě" ORDER BY `Kategorie`.`ID` ASC LIMIT 1), NULL); 
+INSERT INTO `Usporadani_kategorii` (`ID`, `Kategorie`, `Nadrazena`) VALUES (NULL, (SELECT `ID` FROM `Kategorie` WHERE `Nazev` = "3D tisk" ORDER BY `Kategorie`.`ID` ASC LIMIT 1), NULL); 
 ```
