@@ -1,5 +1,6 @@
 CREATE TABLE `Interni_ID` (
 	`ID` INT(32) NOT NULL AUTO_INCREMENT,
+	`Název` TEXT NOT NULL,
 	PRIMARY KEY (`ID`)
 );
 
@@ -12,7 +13,8 @@ CREATE TABLE `Kategorie` (
 CREATE TABLE `Usporadani_kategorii` (
 	`ID` INT(16) NOT NULL AUTO_INCREMENT,
 	`Kategorie` INT(16) NOT NULL,
-	`Nadrazena` INT(16) NOT NULL,
+	`Nadrazena` INT(16),
+	`Uzivatel` INT(8) NOT NULL,
 	PRIMARY KEY (`ID`)
 );
 
@@ -24,9 +26,10 @@ CREATE TABLE `EAN` (
 );
 
 CREATE TABLE `Prirazeni_kategorii` (
-	`ID` INT NOT NULL AUTO_INCREMENT,
+	`ID` INT(64) NOT NULL AUTO_INCREMENT,
 	`Soucastka` INT(32) NOT NULL,
 	`Kategorie` INT(16) NOT NULL,
+	`Uzivatel` INT(8) NOT NULL,
 	PRIMARY KEY (`ID`)
 );
 
@@ -312,15 +315,24 @@ CREATE TABLE `Barvy` (
 	PRIMARY KEY (`ID`)
 );
 
+CREATE TABLE `Uzivatele` (
+	`ID` INT(8) NOT NULL AUTO_INCREMENT,
+	PRIMARY KEY (`ID`)
+);
+
 ALTER TABLE `Usporadani_kategorii` ADD CONSTRAINT `Usporadani_kategorii_fk0` FOREIGN KEY (`Kategorie`) REFERENCES `Kategorie`(`ID`);
 
 ALTER TABLE `Usporadani_kategorii` ADD CONSTRAINT `Usporadani_kategorii_fk1` FOREIGN KEY (`Nadrazena`) REFERENCES `Kategorie`(`ID`);
+
+ALTER TABLE `Usporadani_kategorii` ADD CONSTRAINT `Usporadani_kategorii_fk2` FOREIGN KEY (`Uzivatel`) REFERENCES `Uzivatele`(`ID`);
 
 ALTER TABLE `EAN` ADD CONSTRAINT `EAN_fk0` FOREIGN KEY (`Interni_ID`) REFERENCES `Interni_ID`(`ID`);
 
 ALTER TABLE `Prirazeni_kategorii` ADD CONSTRAINT `Prirazeni_kategorii_fk0` FOREIGN KEY (`Soucastka`) REFERENCES `Interni_ID`(`ID`);
 
 ALTER TABLE `Prirazeni_kategorii` ADD CONSTRAINT `Prirazeni_kategorii_fk1` FOREIGN KEY (`Kategorie`) REFERENCES `Kategorie`(`ID`);
+
+ALTER TABLE `Prirazeni_kategorii` ADD CONSTRAINT `Prirazeni_kategorii_fk2` FOREIGN KEY (`Uzivatel`) REFERENCES `Uzivatele`(`ID`);
 
 ALTER TABLE `Objednací číslo` ADD CONSTRAINT `Objednací číslo_fk0` FOREIGN KEY (`Interni_ID`) REFERENCES `Interni_ID`(`ID`);
 
@@ -407,6 +419,7 @@ ALTER TABLE `Datum poslední manipulace` ADD CONSTRAINT `Datum poslední manipul
 ALTER TABLE `Balení` ADD CONSTRAINT `Balení_fk0` FOREIGN KEY (`Interni_ID`) REFERENCES `Interni_ID`(`ID`);
 
 ALTER TABLE `Balení` ADD CONSTRAINT `Balení_fk1` FOREIGN KEY (`Balení_S`) REFERENCES `Obaly`(`ID`);
+
 
 
 
