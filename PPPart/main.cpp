@@ -8,6 +8,10 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
 
+    a.setOrganizationName("PP");
+    a.setOrganizationDomain("pppart.vcpavel31.cz");
+    a.setApplicationName("PPPart");
+
     QTranslator translator;
     const QStringList uiLanguages = QLocale::system().uiLanguages();
     for (const QString &locale : uiLanguages) {
