@@ -17,6 +17,9 @@ HEADERS += \
 
 FORMS += \
     pppart.ui \
+    prijem.ui \
+    prijem_novy_1.ui \
+    prijem_novy_2.ui \
     vydej.ui
 
 TRANSLATIONS += \

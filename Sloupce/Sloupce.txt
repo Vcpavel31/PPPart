@@ -1,18 +1,19 @@
+Název
 Pozice ve skladu
-Délka
-Počet skladem
 EAN
 Objednací číslo
 Číslo výrobce
-Název
 Výrobce
-Vnitřní ID
-Vlastní označení
 Dodavatel
+Vlastní označení
 Poznámka
 Stav
-Minimální počet skladem
 Cena
+Počet skladem
+Minimální počet skladem
+
+Délka
+Vnitřní ID
 Pouzdro
 Tolerance
 Hmotnost
