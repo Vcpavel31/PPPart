@@ -10,29 +10,13 @@ CONFIG += c++11
 
 SOURCES += \
     main.cpp \
-    nastaveni.cpp \
     pppart.cpp \
-    prijem.cpp \
-    prijem_novy_1.cpp \
-    prijem_novy_2.cpp \
-    vydej.cpp
 
 HEADERS += \
-    nastaveni.h \
     pppart.h \
-    prijem.h \
-    prijem_novy_1.h \
-    prijem_novy_2.h \
-    vydej.h
 
 FORMS += \
-    nastaveni.ui \
     pppart.ui \
-    prijem.ui \
-    prijem.ui \
-    prijem_novy_1.ui \
-    prijem_novy_2.ui \
-    vydej.ui
 
 TRANSLATIONS += \
     PPPart_cs_CZ.ts
