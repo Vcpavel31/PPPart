@@ -14,45 +14,6 @@
    <string>PPPart</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QPushButton" name="login">
-    <property name="geometry">
-     <rect>
-      <x>1120</x>
-      <y>10</y>
-      <width>80</width>
-      <height>24</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Přihlášení</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="outcome">
-    <property name="geometry">
-     <rect>
-      <x>210</x>
-      <y>10</y>
-      <width>80</width>
-      <height>24</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Výdej</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="print">
-    <property name="geometry">
-     <rect>
-      <x>480</x>
-      <y>10</y>
-      <width>80</width>
-      <height>24</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Tisk</string>
-    </property>
-   </widget>
    <widget class="QTreeWidget" name="parts">
     <property name="geometry">
      <rect>
@@ -420,58 +381,6 @@
      </attribute>
     </widget>
    </widget>
-   <widget class="QPushButton" name="filters">
-    <property name="geometry">
-     <rect>
-      <x>570</x>
-      <y>10</y>
-      <width>41</width>
-      <height>24</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Filtry</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="income_existing">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>10</y>
-      <width>91</width>
-      <height>24</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Příjem stavající</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="settings">
-    <property name="geometry">
-     <rect>
-      <x>1210</x>
-      <y>10</y>
-      <width>80</width>
-      <height>24</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Nastavení</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="income">
-    <property name="geometry">
-     <rect>
-      <x>110</x>
-      <y>10</y>
-      <width>91</width>
-      <height>24</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Příjem</string>
-    </property>
-   </widget>
    <widget class="QLabel" name="pozn">
     <property name="geometry">
      <rect>
@@ -491,18 +400,83 @@
      <bool>true</bool>
     </property>
    </widget>
-   <widget class="QLabel" name="label">
+   <widget class="QWidget" name="horizontalLayoutWidget">
     <property name="geometry">
      <rect>
-      <x>420</x>
-      <y>250</y>
-      <width>49</width>
-      <height>16</height>
+      <x>10</x>
+      <y>10</y>
+      <width>168</width>
+      <height>31</height>
      </rect>
     </property>
-    <property name="text">
-     <string>TextLabel</string>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QPushButton" name="income">
+       <property name="text">
+        <string>Příjem</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="outcome">
+       <property name="text">
+        <string>Výdej</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QWidget" name="horizontalLayoutWidget_2">
+    <property name="geometry">
+     <rect>
+      <x>480</x>
+      <y>10</y>
+      <width>168</width>
+      <height>31</height>
+     </rect>
     </property>
+    <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <item>
+      <widget class="QPushButton" name="print">
+       <property name="text">
+        <string>Tisk</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="filters">
+       <property name="text">
+        <string>Filtry</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QWidget" name="horizontalLayoutWidget_3">
+    <property name="geometry">
+     <rect>
+      <x>1130</x>
+      <y>20</y>
+      <width>168</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <layout class="QHBoxLayout" name="horizontalLayout_3">
+     <item>
+      <widget class="QPushButton" name="login">
+       <property name="text">
+        <string>Přihlášení</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="settings">
+       <property name="text">
+        <string>Nastavení</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
@@ -511,7 +485,7 @@
      <x>0</x>
      <y>0</y>
      <width>1307</width>
-     <height>26</height>
+     <height>21</height>
     </rect>
    </property>
   </widget>
