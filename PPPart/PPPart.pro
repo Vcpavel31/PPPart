@@ -10,12 +10,15 @@ CONFIG += c++11
 
 SOURCES += \
     main.cpp \
+    nastaveni.cpp \
     pppart.cpp \
 
 HEADERS += \
+    nastaveni.h \
     pppart.h \
 
 FORMS += \
+    nastaveni.ui \
     pppart.ui \
 
 TRANSLATIONS += \
