@@ -13,21 +13,18 @@ SOURCES += \
     nastaveni.cpp \
     pppart.cpp \
     prijem_novy_1.cpp \
-    prijem_novy_2.cpp \
     vydej_1.cpp
 
 HEADERS += \
     nastaveni.h \
     pppart.h \
     prijem_novy_1.h \
-    prijem_novy_2.h \
     vydej_1.h
 
 FORMS += \
     nastaveni.ui \
     pppart.ui \
     prijem_novy_1.ui \
-    prijem_novy_2.ui \
     vydej_1.ui
 
 TRANSLATIONS += \
