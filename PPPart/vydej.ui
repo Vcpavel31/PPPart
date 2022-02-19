@@ -39,7 +39,7 @@
    </column>
    <column>
     <property name="text">
-     <string>Nový sloupec</string>
+     <string>Skladem</string>
     </property>
    </column>
    <column>
@@ -98,17 +98,17 @@
     </rect>
    </property>
   </widget>
-  <widget class="QLabel" name="label">
+  <widget class="QLabel" name="pozn">
    <property name="geometry">
     <rect>
      <x>50</x>
      <y>110</y>
      <width>291</width>
-     <height>61</height>
+     <height>71</height>
     </rect>
    </property>
    <property name="text">
-    <string>Nevím jak v tablewidget vložit Spinbox tak to je jedna z věcí co se musí vymyslet...</string>
+    <string>Nevím jak v tablewidget vložit Spinbox tak to je jedna z věcí co se musí vymyslet...  https://stackoverflow.com/questions/3172415/qcombobox-and-qspinbox-in-qtablewidget-with-appropriate-alignment</string>
    </property>
    <property name="scaledContents">
     <bool>true</bool>
@@ -117,7 +117,7 @@
     <bool>true</bool>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton">
+  <widget class="QPushButton" name="zrusit_vydej">
    <property name="geometry">
     <rect>
      <x>280</x>
@@ -143,10 +143,10 @@
     <string>Dokončit výdej</string>
    </property>
   </widget>
-  <widget class="QLabel" name="label_2">
+  <widget class="QLabel" name="pozn_2">
    <property name="geometry">
     <rect>
-     <x>190</x>
+     <x>170</x>
      <y>200</y>
      <width>191</width>
      <height>31</height>
