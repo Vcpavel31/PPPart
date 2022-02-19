@@ -29,11 +29,11 @@ public:
 private slots:
     void replyFinished (QNetworkReply *reply);
 
-    void on_treeWidget_2_itemDoubleClicked(QTreeWidgetItem *item, int column);
-
     void on_treeWidget_itemClicked(QTreeWidgetItem *item, int column);
 
     void on_pushButton_2_pressed();
+
+    void on_Soucastky_itemDoubleClicked(QTreeWidgetItem *item, int column);
 
 private:
     Ui::PPPart *ui;

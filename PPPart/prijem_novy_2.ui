@@ -1,233 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Dialog</class>
- <widget class="QDialog" name="Dialog">
+ <class>Prijem_novy_2</class>
+ <widget class="QDialog" name="Prijem_novy_2">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>499</width>
-    <height>675</height>
+    <width>504</width>
+    <height>665</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
-  <widget class="QWidget" name="gridLayoutWidget">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>10</y>
-     <width>481</width>
-     <height>485</height>
-    </rect>
-   </property>
-   <layout class="QGridLayout" name="gridLayout">
-    <item row="0" column="1">
-     <widget class="QLineEdit" name="lineEdit">
-      <property name="enabled">
-       <bool>false</bool>
-      </property>
-     </widget>
-    </item>
-    <item row="8" column="0">
-     <widget class="QLabel" name="label_11">
-      <property name="text">
-       <string>Záporná tolerance</string>
-      </property>
-      <property name="wordWrap">
-       <bool>true</bool>
-      </property>
-     </widget>
-    </item>
-    <item row="13" column="0">
-     <widget class="QLabel" name="label_19">
-      <property name="text">
-       <string>Jmenovitý výkon</string>
-      </property>
-     </widget>
-    </item>
-    <item row="2" column="0">
-     <widget class="QLabel" name="label">
-      <property name="text">
-       <string>Pouzdro</string>
-      </property>
-     </widget>
-    </item>
-    <item row="11" column="0">
-     <widget class="QLabel" name="label_16">
-      <property name="text">
-       <string>Materiál</string>
-      </property>
-     </widget>
-    </item>
-    <item row="7" column="1">
-     <widget class="QComboBox" name="comboBox_6"/>
-    </item>
-    <item row="12" column="0">
-     <widget class="QLabel" name="label_17">
-      <property name="text">
-       <string>Kapacita</string>
-      </property>
-     </widget>
-    </item>
-    <item row="5" column="0">
-     <widget class="QLabel" name="label_7">
-      <property name="text">
-       <string>Hodnota</string>
-      </property>
-     </widget>
-    </item>
-    <item row="3" column="1">
-     <widget class="QDoubleSpinBox" name="doubleSpinBox_2"/>
-    </item>
-    <item row="14" column="1">
-     <widget class="QLineEdit" name="lineEdit_2"/>
-    </item>
-    <item row="12" column="1">
-     <widget class="QDoubleSpinBox" name="doubleSpinBox_7"/>
-    </item>
-    <item row="10" column="0">
-     <widget class="QLabel" name="label_15">
-      <property name="text">
-       <string>Počet vodičů</string>
-      </property>
-     </widget>
-    </item>
-    <item row="4" column="2">
-     <widget class="QComboBox" name="comboBox_3"/>
-    </item>
-    <item row="9" column="0">
-     <widget class="QLabel" name="label_13">
-      <property name="text">
-       <string>Kladná tolerance</string>
-      </property>
-     </widget>
-    </item>
-    <item row="8" column="2">
-     <widget class="QLabel" name="label_12">
-      <property name="text">
-       <string>%</string>
-      </property>
-     </widget>
-    </item>
-    <item row="5" column="1">
-     <widget class="QDoubleSpinBox" name="doubleSpinBox_4"/>
-    </item>
-    <item row="6" column="1">
-     <widget class="QComboBox" name="comboBox_5"/>
-    </item>
-    <item row="6" column="0">
-     <widget class="QLabel" name="label_9">
-      <property name="text">
-       <string>Koncovka 1</string>
-      </property>
-     </widget>
-    </item>
-    <item row="3" column="0">
-     <widget class="QLabel" name="label_4">
-      <property name="text">
-       <string>Tolerance</string>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="0">
-     <widget class="QLabel" name="label_3">
-      <property name="text">
-       <string>Vnitřní ID</string>
-      </property>
-     </widget>
-    </item>
-    <item row="2" column="1">
-     <widget class="QComboBox" name="comboBox_2"/>
-    </item>
-    <item row="9" column="2">
-     <widget class="QLabel" name="label_14">
-      <property name="text">
-       <string>%</string>
-      </property>
-     </widget>
-    </item>
-    <item row="12" column="2">
-     <widget class="QComboBox" name="comboBox_8"/>
-    </item>
-    <item row="1" column="2">
-     <widget class="QComboBox" name="comboBox"/>
-    </item>
-    <item row="3" column="2">
-     <widget class="QLabel" name="label_5">
-      <property name="text">
-       <string>%</string>
-      </property>
-     </widget>
-    </item>
-    <item row="13" column="1">
-     <widget class="QDoubleSpinBox" name="doubleSpinBox_8"/>
-    </item>
-    <item row="7" column="0">
-     <widget class="QLabel" name="label_10">
-      <property name="text">
-       <string>Koncovka 2</string>
-      </property>
-     </widget>
-    </item>
-    <item row="4" column="0">
-     <widget class="QLabel" name="label_6">
-      <property name="text">
-       <string>Hmotnost</string>
-      </property>
-     </widget>
-    </item>
-    <item row="10" column="1">
-     <widget class="QSpinBox" name="spinBox"/>
-    </item>
-    <item row="8" column="1">
-     <widget class="QDoubleSpinBox" name="doubleSpinBox_5"/>
-    </item>
-    <item row="4" column="1">
-     <widget class="QDoubleSpinBox" name="doubleSpinBox_3"/>
-    </item>
-    <item row="9" column="1">
-     <widget class="QDoubleSpinBox" name="doubleSpinBox_6"/>
-    </item>
-    <item row="5" column="2">
-     <widget class="QComboBox" name="comboBox_4"/>
-    </item>
-    <item row="13" column="2">
-     <widget class="QComboBox" name="comboBox_9"/>
-    </item>
-    <item row="11" column="1">
-     <widget class="QComboBox" name="comboBox_7"/>
-    </item>
-    <item row="1" column="1">
-     <widget class="QDoubleSpinBox" name="doubleSpinBox"/>
-    </item>
-    <item row="14" column="0">
-     <widget class="QLabel" name="label_8">
-      <property name="text">
-       <string>Označení v knihovně</string>
-      </property>
-     </widget>
-    </item>
-    <item row="1" column="0">
-     <widget class="QLabel" name="label_2">
-      <property name="text">
-       <string>Délka</string>
-      </property>
-     </widget>
-    </item>
-    <item row="15" column="0">
-     <widget class="QLabel" name="label_18">
-      <property name="text">
-       <string>Balení</string>
-      </property>
-     </widget>
-    </item>
-    <item row="15" column="1">
-     <widget class="QComboBox" name="comboBox_10"/>
-    </item>
-   </layout>
-  </widget>
   <widget class="QWidget" name="horizontalLayoutWidget">
    <property name="geometry">
     <rect>
@@ -262,6 +47,221 @@
        </widget>
       </item>
      </layout>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QWidget" name="gridLayoutWidget">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>481</width>
+     <height>485</height>
+    </rect>
+   </property>
+   <layout class="QGridLayout" name="gridLayout_2">
+    <item row="0" column="1">
+     <widget class="QLineEdit" name="lineEdit_7">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+     </widget>
+    </item>
+    <item row="8" column="0">
+     <widget class="QLabel" name="label_15">
+      <property name="text">
+       <string>Záporná tolerance</string>
+      </property>
+      <property name="wordWrap">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+    <item row="13" column="0">
+     <widget class="QLabel" name="label_19">
+      <property name="text">
+       <string>Jmenovitý výkon</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="0">
+     <widget class="QLabel" name="label_5">
+      <property name="text">
+       <string>Pouzdro</string>
+      </property>
+     </widget>
+    </item>
+    <item row="11" column="0">
+     <widget class="QLabel" name="label_16">
+      <property name="text">
+       <string>Materiál</string>
+      </property>
+     </widget>
+    </item>
+    <item row="7" column="1">
+     <widget class="QComboBox" name="comboBox_6"/>
+    </item>
+    <item row="12" column="0">
+     <widget class="QLabel" name="label_17">
+      <property name="text">
+       <string>Kapacita</string>
+      </property>
+     </widget>
+    </item>
+    <item row="5" column="0">
+     <widget class="QLabel" name="label_18">
+      <property name="text">
+       <string>Hodnota</string>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="1">
+     <widget class="QDoubleSpinBox" name="doubleSpinBox_2"/>
+    </item>
+    <item row="14" column="1">
+     <widget class="QLineEdit" name="lineEdit_8"/>
+    </item>
+    <item row="12" column="1">
+     <widget class="QDoubleSpinBox" name="doubleSpinBox_7"/>
+    </item>
+    <item row="10" column="0">
+     <widget class="QLabel" name="label_20">
+      <property name="text">
+       <string>Počet vodičů</string>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="2">
+     <widget class="QComboBox" name="comboBox_4"/>
+    </item>
+    <item row="9" column="0">
+     <widget class="QLabel" name="label_21">
+      <property name="text">
+       <string>Kladná tolerance</string>
+      </property>
+     </widget>
+    </item>
+    <item row="8" column="2">
+     <widget class="QLabel" name="label_22">
+      <property name="text">
+       <string>%</string>
+      </property>
+     </widget>
+    </item>
+    <item row="5" column="1">
+     <widget class="QDoubleSpinBox" name="doubleSpinBox_4"/>
+    </item>
+    <item row="6" column="1">
+     <widget class="QComboBox" name="comboBox_5"/>
+    </item>
+    <item row="6" column="0">
+     <widget class="QLabel" name="label_23">
+      <property name="text">
+       <string>Koncovka 1</string>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="0">
+     <widget class="QLabel" name="label_24">
+      <property name="text">
+       <string>Tolerance</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="0">
+     <widget class="QLabel" name="label_25">
+      <property name="text">
+       <string>Vnitřní ID</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="1">
+     <widget class="QComboBox" name="comboBox_7"/>
+    </item>
+    <item row="9" column="2">
+     <widget class="QLabel" name="label_26">
+      <property name="text">
+       <string>%</string>
+      </property>
+     </widget>
+    </item>
+    <item row="12" column="2">
+     <widget class="QComboBox" name="comboBox_8"/>
+    </item>
+    <item row="1" column="2">
+     <widget class="QComboBox" name="comboBox_9"/>
+    </item>
+    <item row="3" column="2">
+     <widget class="QLabel" name="label_27">
+      <property name="text">
+       <string>%</string>
+      </property>
+     </widget>
+    </item>
+    <item row="13" column="1">
+     <widget class="QDoubleSpinBox" name="doubleSpinBox_8"/>
+    </item>
+    <item row="7" column="0">
+     <widget class="QLabel" name="label_28">
+      <property name="text">
+       <string>Koncovka 2</string>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="0">
+     <widget class="QLabel" name="label_29">
+      <property name="text">
+       <string>Hmotnost</string>
+      </property>
+     </widget>
+    </item>
+    <item row="10" column="1">
+     <widget class="QSpinBox" name="spinBox_3"/>
+    </item>
+    <item row="8" column="1">
+     <widget class="QDoubleSpinBox" name="doubleSpinBox_5"/>
+    </item>
+    <item row="4" column="1">
+     <widget class="QDoubleSpinBox" name="doubleSpinBox_3"/>
+    </item>
+    <item row="9" column="1">
+     <widget class="QDoubleSpinBox" name="doubleSpinBox_6"/>
+    </item>
+    <item row="5" column="2">
+     <widget class="QComboBox" name="comboBox_10"/>
+    </item>
+    <item row="13" column="2">
+     <widget class="QComboBox" name="comboBox_11"/>
+    </item>
+    <item row="11" column="1">
+     <widget class="QComboBox" name="comboBox_12"/>
+    </item>
+    <item row="1" column="1">
+     <widget class="QDoubleSpinBox" name="doubleSpinBox_9"/>
+    </item>
+    <item row="14" column="0">
+     <widget class="QLabel" name="label_30">
+      <property name="text">
+       <string>Označení v knihovně</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="0">
+     <widget class="QLabel" name="label_31">
+      <property name="text">
+       <string>Délka</string>
+      </property>
+     </widget>
+    </item>
+    <item row="15" column="0">
+     <widget class="QLabel" name="label_32">
+      <property name="text">
+       <string>Balení</string>
+      </property>
+     </widget>
+    </item>
+    <item row="15" column="1">
+     <widget class="QComboBox" name="comboBox_13"/>
     </item>
    </layout>
   </widget>

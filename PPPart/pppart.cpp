@@ -22,35 +22,6 @@ void PPPart::itemsChanged()
     //ui->treeWidget_2->setColumnHidden()
 }
 
-
-void PPPart::on_treeWidget_2_itemDoubleClicked(QTreeWidgetItem *item, int column)
-{
-    (void) column; // dont care about column probably
-    bool ok;
-
-    if(!item->childCount()) //if havent any children
-        {
-            QString text = QInputDialog::getText(this, tr("Počet kusů"),
-                                                    item->text(0), QLineEdit::Normal, "1",  &ok);
-
-            if (ok && !text.isEmpty()) // ok pressed?
-                {
-                    if(item->text(1).toInt() >= text.toInt()) //enought parts?
-                        {
-                            qDebug() << "Noice";
-
-                    } else
-                        {
-                            QMessageBox msgBox;
-                            msgBox.setText(tr("Nedostatečné množství na skladu. Opakujte akci."));
-                            msgBox.exec();
-                    }
-            }
-    }
-
-}
-
-
 void PPPart::on_treeWidget_itemClicked(QTreeWidgetItem *item, int column)
 {
     qDebug() << "left bar";
@@ -104,5 +75,29 @@ void PPPart::replyFinished (QNetworkReply *reply)
     }
 
     reply->deleteLater();*/
+}
+
+
+void PPPart::on_Soucastky_itemDoubleClicked(QTreeWidgetItem *item, int column)
+{
+    (void) column; // dont care about column probably
+    bool ok;
+
+    if(!item->childCount()) //if havent any children
+        {
+            QString text = QInputDialog::getText(this, tr("Počet kusů"), item->text(0), QLineEdit::Normal, "1",  &ok);
+            if (ok && !text.isEmpty()) // ok pressed?
+                {
+                    if(item->text(1).toInt() >= text.toInt()) //enought parts?
+                        {
+                            qDebug() << "Noice";
+                    } else
+                        {
+                            QMessageBox msgBox;
+                            msgBox.setText(tr("Nedostatečné množství na skladu. Opakujte akci."));
+                            msgBox.exec();
+                    }
+            }
+    }
 }
 
