@@ -14,6 +14,8 @@
 #include <QUrl>
 #include <QUrlQuery>
 
+#include "prijem_novy_1.h"
+
 QT_BEGIN_NAMESPACE
 namespace Ui { class PPPart; }
 QT_END_NAMESPACE
@@ -26,19 +28,23 @@ public:
     PPPart(QWidget *parent = nullptr);
     ~PPPart();
 
-private slots:
+public slots:
     void replyFinished (QNetworkReply *reply);
 
-    void on_treeWidget_itemClicked(QTreeWidgetItem *item, int column);
+    void on_categories_itemClicked(QTreeWidgetItem *item, int column);
 
-    void on_pushButton_2_pressed();
+    void on_settings_pressed();
 
-    void on_Soucastky_itemDoubleClicked(QTreeWidgetItem *item, int column);
+    void on_parts_itemDoubleClicked(QTreeWidgetItem *item, int column);
+
+    void on_income_pressed();
 
 private:
     Ui::PPPart *ui;
 
     QSettings *settings = new QSettings(QSettings::IniFormat, QSettings::UserScope, "PPPart");
+
+    Prijem_novy_1 income;
 
     void itemsChanged();
 };

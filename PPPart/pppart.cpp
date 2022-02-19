@@ -24,13 +24,13 @@ void PPPart::itemsChanged()
     //ui->treeWidget_2->setColumnHidden()
 }
 
-void PPPart::on_treeWidget_itemClicked(QTreeWidgetItem *item, int column)
+void PPPart::on_categories_itemClicked(QTreeWidgetItem *item, int column)
 {
     qDebug() << "left bar";
 }
 
 
-void PPPart::on_pushButton_2_pressed()
+void PPPart::on_settings_pressed()
 {
     QNetworkAccessManager *manager = new QNetworkAccessManager(this);
 
@@ -80,7 +80,7 @@ void PPPart::replyFinished (QNetworkReply *reply)
 }
 
 
-void PPPart::on_Soucastky_itemDoubleClicked(QTreeWidgetItem *item, int column)
+void PPPart::on_parts_itemDoubleClicked(QTreeWidgetItem *item, int column)
 {
     (void) column; // dont care about column probably
     bool ok;
@@ -101,5 +101,11 @@ void PPPart::on_Soucastky_itemDoubleClicked(QTreeWidgetItem *item, int column)
                     }
             }
     }
+}
+
+
+void PPPart::on_income_pressed()
+{
+    income.show();
 }
 

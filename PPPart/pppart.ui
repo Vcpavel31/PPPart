@@ -14,7 +14,7 @@
    <string>PPPart</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QPushButton" name="Prihlaseni">
+   <widget class="QPushButton" name="login">
     <property name="geometry">
      <rect>
       <x>1120</x>
@@ -27,7 +27,7 @@
      <string>Přihlášení</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="Vydej">
+   <widget class="QPushButton" name="outcome">
     <property name="geometry">
      <rect>
       <x>210</x>
@@ -40,7 +40,7 @@
      <string>Výdej</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="Tisk">
+   <widget class="QPushButton" name="print">
     <property name="geometry">
      <rect>
       <x>480</x>
@@ -53,7 +53,7 @@
      <string>Tisk</string>
     </property>
    </widget>
-   <widget class="QTreeWidget" name="Soucastky">
+   <widget class="QTreeWidget" name="parts">
     <property name="geometry">
      <rect>
       <x>190</x>
@@ -317,7 +317,7 @@
      </property>
     </item>
    </widget>
-   <widget class="QTreeWidget" name="Kategorie">
+   <widget class="QTreeWidget" name="categories">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -409,18 +409,18 @@
     <property name="currentIndex">
      <number>1</number>
     </property>
-    <widget class="QWidget" name="Informace">
+    <widget class="QWidget" name="informations">
      <attribute name="title">
       <string>Informace</string>
      </attribute>
     </widget>
-    <widget class="QWidget" name="Sklad_info">
+    <widget class="QWidget" name="stock_info">
      <attribute name="title">
       <string>Skladové informace</string>
      </attribute>
     </widget>
    </widget>
-   <widget class="QPushButton" name="Filtry">
+   <widget class="QPushButton" name="filters">
     <property name="geometry">
      <rect>
       <x>570</x>
@@ -433,7 +433,7 @@
      <string>Filtry</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="Prijem_stavajici">
+   <widget class="QPushButton" name="income_existing">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -446,7 +446,7 @@
      <string>Příjem stavající</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="Nastaveni">
+   <widget class="QPushButton" name="settings">
     <property name="geometry">
      <rect>
       <x>1210</x>
@@ -459,7 +459,7 @@
      <string>Nastavení</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="Prijem_novy">
+   <widget class="QPushButton" name="income">
     <property name="geometry">
      <rect>
       <x>110</x>
@@ -469,7 +469,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>Příjem nový</string>
+     <string>Příjem</string>
     </property>
    </widget>
    <widget class="QLabel" name="pozn">
@@ -511,7 +511,7 @@
      <x>0</x>
      <y>0</y>
      <width>1307</width>
-     <height>21</height>
+     <height>26</height>
     </rect>
    </property>
   </widget>
