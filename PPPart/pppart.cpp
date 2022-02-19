@@ -10,8 +10,6 @@ PPPart::PPPart(QWidget *parent)
     qDebug() << settings->status() << " " << settings->fileName();
 
     itemsChanged();
-
-    //ui->EAN_4->hide();
 }
 
 PPPart::~PPPart()
