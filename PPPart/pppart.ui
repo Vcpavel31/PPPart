@@ -459,7 +459,7 @@
      <string>Nastavení</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="income_new">
+   <widget class="QPushButton" name="income">
     <property name="geometry">
      <rect>
       <x>110</x>
@@ -469,7 +469,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>Příjem nový</string>
+     <string>Příjem</string>
     </property>
    </widget>
    <widget class="QLabel" name="pozn">
