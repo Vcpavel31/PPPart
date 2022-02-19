@@ -2,7 +2,7 @@
 #define VYDEJ_1_H
 
 #include <QDialog>
-
+#include <QSpinBox>
 namespace Ui {
 class Vydej_1;
 }

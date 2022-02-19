@@ -6,6 +6,7 @@ Vydej_1::Vydej_1(QWidget *parent) :
     ui(new Ui::Vydej_1)
 {
     ui->setupUi(this);
+    ui->Polozky->setCellWidget(0,0, new QSpinBox);
 }
 
 Vydej_1::~Vydej_1()
