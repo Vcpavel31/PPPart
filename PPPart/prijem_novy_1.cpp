@@ -6,6 +6,8 @@ QString EAN = "%";
 QString Obj_cislo = "%";
 QString Vyr_cislo = "%";
 
+QString Response = "";
+
 Prijem_novy_1::Prijem_novy_1(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::Prijem_novy_1)
@@ -46,12 +48,43 @@ Prijem_novy_1::~Prijem_novy_1()
     delete ui;
 }
 
+void Prijem_novy_1::replyFinished (QNetworkReply *reply)
+{
+    qDebug() << reply->readAll();
+}
+
+QString Prijem_novy_1::DB (QString Query)
+{
+    QSettings *settings = new QSettings(QSettings::IniFormat, QSettings::UserScope, "PPPart");
+
+    QNetworkAccessManager *manager = new QNetworkAccessManager(this);
+
+    QUrl url(settings->value("Address").toString());
+    QNetworkRequest request(url);
+
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
+
+    QUrlQuery params;
+    params.addQueryItem("User", settings->value("User").toString());
+    params.addQueryItem("Pass", settings->value("Pass").toString());
+    params.addQueryItem("Debug", "0");
+    params.addQueryItem("Query", Query);
+
+    QObject::connect(manager, SIGNAL(finished(QNetworkReply *)), this, SLOT(replyFinished(QNetworkReply *)));
+
+    params.query().toUtf8();
+
+    return (QString(manager->post(request, params.query().toUtf8())));
+}
+
 void Prijem_novy_1::Update_list()
 {
     qDebug() << "Nazev: "+Nazev;
-    qDebug() << "EAN: "+EAN;
-    qDebug() << "Obj_cislo: "+Obj_cislo;
-    qDebug() << "Vyr_cislo: "+Vyr_cislo;
+
+    qDebug() << DB("SELECT `Interni_ID` FROM `EAN` WHERE `EAN` LIKE '"+EAN+"'");
+    DB("SELECT `Interni_ID` FROM `Objednací číslo` WHERE `Objednací číslo` LIKE '"+Obj_cislo+"'");
+    DB("SELECT `Interni_ID` FROM `Číslo výrobce` WHERE `Číslo výrobce` LIKE '"+Vyr_cislo+"'");
+
 }
 
 void Prijem_novy_1::on_Nazev_2_textChanged(const QString &arg1)
