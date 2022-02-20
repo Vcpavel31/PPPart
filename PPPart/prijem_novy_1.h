@@ -15,6 +15,17 @@ public:
     explicit Prijem_novy_1(QWidget *parent = nullptr);
     ~Prijem_novy_1();
 
+private slots:
+    void on_Nazev_2_textChanged(const QString &arg1);
+
+    void on_EAN_2_textChanged(const QString &arg1);
+
+    void on_Obj_cislo_2_textChanged(const QString &arg1);
+
+    void on_Vyr_cislo_2_textChanged(const QString &arg1);
+
+    void Update_list();
+
 private:
     Ui::Prijem_novy_1 *ui;
 };

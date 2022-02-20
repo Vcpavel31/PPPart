@@ -1,6 +1,11 @@
 #include "prijem_novy_1.h"
 #include "ui_prijem_novy_1.h"
 
+QString Nazev = "%";
+QString EAN = "%";
+QString Obj_cislo = "%";
+QString Vyr_cislo = "%";
+
 Prijem_novy_1::Prijem_novy_1(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::Prijem_novy_1)
@@ -40,3 +45,43 @@ Prijem_novy_1::~Prijem_novy_1()
 {
     delete ui;
 }
+
+void Prijem_novy_1::Update_list()
+{
+    qDebug() << "Nazev: "+Nazev;
+    qDebug() << "EAN: "+EAN;
+    qDebug() << "Obj_cislo: "+Obj_cislo;
+    qDebug() << "Vyr_cislo: "+Vyr_cislo;
+}
+
+void Prijem_novy_1::on_Nazev_2_textChanged(const QString &arg1)
+{
+    if(arg1 == "") Nazev = "%";
+    else Nazev = "%"+arg1+"%";
+    Update_list();
+}
+
+
+void Prijem_novy_1::on_EAN_2_textChanged(const QString &arg1)
+{
+    if(arg1 == "") EAN = "%";
+    else EAN = "%"+arg1+"%";
+    Update_list();
+}
+
+
+void Prijem_novy_1::on_Obj_cislo_2_textChanged(const QString &arg1)
+{
+    if(arg1 == "") Obj_cislo = "%";
+    else Obj_cislo = "%"+arg1+"%";
+    Update_list();
+}
+
+
+void Prijem_novy_1::on_Vyr_cislo_2_textChanged(const QString &arg1)
+{
+    if(arg1 == "") Vyr_cislo = "%";
+    else Vyr_cislo = "%"+arg1+"%";
+    Update_list();
+}
+
