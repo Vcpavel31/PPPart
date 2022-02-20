@@ -50,7 +50,7 @@ Prijem_novy_1::~Prijem_novy_1()
 
 void Prijem_novy_1::replyFinished (QNetworkReply *reply)
 {
-    qDebug() << reply->readAll();
+    qDebug() << reply->readAll();  // Narvat do Response nebo ideálně return to by mi vyhovovalo víc ale co už :D
 }
 
 QString Prijem_novy_1::DB (QString Query)
@@ -67,14 +67,15 @@ QString Prijem_novy_1::DB (QString Query)
     QUrlQuery params;
     params.addQueryItem("User", settings->value("User").toString());
     params.addQueryItem("Pass", settings->value("Pass").toString());
-    params.addQueryItem("Debug", "0");
+    params.addQueryItem("Debug", "False");
     params.addQueryItem("Query", Query);
 
     QObject::connect(manager, SIGNAL(finished(QNetworkReply *)), this, SLOT(replyFinished(QNetworkReply *)));
 
+    //qDebug() <<
     params.query().toUtf8();
-
-    return (QString(manager->post(request, params.query().toUtf8())));
+    //qDebug() <<
+    manager->post(request, params.query().toUtf8())->error();
 }
 
 void Prijem_novy_1::Update_list()
@@ -85,6 +86,7 @@ void Prijem_novy_1::Update_list()
     DB("SELECT `Interni_ID` FROM `Objednací číslo` WHERE `Objednací číslo` LIKE '"+Obj_cislo+"'");
     DB("SELECT `Interni_ID` FROM `Číslo výrobce` WHERE `Číslo výrobce` LIKE '"+Vyr_cislo+"'");
 
+    qDebug() << Response;
 }
 
 void Prijem_novy_1::on_Nazev_2_textChanged(const QString &arg1)
