@@ -7,7 +7,7 @@ PPPart::PPPart(QWidget *parent)
 {
     ui->setupUi(this);
     //settings->setDefaultFormat(QSettings::IniFormat);
-    qDebug() << settings->status() << " " << settings->fileName();
+    //qDebug() << settings->status() << " " << settings->fileName();
 
     itemsChanged();
 }
@@ -40,7 +40,7 @@ void PPPart::on_settings_pressed()
     QUrlQuery params;
     params.addQueryItem("User", settings->value("User").toString());
     params.addQueryItem("Pass", settings->value("Pass").toString());
-    params.addQueryItem("Query", "SELECT * FROM `Kategorie` WHERE 1");
+    params.addQueryItem("Query", "SELECT `Interni_ID`, `EAN` FROM `EAN` WHERE `EAN` LIKE '%12%'");
 
     QObject::connect(manager, SIGNAL(finished(QNetworkReply *)), this, SLOT(replyFinished(QNetworkReply *)));
 
@@ -50,31 +50,29 @@ void PPPart::on_settings_pressed()
 
 void PPPart::replyFinished (QNetworkReply *reply)
 {
-    qDebug() << reply->readAll();
-    /*if(reply->error())
-    {
-        qDebug() << "ERROR!";
-        qDebug() << reply->errorString();
-    }
-    else
-    {
-        qDebug() << reply->header(QNetworkRequest::ContentTypeHeader).toString();
-        qDebug() << reply->header(QNetworkRequest::LastModifiedHeader).toDateTime().toString();;
-        qDebug() << reply->header(QNetworkRequest::ContentLengthHeader).toULongLong();
-        qDebug() << reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
-        qDebug() << reply->attribute(QNetworkRequest::HttpReasonPhraseAttribute).toString();
+    QByteArray data = reply->readAll();
+    qDebug() << "all: " << data;
+    if(!data.contains("[")) // bad reply?
+        qDebug() << "Something wrong?";
 
-        QFile *file = new QFile("C:/Qt/Dummy/downloaded.txt");
-        if(file->open(QFile::Append))
+    QStringList indexes;
+    QStringList values;
+
+    while(data.contains("["))
         {
-            file->write(reply->readAll());
-            file->flush();
-            file->close();
-        }
-        delete file;
+        indexes << QString::fromUtf8(data.sliced(data.indexOf("[")+1, data.indexOf("]")-data.indexOf("[")-1).toStdString()); // returns Interni_ID, EAN, etc
+        data.remove(0, data.indexOf("=>")+2);
+        values << QString::fromUtf8(data.sliced(0, data.indexOf("\n"))).replace(" ", ""); // return value without whitespaces
+        qDebug() << data;
     }
 
-    reply->deleteLater();*/
+    for(int i=0;i<indexes.count();i++)
+    {
+        if(indexes[0] != indexes[i]) // all indexes are the same, save to array
+            ;
+    }
+
+    qDebug() << indexes << " " << values;
 }
 
 

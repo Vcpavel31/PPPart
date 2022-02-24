@@ -1,18 +1,17 @@
 #include "prijem_novy_1.h"
 #include "ui_prijem_novy_1.h"
 
-QString Nazev = "%";
-QString EAN = "%";
-QString Obj_cislo = "%";
-QString Vyr_cislo = "%";
 
-QString Response = "";
 
 Prijem_novy_1::Prijem_novy_1(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::Prijem_novy_1)
 {
     ui->setupUi(this);
+
+    QObject::connect(manager, SIGNAL(finished(QNetworkReply *)), this, SLOT(replyFinished(QNetworkReply *)));
+
+    qDebug() << settings->status() << " " << settings->fileName();
 
     ui->Umisteni->hide();
     ui->Kategorie->hide();
@@ -50,16 +49,29 @@ Prijem_novy_1::~Prijem_novy_1()
 
 void Prijem_novy_1::replyFinished (QNetworkReply *reply)
 {
-    qDebug() << reply->readAll();  // Narvat do Response nebo ideálně return to by mi vyhovovalo víc ale co už :D
+    QByteArray data = reply->readAll();  // Narvat do Response
+
+    if(!data.contains("[")) // bad reply?
+        qDebug() << "Something wrong?";
+
+    while(data.contains("["))
+        {
+        data.remove(0, data.indexOf("[")+1);
+        QString index = QString::fromUtf8(data.sliced(data.indexOf("]")).toStdString()); // returns Interni_ID, EAN, etc
+        data.remove(0, data.indexOf("=>")+2);
+        qDebug() << data << " index: " << index;
+    }
+
+
+    qDebug() << data;
 }
 
-QString Prijem_novy_1::DB (QString Query)
+
+
+void Prijem_novy_1::DB (QString Query)
 {
-    QSettings *settings = new QSettings(QSettings::IniFormat, QSettings::UserScope, "PPPart");
-
-    QNetworkAccessManager *manager = new QNetworkAccessManager(this);
-
     QUrl url(settings->value("Address").toString());
+    qDebug() << url;
     QNetworkRequest request(url);
 
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
@@ -70,21 +82,20 @@ QString Prijem_novy_1::DB (QString Query)
     params.addQueryItem("Debug", "False");
     params.addQueryItem("Query", Query);
 
-    QObject::connect(manager, SIGNAL(finished(QNetworkReply *)), this, SLOT(replyFinished(QNetworkReply *)));
-
-    //qDebug() <<
-    params.query().toUtf8();
-    //qDebug() <<
-    manager->post(request, params.query().toUtf8())->error();
+    qDebug() << 1;
+    //qDebug() << params.query().toUtf8();
+    qDebug() << "Return: " << manager->post(request, params.query().toUtf8())->rawHeaderList();
 }
 
 void Prijem_novy_1::Update_list()
 {
     qDebug() << "Nazev: "+Nazev;
 
-    qDebug() << DB("SELECT `Interni_ID` FROM `EAN` WHERE `EAN` LIKE '"+EAN+"'");
-    DB("SELECT `Interni_ID` FROM `Objednací číslo` WHERE `Objednací číslo` LIKE '"+Obj_cislo+"'");
-    DB("SELECT `Interni_ID` FROM `Číslo výrobce` WHERE `Číslo výrobce` LIKE '"+Vyr_cislo+"'");
+    //
+    DB("SELECT `Interni_ID`, `EAN` FROM `EAN` WHERE `EAN` LIKE '"+EAN+"'");
+    //DB("SELECT `Interni_ID` FROM `EAN` WHERE `EAN` LIKE '"+EAN+"'");
+    /*DB("SELECT `Interni_ID` FROM `Objednací číslo` WHERE `Objednací číslo` LIKE '"+Obj_cislo+"'");
+    DB("SELECT `Interni_ID` FROM `Číslo výrobce` WHERE `Číslo výrobce` LIKE '"+Vyr_cislo+"'");*/
 
     qDebug() << Response;
 }

@@ -26,7 +26,7 @@ public:
 public slots:
     void replyFinished (QNetworkReply *reply);
 
-    QString DB (QString Query);
+    void DB (QString Query);
 
 private slots:
     void on_Nazev_2_textChanged(const QString &arg1);
@@ -37,10 +37,22 @@ private slots:
 
     void on_Vyr_cislo_2_textChanged(const QString &arg1);
 
-    void Update_list();
 
 private:
     Ui::Prijem_novy_1 *ui;
+
+    QString Nazev = "%";
+    QString EAN = "%";
+    QString Obj_cislo = "%";
+    QString Vyr_cislo = "%";
+    QString Response = "";
+
+    QSettings *settings = new QSettings(QSettings::IniFormat, QSettings::UserScope, "PPPart");
+    QNetworkAccessManager *manager = new QNetworkAccessManager(this);
+
+    QStringList array;
+
+    void Update_list();
 };
 
 #endif // PRIJEM_NOVY_1_H
