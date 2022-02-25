@@ -97,7 +97,6 @@ void Prijem_novy_1::on_Vyr_cislo_2_textChanged(const QString &arg1)
 
 void Prijem_novy_1::on_tableWidget_doubleClicked(const QModelIndex &index)
 {
-    qDebug()<< index;
-    qDebug()<<ui->tableWidget->itemAt(index.row(), 0);
+    qDebug()<<ui->tableWidget->item(index.row(), 0)->text();
 }
 
