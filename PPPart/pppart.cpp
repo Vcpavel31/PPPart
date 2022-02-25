@@ -9,7 +9,7 @@ PPPart::PPPart(QWidget *parent)
     //settings->setDefaultFormat(QSettings::IniFormat);
     //qDebug() << settings->status() << " " << settings->fileName();
 
-    itemsChanged();
+    getAllData();
 }
 
 PPPart::~PPPart()
@@ -17,9 +17,9 @@ PPPart::~PPPart()
     delete ui;
 }
 
-void PPPart::itemsChanged()
+void PPPart::getAllData()
 {
-    //ui->treeWidget_2->setColumnHidden()
+
 }
 
 void PPPart::on_categories_itemClicked(QTreeWidgetItem *item, int column)
@@ -27,12 +27,12 @@ void PPPart::on_categories_itemClicked(QTreeWidgetItem *item, int column)
     qDebug() << "left bar";
 }
 
-
-void PPPart::on_settings_pressed()
+QMap<QString, QStringList> PPPart::getData(QString Query)
 {
-    QNetworkAccessManager *manager = new QNetworkAccessManager(this);
+    QMap<QString, QStringList> temp;
 
     QUrl url(settings->value("Address").toString());
+    qDebug() << url;
     QNetworkRequest request(url);
 
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
@@ -40,16 +40,19 @@ void PPPart::on_settings_pressed()
     QUrlQuery params;
     params.addQueryItem("User", settings->value("User").toString());
     params.addQueryItem("Pass", settings->value("Pass").toString());
-    params.addQueryItem("Query", "SELECT `Interni_ID`, `EAN` FROM `EAN` WHERE `EAN` LIKE '%12%'");
+    params.addQueryItem("Debug", "False");
+    params.addQueryItem("Query", Query);
 
-    QObject::connect(manager, SIGNAL(finished(QNetworkReply *)), this, SLOT(replyFinished(QNetworkReply *)));
+    qDebug() << 1;
+    //qDebug() << params.query().toUtf8();
+    QNetworkReply* reply = manager->post(request, params.query().toUtf8());
 
-    qDebug() << params.query().toUtf8();
-    qDebug() << manager->post(request, params.query().toUtf8())->error();
-}
+    QEventLoop loop;
+    connect(reply, SIGNAL(finished()), &loop, SLOT(quit()));
+    loop.exec();
 
-void PPPart::replyFinished (QNetworkReply *reply)
-{
+    //data received
+
     QByteArray data = reply->readAll();
     qDebug() << "all: " << data;
     if(!data.contains("[")) // bad reply?
@@ -63,18 +66,36 @@ void PPPart::replyFinished (QNetworkReply *reply)
         indexes << QString::fromUtf8(data.sliced(data.indexOf("[")+1, data.indexOf("]")-data.indexOf("[")-1).toStdString()); // returns Interni_ID, EAN, etc
         data.remove(0, data.indexOf("=>")+2);
         values << QString::fromUtf8(data.sliced(0, data.indexOf("\n"))).replace(" ", ""); // return value without whitespaces
-        qDebug() << data;
     }
 
     for(int i=0;i<indexes.count();i++)
     {
-        if(indexes[0] != indexes[i]) // all indexes are the same, save to array
-            ;
+        if(indexes[0] != indexes[i]) // all indexes are not the same, save to array
+            {
+            qDebug() << "Multiple indexes";
+            for(int i=0;i<indexes.count();i++)
+            {
+                    temp[indexes[i]] << values[i];
+            }
+            qDebug() << temp;
+            return temp;
+        }
+
     }
 
-    qDebug() << indexes << " " << values;
+    //not all indexes are the same
+
+    temp[indexes[0]] = values;
+    qDebug() << "Same indexes\n";
+    qDebug() << temp;
+    return temp;
 }
 
+
+void PPPart::on_settings_pressed()
+{
+    getData("SELECT `Interni_ID`, `EAN` FROM `EAN` WHERE `EAN` LIKE '%12%'");
+}
 
 void PPPart::on_parts_itemDoubleClicked(QTreeWidgetItem *item, int column)
 {

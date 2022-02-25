@@ -13,6 +13,7 @@
 #include <QtNetwork/QNetworkAccessManager>
 #include <QUrl>
 #include <QUrlQuery>
+#include <QMap>
 
 #include "prijem_novy_1.h"
 
@@ -29,8 +30,6 @@ public:
     ~PPPart();
 
 public slots:
-    void replyFinished (QNetworkReply *reply);
-
     void on_categories_itemClicked(QTreeWidgetItem *item, int column);
 
     void on_settings_pressed();
@@ -43,9 +42,12 @@ private:
     Ui::PPPart *ui;
 
     QSettings *settings = new QSettings(QSettings::IniFormat, QSettings::UserScope, "PPPart");
+    QNetworkAccessManager *manager = new QNetworkAccessManager(this);
 
     Prijem_novy_1 income;
 
-    void itemsChanged();
+    void getAllData();
+
+    QMap<QString, QStringList> getData(QString);
 };
 #endif // PPPART_H
