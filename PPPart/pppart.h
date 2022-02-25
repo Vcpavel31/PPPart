@@ -6,15 +6,9 @@
 #include <QTreeWidgetItem>
 #include <QInputDialog>
 #include <QMessageBox>
-#include <QSettings>
-#include <QtNetwork/QSsl>
-#include <QtNetwork/QNetworkRequest>
-#include <QtNetwork/QNetworkReply>
-#include <QtNetwork/QNetworkAccessManager>
-#include <QUrl>
-#include <QUrlQuery>
 
 #include "prijem_novy_1.h"
+#include "networksql.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class PPPart; }
@@ -29,8 +23,6 @@ public:
     ~PPPart();
 
 public slots:
-    void replyFinished (QNetworkReply *reply);
-
     void on_categories_itemClicked(QTreeWidgetItem *item, int column);
 
     void on_settings_pressed();
@@ -42,10 +34,10 @@ public slots:
 private:
     Ui::PPPart *ui;
 
-    QSettings *settings = new QSettings(QSettings::IniFormat, QSettings::UserScope, "PPPart");
-
     Prijem_novy_1 income;
 
-    void itemsChanged();
+    NetworkSQL network;
+
+    void getAllData();
 };
 #endif // PPPART_H

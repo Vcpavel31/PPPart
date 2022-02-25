@@ -7,7 +7,7 @@ $dbPort = 3306;
    
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $Debug = $_POST["Debug"];    
-    if($Debug == 0) print_r($_POST);
+    if(strpos($Debug, "False") == true) print_r($_POST);
 
     $dbUsername = $_POST["User"];   
     $dbPassword = $_POST["Pass"];
@@ -20,7 +20,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         die("Connection failed: " . $conn->connect_error);
     }
     else {
-        if($Debug == 0) echo "connection to DB is working <br>";
+        if(strpos($Debug, "False") == true) echo "connection to DB is working <br>";
         if ($result = $conn->query($dbQuery)) {
             while ($row = $result->fetch_assoc()) {
                 print_r($row);

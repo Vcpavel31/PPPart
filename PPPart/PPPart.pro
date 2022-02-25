@@ -13,12 +13,14 @@ CONFIG += c++11
 SOURCES += \
     main.cpp \
     nastaveni.cpp \
+    networksql.cpp \
     pppart.cpp \
     prijem_novy_1.cpp \
     vydej_1.cpp
 
 HEADERS += \
     nastaveni.h \
+    networksql.h \
     pppart.h \
     prijem_novy_1.h \
     vydej_1.h
