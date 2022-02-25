@@ -6,6 +6,7 @@ NetworkSQL::NetworkSQL(QObject *parent)
 
 }
 
+//TODO bug fix when enter more unknown component in to name
 QMap<QString, QStringList> NetworkSQL::getData(QString Query)
 {
     QMap<QString, QStringList> temp;
@@ -35,7 +36,10 @@ QMap<QString, QStringList> NetworkSQL::getData(QString Query)
     QByteArray data = reply->readAll();
     qDebug() << "all: " << data;
     if(!data.contains("[")) // bad reply?
-        qDebug() << "Something wrong?";
+        {
+            qDebug() << "Something wrong?";
+            return temp; // any data recieved
+    }
 
     QStringList indexes;
     QStringList values;

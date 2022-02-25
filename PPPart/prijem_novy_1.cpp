@@ -36,6 +36,7 @@ Prijem_novy_1::Prijem_novy_1(QWidget *parent) :
     ui->Baleni->hide();
     ui->Int_oznaceni->hide();
 
+    Update_list();
 }
 
 Prijem_novy_1::~Prijem_novy_1()
@@ -46,15 +47,19 @@ Prijem_novy_1::~Prijem_novy_1()
 void Prijem_novy_1::Update_list()
 {
 
-    QString Query = "SELECT `ID`,`Název` FROM `Interni_ID` WHERE `Název` LIKE '"+Nazev+"' AND `ID` IN (\
+    QString Query = "SELECT `ID`,`Název` AS 'Name' FROM `Interni_ID` WHERE `Název` LIKE '"+Nazev+"' AND `ID` IN (\
                      SELECT `Interni_ID` FROM `Objednací číslo` WHERE `Objednací číslo` LIKE '"+Obj_cislo+"' AND `Interni_ID` IN (\
                      SELECT `Interni_ID` FROM `EAN` WHERE `EAN` LIKE '"+EAN+"'  AND `Interni_ID` IN (\
                      SELECT `Interni_ID` FROM `Číslo výrobce` WHERE `Číslo výrobce` LIKE '"+Vyr_cislo+"' ) ) )";
 
-    network.getData(Query);
-
-    ui->tableWidget->insertRow(1); // ID součástky
-    ui->tableWidget; ////// Přidat vrácený název pro ID součástky
+    QMap<QString, QStringList> data = network.getData(Query);
+    ui->tableWidget->setRowCount(0);
+    for(int i = 0; i != data["ID"].size(); i++)
+        {
+            ui->tableWidget->insertRow(ui->tableWidget->rowCount()); // ID součástky
+            ui->tableWidget->setItem(ui->tableWidget->rowCount()-1, 0, new QTableWidgetItem(data["ID"].at(i)));
+            ui->tableWidget->setItem(ui->tableWidget->rowCount()-1, 1, new QTableWidgetItem(data["Name"].at(i))); ////// Přidat vrácený název pro ID součástky
+    }
     ui->tableWidget->update();
 }
 
