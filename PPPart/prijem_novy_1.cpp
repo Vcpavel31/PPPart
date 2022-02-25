@@ -36,7 +36,7 @@ Prijem_novy_1::Prijem_novy_1(QWidget *parent) :
     ui->Baleni->hide();
     ui->Int_oznaceni->hide();
 
-    Update_list();
+    //Update_list();
 }
 
 Prijem_novy_1::~Prijem_novy_1()
@@ -56,11 +56,29 @@ void Prijem_novy_1::Update_list()
     ui->tableWidget->setRowCount(0);
     for(int i = 0; i != data["ID"].size(); i++)
     {
-        QMap<QString, QStringList> EAN = network.getData("SELECT `EAN` FROM `EAN` WHERE `Interni_ID` = '"+QString::number(i)+"'");
-        ui->tableWidget->insertRow(ui->tableWidget->rowCount());
-        ui->tableWidget->setItem(ui->tableWidget->rowCount()-1, 0, new QTableWidgetItem(data["ID"].at(i)));
-        ui->tableWidget->setItem(ui->tableWidget->rowCount()-1, 1, new QTableWidgetItem(data["Name"].at(i)));
-        ui->tableWidget->setItem(ui->tableWidget->rowCount()-1, 2, new QTableWidgetItem(EAN["EAN"].at(0)));
+        QMap<QString, QStringList> EAN = network.getData("SELECT `EAN` FROM `EAN` WHERE `Interni_ID` = '"+data["ID"].at(i)+"'");
+        qDebug() << "EAN: " << EAN;
+
+        if(data["ID"].at(i).isEmpty())
+          {
+            ui->tableWidget->insertRow(ui->tableWidget->rowCount());
+            ui->tableWidget->setItem(ui->tableWidget->rowCount()-1, 0, new QTableWidgetItem(data["ID"].at(i)));
+            if(data["Name"].at(i).isEmpty())
+                {
+                ui->tableWidget->setItem(ui->tableWidget->rowCount()-1, 1, new QTableWidgetItem(data["Name"].at(i)));
+                if(EAN["EAN"].at(i).isEmpty())
+                    ui->tableWidget->setItem(ui->tableWidget->rowCount()-1, 2, new QTableWidgetItem(EAN["EAN"].at(0)));
+                else
+                    qDebug() << "ERROR: didnt receive EAN";
+            }
+            else
+                qDebug() << "ERROR: didnt receive Name";
+        }
+        else
+            {
+                qDebug() << "ERROR: didnt receive ID";
+                //TODO zobraz Nenalezeny součástky odpovídající kritériím
+        }
     }
     ui->tableWidget->update();
 }

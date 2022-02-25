@@ -23,8 +23,6 @@ QMap<QString, QStringList> NetworkSQL::getData(QString Query)
     params.addQueryItem("Debug", "False");
     params.addQueryItem("Query", Query);
 
-    qDebug() << 1;
-    //qDebug() << params.query().toUtf8();
     QNetworkReply* reply = manager->post(request, params.query().toUtf8());
 
     QEventLoop loop;
