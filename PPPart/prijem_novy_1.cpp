@@ -52,6 +52,10 @@ void Prijem_novy_1::Update_list()
                      SELECT `Interni_ID` FROM `Číslo výrobce` WHERE `Číslo výrobce` LIKE '"+Vyr_cislo+"' ) ) )";
 
     network.getData(Query);
+
+    ui->tableWidget->insertRow(1); // ID součástky
+    ui->tableWidget; ////// Přidat vrácený název pro ID součástky
+    ui->tableWidget->update();
 }
 
 void Prijem_novy_1::on_Nazev_2_textChanged(const QString &arg1)
