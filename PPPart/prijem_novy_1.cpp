@@ -45,15 +45,13 @@ Prijem_novy_1::~Prijem_novy_1()
 
 void Prijem_novy_1::Update_list()
 {
-    qDebug() << "Nazev: "+Nazev;
 
-    //
-    //DB("SELECT `Interni_ID`, `EAN` FROM `EAN` WHERE `EAN` LIKE '"+EAN+"'");
-    //DB("SELECT `Interni_ID` FROM `EAN` WHERE `EAN` LIKE '"+EAN+"'");
-    /*DB("SELECT `Interni_ID` FROM `Objednací číslo` WHERE `Objednací číslo` LIKE '"+Obj_cislo+"'");
-    DB("SELECT `Interni_ID` FROM `Číslo výrobce` WHERE `Číslo výrobce` LIKE '"+Vyr_cislo+"'");*/
+    QString Query = "SELECT `ID`,`Název` FROM `Interni_ID` WHERE `Název` LIKE '"+Nazev+"' AND `ID` IN (\
+                     SELECT `Interni_ID` FROM `Objednací číslo` WHERE `Objednací číslo` LIKE '"+Obj_cislo+"' AND `Interni_ID` IN (\
+                     SELECT `Interni_ID` FROM `EAN` WHERE `EAN` LIKE '"+EAN+"'  AND `Interni_ID` IN (\
+                     SELECT `Interni_ID` FROM `Číslo výrobce` WHERE `Číslo výrobce` LIKE '"+Vyr_cislo+"' ) ) )";
 
-    qDebug() << Response;
+    network.getData(Query);
 }
 
 void Prijem_novy_1::on_Nazev_2_textChanged(const QString &arg1)
