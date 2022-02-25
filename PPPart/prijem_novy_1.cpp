@@ -94,3 +94,10 @@ void Prijem_novy_1::on_Vyr_cislo_2_textChanged(const QString &arg1)
     Update_list();
 }
 
+
+void Prijem_novy_1::on_tableWidget_doubleClicked(const QModelIndex &index)
+{
+    qDebug()<< index;
+    qDebug()<<ui->tableWidget->itemAt(index.row(), 0);
+}
+

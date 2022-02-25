@@ -35,6 +35,8 @@ private slots:
     void on_Vyr_cislo_2_textChanged(const QString &arg1);
 
 
+    void on_tableWidget_doubleClicked(const QModelIndex &index);
+
 private:
     Ui::Prijem_novy_1 *ui;
 
