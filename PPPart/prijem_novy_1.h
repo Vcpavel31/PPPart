@@ -34,8 +34,9 @@ private slots:
 
     void on_Vyr_cislo_2_textChanged(const QString &arg1);
 
-
     void on_tableWidget_doubleClicked(const QModelIndex &index);
+
+    void on_checkBox_stateChanged(int arg1);
 
 private:
     Ui::Prijem_novy_1 *ui;
@@ -51,6 +52,8 @@ private:
     NetworkSQL network;
 
     void Update_list();
+    void Show_secondary_input();
+    void Hide_secondary_input();
 };
 
 #endif // PRIJEM_NOVY_1_H

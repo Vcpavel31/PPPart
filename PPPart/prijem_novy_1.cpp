@@ -55,10 +55,12 @@ void Prijem_novy_1::Update_list()
     QMap<QString, QStringList> data = network.getData(Query);
     ui->tableWidget->setRowCount(0);
     for(int i = 0; i != data["ID"].size(); i++)
-        {
-            ui->tableWidget->insertRow(ui->tableWidget->rowCount()); // ID součástky
-            ui->tableWidget->setItem(ui->tableWidget->rowCount()-1, 0, new QTableWidgetItem(data["ID"].at(i)));
-            ui->tableWidget->setItem(ui->tableWidget->rowCount()-1, 1, new QTableWidgetItem(data["Name"].at(i))); ////// Přidat vrácený název pro ID součástky
+    {
+        QMap<QString, QStringList> EAN = network.getData("SELECT `EAN` FROM `EAN` WHERE `Interni_ID` = '"+QString::number(i)+"'");
+        ui->tableWidget->insertRow(ui->tableWidget->rowCount());
+        ui->tableWidget->setItem(ui->tableWidget->rowCount()-1, 0, new QTableWidgetItem(data["ID"].at(i)));
+        ui->tableWidget->setItem(ui->tableWidget->rowCount()-1, 1, new QTableWidgetItem(data["Name"].at(i)));
+        ui->tableWidget->setItem(ui->tableWidget->rowCount()-1, 2, new QTableWidgetItem(EAN["EAN"].at(0)));
     }
     ui->tableWidget->update();
 }
@@ -98,5 +100,37 @@ void Prijem_novy_1::on_Vyr_cislo_2_textChanged(const QString &arg1)
 void Prijem_novy_1::on_tableWidget_doubleClicked(const QModelIndex &index)
 {
     qDebug()<<ui->tableWidget->item(index.row(), 0)->text();
+    Show_secondary_input();
 }
 
+
+void Prijem_novy_1::on_checkBox_stateChanged(int arg1)
+{
+    qDebug()<<arg1;
+    if(arg1 != 0){
+        ui->tableWidget->hide();
+        Hide_secondary_input();
+    }
+    else{
+        ui->tableWidget->show();
+        Show_secondary_input();
+    }
+}
+
+void Prijem_novy_1::Show_secondary_input()
+{
+    ui->Umisteni->show();
+    ui->Dodavatel->show();
+    ui->Cena->show();
+    ui->Stav->show();
+    ui->Poznamka->show();
+}
+
+void Prijem_novy_1::Hide_secondary_input()
+{
+    ui->Umisteni->hide();
+    ui->Dodavatel->hide();
+    ui->Cena->hide();
+    ui->Stav->hide();
+    ui->Poznamka->hide();
+}
