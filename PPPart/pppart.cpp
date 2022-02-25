@@ -28,8 +28,6 @@ void PPPart::on_categories_itemClicked(QTreeWidgetItem *item, int column)
 }
 
 
-
-
 void PPPart::on_settings_pressed()
 {
     network.getData("SELECT `Interni_ID`, `EAN` FROM `EAN` WHERE `EAN` LIKE '%12%'");

@@ -46,6 +46,8 @@ private:
 
     QStringList array;
 
+    NetworkSQL network;
+
     void Update_list();
 };
 
