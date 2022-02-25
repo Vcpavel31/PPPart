@@ -2,7 +2,6 @@
 #define PRIJEM_NOVY_1_H
 
 #include <QDialog>
-
 #include <QSettings>
 #include <QtNetwork/QSsl>
 #include <QtNetwork/QNetworkRequest>
@@ -10,6 +9,8 @@
 #include <QtNetwork/QNetworkAccessManager>
 #include <QUrl>
 #include <QUrlQuery>
+
+#include "networksql.h"
 
 namespace Ui {
 class Prijem_novy_1;
@@ -23,10 +24,6 @@ public:
     explicit Prijem_novy_1(QWidget *parent = nullptr);
     ~Prijem_novy_1();
 
-public slots:
-    void replyFinished (QNetworkReply *reply);
-
-    void DB (QString Query);
 
 private slots:
     void on_Nazev_2_textChanged(const QString &arg1);
@@ -46,9 +43,6 @@ private:
     QString Obj_cislo = "%";
     QString Vyr_cislo = "%";
     QString Response = "";
-
-    QSettings *settings = new QSettings(QSettings::IniFormat, QSettings::UserScope, "PPPart");
-    QNetworkAccessManager *manager = new QNetworkAccessManager(this);
 
     QStringList array;
 

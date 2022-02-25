@@ -6,16 +6,9 @@
 #include <QTreeWidgetItem>
 #include <QInputDialog>
 #include <QMessageBox>
-#include <QSettings>
-#include <QtNetwork/QSsl>
-#include <QtNetwork/QNetworkRequest>
-#include <QtNetwork/QNetworkReply>
-#include <QtNetwork/QNetworkAccessManager>
-#include <QUrl>
-#include <QUrlQuery>
-#include <QMap>
 
 #include "prijem_novy_1.h"
+#include "networksql.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class PPPart; }
@@ -41,13 +34,10 @@ public slots:
 private:
     Ui::PPPart *ui;
 
-    QSettings *settings = new QSettings(QSettings::IniFormat, QSettings::UserScope, "PPPart");
-    QNetworkAccessManager *manager = new QNetworkAccessManager(this);
-
     Prijem_novy_1 income;
 
-    void getAllData();
+    NetworkSQL network;
 
-    QMap<QString, QStringList> getData(QString);
+    void getAllData();
 };
 #endif // PPPART_H
