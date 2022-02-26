@@ -3,7 +3,11 @@
 NetworkSQL::NetworkSQL(QObject *parent)
     : QObject{parent}
 {
-
+    settings->setValue("User_ID", 1);
+    Address = settings->value("Address").toString();
+    User = settings->value("User").toString();
+    Pass = settings->value("Pass").toString();
+    User_ID = settings->value("User_ID").toString();
 }
 
 //TODO bug fix when enter more unknown component in to name
@@ -11,15 +15,15 @@ QMap<QString, QStringList> NetworkSQL::getData(QString Query)
 {
     QMap<QString, QStringList> temp;
 
-    QUrl url(settings->value("Address").toString());
+    QUrl url(Address);
     qDebug() << url;
     QNetworkRequest request(url);
 
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
 
     QUrlQuery params;
-    params.addQueryItem("User", settings->value("User").toString());
-    params.addQueryItem("Pass", settings->value("Pass").toString());
+    params.addQueryItem("User", User);
+    params.addQueryItem("Pass", Pass);
     params.addQueryItem("Debug", "False");
     params.addQueryItem("Query", Query);
 

@@ -64,23 +64,23 @@ void Prijem_novy_1::Update_list()
           {
             ui->tableWidget->insertRow(ui->tableWidget->rowCount());
             ui->tableWidget->setItem(ui->tableWidget->rowCount()-1, 0, new QTableWidgetItem(data["ID"].at(i)));
-            if(data["Name"].at(i).isEmpty())
-                {
-                ui->tableWidget->setItem(ui->tableWidget->rowCount()-1, 1, new QTableWidgetItem(data["Name"].at(i)));
-                if(EAN["EAN"].at(i).isEmpty())
-                    ui->tableWidget->setItem(ui->tableWidget->rowCount()-1, 2, new QTableWidgetItem(EAN["EAN"].at(0)));
-                else
-                    qDebug() << "ERROR: didnt receive EAN";
-            }
-            else
-                qDebug() << "ERROR: didnt receive Name";
         }
         else
             {
                 qDebug() << "ERROR: didnt receive ID";
                 //TODO zobraz Nenalezeny součástky odpovídající kritériím
         }
-    }
+
+        if(data["Name"].at(i).isEmpty())
+            ui->tableWidget->setItem(ui->tableWidget->rowCount()-1, 1, new QTableWidgetItem(data["Name"].at(i)));
+        else
+            qDebug() << "ERROR: didnt receive Name";
+
+        if(EAN["EAN"].at(i).isEmpty())
+            ui->tableWidget->setItem(ui->tableWidget->rowCount()-1, 2, new QTableWidgetItem(EAN["EAN"].at(0)));
+        else
+            qDebug() << "ERROR: didnt receive EAN";
+        }
     ui->tableWidget->update();
 }
 
