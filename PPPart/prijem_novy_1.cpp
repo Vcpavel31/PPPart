@@ -177,6 +177,17 @@ void Prijem_novy_1::Hide_new_input()
 
 void Prijem_novy_1::on_Kategorie_3_pressed()
 {
-    Category.show();
+    if(category.exec() == QDialog::Accepted){
+      // You can access everything you need in dialog object
+        QTreeWidgetItem item = category.getSelectedItem();
+        ui->Kategorie_2->setText(item.text(0));
+        categoryID = item.text(1);
+    }
+}
+
+
+void Prijem_novy_1::on_Kategorie_2_textChanged(const QString &arg1)
+{
+    categoryID.clear();
 }
 

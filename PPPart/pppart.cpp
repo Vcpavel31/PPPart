@@ -45,6 +45,8 @@ void PPPart::getAllData()
 
 void PPPart::on_categories_itemClicked(QTreeWidgetItem *item, int column)
 {
+    (void) item; // dont care
+    (void) column; // dont care
     qDebug() << "left bar";
 }
 
