@@ -131,9 +131,11 @@ void Prijem_novy_1::on_checkBox_stateChanged(int arg1)
     qDebug()<<arg1;
     if(!arg1){
         Hide_secondary_input();
+        Hide_new_input();
     }
     else{
         Show_secondary_input();
+        Show_new_input();
     }
 }
 
@@ -146,6 +148,7 @@ void Prijem_novy_1::Show_secondary_input()
     ui->Cena->show();
     ui->Stav->show();
     ui->Poznamka->show();
+    ui->Polozek->show();
 }
 
 void Prijem_novy_1::Hide_secondary_input()
@@ -157,4 +160,23 @@ void Prijem_novy_1::Hide_secondary_input()
     ui->Cena->hide();
     ui->Stav->hide();
     ui->Poznamka->hide();
+    ui->Polozek->hide();
 }
+
+void Prijem_novy_1::Show_new_input()
+{
+    ui->Kategorie->show();
+    ui->Vyrobce->show();
+}
+
+void Prijem_novy_1::Hide_new_input()
+{
+    ui->Kategorie->hide();
+    ui->Vyrobce->hide();
+}
+
+void Prijem_novy_1::on_Kategorie_3_pressed()
+{
+    Category.show();
+}
+

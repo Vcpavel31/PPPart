@@ -11,6 +11,7 @@
 #include <QUrlQuery>
 
 #include "networksql.h"
+#include "category.h"
 
 namespace Ui {
 class Prijem_novy_1;
@@ -38,6 +39,8 @@ private slots:
 
     void on_checkBox_stateChanged(int arg1);
 
+    void on_Kategorie_3_pressed();
+
 private:
     Ui::Prijem_novy_1 *ui;
 
@@ -50,10 +53,13 @@ private:
     QStringList array;
 
     NetworkSQL network;
+    Category Category;
 
     void Update_list();
     void Show_secondary_input();
     void Hide_secondary_input();
+    void Show_new_input();
+    void Hide_new_input();
 };
 
 #endif // PRIJEM_NOVY_1_H

@@ -15,7 +15,7 @@ PPPart::PPPart(QWidget *parent)
 
     QMap<QString, QStringList> data = network.getData(Query);
     qDebug() << "Data: " << data;
-    //ui->categories->setColumnHidden(1, 1);
+    ui->categories->setColumnHidden(1, 1);
     ui->categories->clear();
     for(int i = 0; i != data["ID"].size(); i++)
     {

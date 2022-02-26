@@ -11,6 +11,7 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    category.cpp \
     main.cpp \
     nastaveni.cpp \
     networksql.cpp \
@@ -19,6 +20,7 @@ SOURCES += \
     vydej_1.cpp
 
 HEADERS += \
+    category.h \
     nastaveni.h \
     networksql.h \
     pppart.h \
@@ -26,6 +28,7 @@ HEADERS += \
     vydej_1.h
 
 FORMS += \
+    category.ui \
     nastaveni.ui \
     pppart.ui \
     prijem_novy_1.ui \
