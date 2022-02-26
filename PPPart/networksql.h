@@ -17,7 +17,9 @@ class NetworkSQL : public QObject
     Q_OBJECT
 public:
     explicit NetworkSQL(QObject *parent = nullptr);
+
     QMap<QString, QStringList> getData(QString);
+    QString getStringData(QString);
 
     QString User_ID;
 

@@ -54,14 +54,14 @@ void Prijem_novy_1::Update_list()
 
 
     QMap<QString, QStringList> data = network.getData(Query);
-    qDebug() << "Data: " << Query;
+    qDebug() << "Data: " << data;
     ui->tableWidget->setRowCount(0);
     for(int i = 0; i != data["ID"].size(); i++)
     {
-        QMap<QString, QStringList> EAN = network.getData("SELECT `EAN` FROM `EAN` WHERE `Interni_ID` = '"+data["ID"].at(i)+"'");
+        QString EAN = network.getStringData("SELECT `EAN` FROM `EAN` WHERE `Interni_ID` = '"+data["ID"].at(i)+"'");
         qDebug() << "EAN: " << EAN;
 
-        if(data["ID"].at(i).isEmpty())
+        if(!data["ID"].at(i).isEmpty())
           {
             ui->tableWidget->insertRow(ui->tableWidget->rowCount());
             ui->tableWidget->setItem(ui->tableWidget->rowCount()-1, 0, new QTableWidgetItem(data["ID"].at(i)));
@@ -72,13 +72,13 @@ void Prijem_novy_1::Update_list()
                 //TODO zobraz Nenalezeny součástky odpovídající kritériím
         }
 
-        if(data["Name"].at(i).isEmpty())
+        if(!data["Name"].at(i).isEmpty())
             ui->tableWidget->setItem(ui->tableWidget->rowCount()-1, 1, new QTableWidgetItem(data["Name"].at(i)));
         else
             qDebug() << "ERROR: didnt receive Name";
 
-        if(EAN["EAN"].at(i).isEmpty())
-            ui->tableWidget->setItem(ui->tableWidget->rowCount()-1, 2, new QTableWidgetItem(EAN["EAN"].at(0)));
+        if(!EAN.isEmpty())
+            ui->tableWidget->setItem(ui->tableWidget->rowCount()-1, 2, new QTableWidgetItem(EAN));
         else
             qDebug() << "ERROR: didnt receive EAN";
         }
@@ -127,7 +127,7 @@ void Prijem_novy_1::on_tableWidget_doubleClicked(const QModelIndex &index)
 void Prijem_novy_1::on_checkBox_stateChanged(int arg1)
 {
     qDebug()<<arg1;
-    if(arg1 != 0){
+    if(!arg1){
         Hide_secondary_input();
     }
     else{

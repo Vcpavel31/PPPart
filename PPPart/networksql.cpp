@@ -16,7 +16,6 @@ QMap<QString, QStringList> NetworkSQL::getData(QString Query)
     QMap<QString, QStringList> temp;
 
     QUrl url(Address);
-    qDebug() << url;
     QNetworkRequest request(url);
 
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
@@ -62,7 +61,6 @@ QMap<QString, QStringList> NetworkSQL::getData(QString Query)
             {
                     temp[indexes[i]] << values[i];
             }
-            qDebug() << temp;
             return temp;
         }
 
@@ -72,8 +70,62 @@ QMap<QString, QStringList> NetworkSQL::getData(QString Query)
 
     temp[indexes[0]] = values;
     qDebug() << "Same indexes\n";
-    qDebug() << temp;
     return temp;
 }
 
+QString NetworkSQL::getStringData(QString Query)
+{
+    QString temp;
 
+    QUrl url(Address);
+    QNetworkRequest request(url);
+
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
+
+    QUrlQuery params;
+    params.addQueryItem("User", User);
+    params.addQueryItem("Pass", Pass);
+    params.addQueryItem("Debug", "False");
+    params.addQueryItem("Query", Query);
+
+    QNetworkReply* reply = manager->post(request, params.query().toUtf8());
+
+    QEventLoop loop;
+    connect(reply, SIGNAL(finished()), &loop, SLOT(quit()));
+    loop.exec();
+
+    //data received
+
+    QByteArray data = reply->readAll();
+    qDebug() << "all: " << data;
+    if(!data.contains("[")) // bad reply?
+        {
+            qDebug() << "Something wrong?";
+            return temp; // any data recieved
+    }
+
+    QStringList indexes;
+    QStringList values;
+
+    while(data.contains("["))
+        {
+        indexes << QString::fromUtf8(data.sliced(data.indexOf("[")+1, data.indexOf("]")-data.indexOf("[")-1).toStdString()); // returns Interni_ID, EAN, etc
+        data.remove(0, data.indexOf("=>")+2);
+        values << QString::fromUtf8(data.sliced(0, data.indexOf("\n"))).replace(" ", ""); // return value without whitespaces
+    }
+
+    for(int i=0;i<indexes.count();i++)
+    {
+        if(indexes[0] != indexes[i]) // all indexes are not the same, save to array
+            {
+            qDebug() << "Multiple indexes - badly used function";
+            return QString(); // return empty string
+        }
+    }
+
+    //not all indexes are the same
+
+    temp = values[0];
+    qDebug() << "Same indexes\n";
+    return temp;
+}
