@@ -204,7 +204,7 @@
        <item>
         <widget class="QLineEdit" name="Kategorie_2">
          <property name="enabled">
-          <bool>false</bool>
+          <bool>true</bool>
          </property>
         </widget>
        </item>
@@ -591,6 +591,9 @@
        </item>
        <item>
         <widget class="QDoubleSpinBox" name="Cena_2"/>
+       </item>
+       <item>
+        <widget class="QComboBox" name="comboBox"/>
        </item>
       </layout>
      </widget>

@@ -31,13 +31,7 @@ PPPart::PPPart(QWidget *parent)
                 qDebug() << "Parent item exists: " << items.at(0)->text(0);
             }
         }
-        //ui->categories->itemAt(ui->categories->topLevelItemCount(), ui->categories->topLevelItemCount())->addChild(new QTreeWidgetItem((QTreeWidget*)0, QStringList(QString("%1").arg(i))));
     }
-
-
-
-
-
 }
 
 PPPart::~PPPart()
