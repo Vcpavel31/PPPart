@@ -11,6 +11,7 @@
 #include <QUrlQuery>
 #include <QMap>
 #include <QEventLoop>
+#include <QRegularExpression>
 
 class NetworkSQL : public QObject
 {

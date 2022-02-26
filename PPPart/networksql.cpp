@@ -49,7 +49,8 @@ QMap<QString, QStringList> NetworkSQL::getData(QString Query)
         {
         indexes << QString::fromUtf8(data.sliced(data.indexOf("[")+1, data.indexOf("]")-data.indexOf("[")-1).toStdString()); // returns Interni_ID, EAN, etc
         data.remove(0, data.indexOf("=>")+2);
-        values << QString::fromUtf8(data.sliced(0, data.indexOf("\n"))).replace(" ", ""); // return value without whitespaces
+        QRegularExpression space("^\\s+|\\s+$"); // remove only whitespaces on start and end
+        values << QString::fromUtf8(data.sliced(0, data.indexOf("\n"))).replace(space, ""); // return value without whitespaces
     }
 
     for(int i=0;i<indexes.count();i++)
@@ -111,7 +112,8 @@ QString NetworkSQL::getStringData(QString Query)
         {
         indexes << QString::fromUtf8(data.sliced(data.indexOf("[")+1, data.indexOf("]")-data.indexOf("[")-1).toStdString()); // returns Interni_ID, EAN, etc
         data.remove(0, data.indexOf("=>")+2);
-        values << QString::fromUtf8(data.sliced(0, data.indexOf("\n"))).replace(" ", ""); // return value without whitespaces
+        QRegularExpression space("^\\s+|\\s+$"); // remove only whitespaces on start and end
+        values << QString::fromUtf8(data.sliced(0, data.indexOf("\n"))).replace(space, ""); // return value without whitespaces
     }
 
     for(int i=0;i<indexes.count();i++)
