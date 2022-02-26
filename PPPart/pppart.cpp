@@ -10,6 +10,24 @@ PPPart::PPPart(QWidget *parent)
     //qDebug() << settings->status() << " " << settings->fileName();
 
     getAllData();
+
+    QString Query = "SELECT Nazev AS 'Nazev' FROM Kategorie WHERE ID IN (SELECT `Kategorie` FROM `Usporadani_kategorii` WHERE `Uzivatel` = '1' AND `Nadrazena` IS NULL)";
+
+    QMap<QString, QStringList> data = network.getData(Query);
+    qDebug() << "Data: " << data;
+
+    QList<QTreeWidgetItem *> items;
+    for ( const auto& i : data["Nazev"]  )
+    {
+        qDebug() << i;
+        items.append(new QTreeWidgetItem((QTreeWidget*)0, QStringList(QString("%1").arg(i))));
+    }
+
+
+
+    ui->categories->clear();
+    ui->categories->insertTopLevelItems(0, items);
+
 }
 
 PPPart::~PPPart()
@@ -19,7 +37,6 @@ PPPart::~PPPart()
 
 void PPPart::getAllData()
 {
-
 }
 
 void PPPart::on_categories_itemClicked(QTreeWidgetItem *item, int column)

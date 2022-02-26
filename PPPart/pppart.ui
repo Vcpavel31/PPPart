@@ -108,71 +108,6 @@
           <string>Kategorie</string>
          </property>
         </column>
-        <item>
-         <property name="text">
-          <string>Aktivní součástky</string>
-         </property>
-         <item>
-          <property name="text">
-           <string>Tranzistory</string>
-          </property>
-          <item>
-           <property name="text">
-            <string>MOSFET</string>
-           </property>
-           <item>
-            <property name="text">
-             <string>P-channel</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>N-channel</string>
-            </property>
-           </item>
-          </item>
-          <item>
-           <property name="text">
-            <string>PNP</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>NPN</string>
-           </property>
-          </item>
-         </item>
-         <item>
-          <property name="text">
-           <string>Diody</string>
-          </property>
-         </item>
-        </item>
-        <item>
-         <property name="text">
-          <string>Pasivní členy</string>
-         </property>
-         <item>
-          <property name="text">
-           <string>Odpory</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Kondenzítory</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Cívky+tlumivky</string>
-          </property>
-         </item>
-        </item>
-        <item>
-         <property name="text">
-          <string>Elektromechanika</string>
-         </property>
-        </item>
        </widget>
       </item>
       <item row="0" column="2">
@@ -482,7 +417,7 @@
      <x>0</x>
      <y>0</y>
      <width>1347</width>
-     <height>26</height>
+     <height>21</height>
     </rect>
    </property>
   </widget>
