@@ -56,11 +56,13 @@ void Prijem_novy_1::Update_list()
     QMap<QString, QStringList> data = network.getData(Query);
     qDebug() << "Data: " << data;
     ui->tableWidget->setRowCount(0);
+    if(!data.keys().contains("ID")||!data.keys().contains("Name")||!data.keys().contains("EAN"))
+        {
+            qDebug() << "Didnt get ID, Name or EAN";
+            return;
+    }
     for(int i = 0; i != data["ID"].size(); i++)
     {
-        QString EAN = network.getStringData("SELECT `EAN` FROM `EAN` WHERE `Interni_ID` = '"+data["ID"].at(i)+"'");
-        qDebug() << "EAN: " << EAN;
-
         if(!data["ID"].at(i).isEmpty())
           {
             ui->tableWidget->insertRow(ui->tableWidget->rowCount());
@@ -77,8 +79,8 @@ void Prijem_novy_1::Update_list()
         else
             qDebug() << "ERROR: didnt receive Name";
 
-        if(!EAN.isEmpty())
-            ui->tableWidget->setItem(ui->tableWidget->rowCount()-1, 2, new QTableWidgetItem(EAN));
+        if(!data["EAN"].at(i).isEmpty())
+            ui->tableWidget->setItem(ui->tableWidget->rowCount()-1, 2, new QTableWidgetItem(data["EAN"].at(i)));
         else
             qDebug() << "ERROR: didnt receive EAN";
         }
