@@ -15,14 +15,17 @@ PPPart::PPPart(QWidget *parent)
 
     QMap<QString, QStringList> data = network.getData(Query);
     qDebug() << "Data: " << data;
-
+    ui->categories->setColumnHidden(1, 1);
     ui->categories->clear();
-    for ( const auto& i : data["Nazev"]  )
+    for(int i = 0; i != data["ID"].size(); i++)
     {
-        qDebug() << i;
-        ui->categories->insertTopLevelItem(ui->categories->topLevelItemCount(), new QTreeWidgetItem((QTreeWidget*)0, QStringList(QString("%1").arg(i))));
-
-        ui->categories->itemAt(ui->categories->topLevelItemCount(), ui->categories->topLevelItemCount())->addChild(new QTreeWidgetItem((QTreeWidget*)0, QStringList(QString("%1").arg(i))));
+        if(data["Nadrazena"][i] == QString("")){
+            ui->categories->insertTopLevelItem(ui->categories->topLevelItemCount(), new QTreeWidgetItem((QTreeWidget*)0, QStringList({data["Nazev"][i], data["ID"][i]})));
+        }
+        else{
+            ui->categories->itemAt(data["Nadrazena"][i].toInt(), data["Nadrazena"][i].toInt())->addChild(new QTreeWidgetItem((QTreeWidget*)0, QStringList({data["Nazev"][i], data["ID"][i]})));
+        }
+        //ui->categories->itemAt(ui->categories->topLevelItemCount(), ui->categories->topLevelItemCount())->addChild(new QTreeWidgetItem((QTreeWidget*)0, QStringList(QString("%1").arg(i))));
     }
 
 
