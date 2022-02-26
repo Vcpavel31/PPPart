@@ -16,17 +16,20 @@ PPPart::PPPart(QWidget *parent)
     QMap<QString, QStringList> data = network.getData(Query);
     qDebug() << "Data: " << data;
 
-    QList<QTreeWidgetItem *> items;
+    ui->categories->clear();
     for ( const auto& i : data["Nazev"]  )
     {
         qDebug() << i;
-        items.append(new QTreeWidgetItem((QTreeWidget*)0, QStringList(QString("%1").arg(i))));
+        ui->categories->insertTopLevelItem(ui->categories->topLevelItemCount(), new QTreeWidgetItem((QTreeWidget*)0, QStringList(QString("%1").arg(i))));
+
+        QString Query = "SELECT Nazev AS 'Nazev' FROM Kategorie WHERE ID IN (SELECT `Kategorie` FROM `Usporadani_kategorii` WHERE `Uzivatel` = '1' AND `Nadrazena` IS '"+QString(i)+"')";
+        qDebug() << network.getData(Query);
+        ui->categories->itemAt(ui->categories->topLevelItemCount(), ui->categories->topLevelItemCount())->addChild(new QTreeWidgetItem((QTreeWidget*)0, QStringList(QString("%1").arg(i))));
     }
 
 
 
-    ui->categories->clear();
-    ui->categories->insertTopLevelItems(0, items);
+
 
 }
 
