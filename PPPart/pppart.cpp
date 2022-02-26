@@ -11,7 +11,7 @@ PPPart::PPPart(QWidget *parent)
 
     getAllData();
 
-    QString Query = "SELECT Nazev AS 'Nazev' FROM Kategorie WHERE ID IN (SELECT `Kategorie` FROM `Usporadani_kategorii` WHERE `Uzivatel` = '1' AND `Nadrazena` IS NULL)";
+    QString Query = "SELECT Kategorie.ID AS 'ID', Kategorie.Nazev AS 'Nazev', Usporadani.Nadrazena AS 'Nadrazena' FROM Kategorie Kategorie, Usporadani_kategorii Usporadani WHERE Kategorie.ID = Usporadani.Kategorie AND Usporadani.Uzivatel = '1'";
 
     QMap<QString, QStringList> data = network.getData(Query);
     qDebug() << "Data: " << data;
@@ -22,8 +22,6 @@ PPPart::PPPart(QWidget *parent)
         qDebug() << i;
         ui->categories->insertTopLevelItem(ui->categories->topLevelItemCount(), new QTreeWidgetItem((QTreeWidget*)0, QStringList(QString("%1").arg(i))));
 
-        QString Query = "SELECT Nazev AS 'Nazev' FROM Kategorie WHERE ID IN (SELECT `Kategorie` FROM `Usporadani_kategorii` WHERE `Uzivatel` = '1' AND `Nadrazena` IS '"+QString(i)+"')";
-        qDebug() << network.getData(Query);
         ui->categories->itemAt(ui->categories->topLevelItemCount(), ui->categories->topLevelItemCount())->addChild(new QTreeWidgetItem((QTreeWidget*)0, QStringList(QString("%1").arg(i))));
     }
 
