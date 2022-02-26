@@ -48,11 +48,12 @@ void Prijem_novy_1::Update_list()
 {
 
     QString Query = "SELECT `ID`,`Název` AS 'Name' FROM `Interni_ID` WHERE `Název` LIKE '"+Nazev+"' AND `ID` IN (\
-                     SELECT `Interni_ID` FROM `Objednací číslo` WHERE `Objednací číslo` LIKE '"+Obj_cislo+"' AND `Interni_ID` IN (\
-                     SELECT `Interni_ID` FROM `EAN` WHERE `EAN` LIKE '"+EAN+"'  AND `Interni_ID` IN (\
-                     SELECT `Interni_ID` FROM `Číslo výrobce` WHERE `Číslo výrobce` LIKE '"+Vyr_cislo+"' ) ) )";
+                     SELECT `Interni_ID` FROM `Objednací číslo` WHERE "+Obj_cislo+" AND `Interni_ID` IN (\
+                     SELECT `Interni_ID` FROM `EAN` WHERE "+EAN+"  AND `Interni_ID` IN (\
+                     SELECT `Interni_ID` FROM `Číslo výrobce` WHERE "+Vyr_cislo+" ) ) )";
 
     QMap<QString, QStringList> data = network.getData(Query);
+    qDebug() << "Data: " << Query;
     ui->tableWidget->setRowCount(0);
     for(int i = 0; i != data["ID"].size(); i++)
     {
@@ -93,24 +94,24 @@ void Prijem_novy_1::on_Nazev_2_textChanged(const QString &arg1)
 
 void Prijem_novy_1::on_EAN_2_textChanged(const QString &arg1)
 {
-    if(arg1 == "") EAN = "%";
-    else EAN = "%"+arg1+"%";
+    if(arg1 == "") EAN = "(`EAN` LIKE '%' OR `EAN` IS NULL)";
+    else EAN = "(`EAN` LIKE '%"+arg1+"%')";;
     Update_list();
 }
 
 
 void Prijem_novy_1::on_Obj_cislo_2_textChanged(const QString &arg1)
 {
-    if(arg1 == "") Obj_cislo = "%";
-    else Obj_cislo = "%"+arg1+"%";
+    if(arg1 == "") Obj_cislo = "(`Objednací číslo` LIKE '%' OR `Objednací číslo` IS NULL)";
+    else Obj_cislo = "(`Objednací číslo` LIKE '%"+arg1+"%')";;
     Update_list();
 }
 
 
 void Prijem_novy_1::on_Vyr_cislo_2_textChanged(const QString &arg1)
 {
-    if(arg1 == "") Vyr_cislo = "%";
-    else Vyr_cislo = "%"+arg1+"%";
+    if(arg1 == "") Vyr_cislo = "(`Číslo výrobce` LIKE '%' OR `Číslo výrobce` IS NULL)";
+    else Vyr_cislo = "(`Číslo výrobce` LIKE '%"+arg1+"%')";;
     Update_list();
 }
 
@@ -126,17 +127,17 @@ void Prijem_novy_1::on_checkBox_stateChanged(int arg1)
 {
     qDebug()<<arg1;
     if(arg1 != 0){
-        ui->tableWidget->hide();
         Hide_secondary_input();
     }
     else{
-        ui->tableWidget->show();
         Show_secondary_input();
     }
 }
 
 void Prijem_novy_1::Show_secondary_input()
 {
+    ui->tableWidget->hide();
+
     ui->Umisteni->show();
     ui->Dodavatel->show();
     ui->Cena->show();
@@ -146,6 +147,8 @@ void Prijem_novy_1::Show_secondary_input()
 
 void Prijem_novy_1::Hide_secondary_input()
 {
+    ui->tableWidget->show();
+
     ui->Umisteni->hide();
     ui->Dodavatel->hide();
     ui->Cena->hide();

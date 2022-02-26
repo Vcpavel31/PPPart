@@ -42,9 +42,9 @@ private:
     Ui::Prijem_novy_1 *ui;
 
     QString Nazev = "%";
-    QString EAN = "%";
-    QString Obj_cislo = "%";
-    QString Vyr_cislo = "%";
+    QString EAN = "(`EAN` LIKE '%' OR `EAN` IS NULL)";
+    QString Obj_cislo = "(`Objednací číslo` LIKE '%' OR `Objednací číslo` IS NULL)";
+    QString Vyr_cislo = "(`Číslo výrobce` LIKE '%' OR `Číslo výrobce` IS NULL)";
     QString Response = "";
 
     QStringList array;
