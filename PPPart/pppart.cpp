@@ -15,15 +15,21 @@ PPPart::PPPart(QWidget *parent)
 
     QMap<QString, QStringList> data = network.getData(Query);
     qDebug() << "Data: " << data;
-    ui->categories->setColumnHidden(1, 1);
+    //ui->categories->setColumnHidden(1, 1);
     ui->categories->clear();
     for(int i = 0; i != data["ID"].size(); i++)
     {
-        if(data["Nadrazena"][i] == QString("")){
-            ui->categories->insertTopLevelItem(ui->categories->topLevelItemCount(), new QTreeWidgetItem((QTreeWidget*)0, QStringList({data["Nazev"][i], data["ID"][i]})));
+        if(data["Nadrazena"][i].isEmpty()){
+            ui->categories->insertTopLevelItem(ui->categories->topLevelItemCount(), new QTreeWidgetItem(QStringList({data["Nazev"][i], data["ID"][i]})));
         }
         else{
-            ui->categories->itemAt(data["Nadrazena"][i].toInt(), data["Nadrazena"][i].toInt())->addChild(new QTreeWidgetItem((QTreeWidget*)0, QStringList({data["Nazev"][i], data["ID"][i]})));
+            QList<QTreeWidgetItem *> items = ui->categories->findItems(data["Nadrazena"][i], Qt::MatchExactly|Qt::MatchRecursive, 1);
+            if(!items.isEmpty()) // parent item exists
+                {
+                //only one item with same ID => at(0)
+                items.at(0)->addChild(new QTreeWidgetItem(QStringList({data["Nazev"][i], data["ID"][i]})));
+                qDebug() << "Parent item exists: " << items.at(0)->text(0);
+            }
         }
         //ui->categories->itemAt(ui->categories->topLevelItemCount(), ui->categories->topLevelItemCount())->addChild(new QTreeWidgetItem((QTreeWidget*)0, QStringList(QString("%1").arg(i))));
     }
