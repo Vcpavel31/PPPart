@@ -36,7 +36,7 @@ Prijem_novy_1::Prijem_novy_1(QWidget *parent) :
     ui->Baleni->hide();
     ui->Int_oznaceni->hide();
 
-    //Update_list();
+    Update_list();
 }
 
 Prijem_novy_1::~Prijem_novy_1()
@@ -47,10 +47,11 @@ Prijem_novy_1::~Prijem_novy_1()
 void Prijem_novy_1::Update_list()
 {
 
-    QString Query = "SELECT `ID`,`Název` AS 'Name' FROM `Interni_ID` WHERE `Název` LIKE '"+Nazev+"' AND `ID` IN (\
-                     SELECT `Interni_ID` FROM `Objednací číslo` WHERE "+Obj_cislo+" AND `Interni_ID` IN (\
-                     SELECT `Interni_ID` FROM `EAN` WHERE "+EAN+"  AND `Interni_ID` IN (\
-                     SELECT `Interni_ID` FROM `Číslo výrobce` WHERE "+Vyr_cislo+" ) ) )";
+    QString Query = "SELECT Nazev.ID,Nazev.Název,EAN.EAN FROM Interni_ID Nazev, EAN EAN WHERE Nazev.ID = EAN.Interni_ID AND Nazev.Název LIKE '"+Nazev+"' AND Nazev.ID IN (\
+                SELECT `Interni_ID` FROM `Objednací číslo` WHERE "+Obj_cislo+" AND `Interni_ID` IN (\
+                SELECT `Interni_ID` FROM `EAN` WHERE "+EAN+"  AND `Interni_ID` IN (\
+                SELECT `Interni_ID` FROM `Číslo výrobce` WHERE "+Vyr_cislo+" ) ) )";
+
 
     QMap<QString, QStringList> data = network.getData(Query);
     qDebug() << "Data: " << Query;
