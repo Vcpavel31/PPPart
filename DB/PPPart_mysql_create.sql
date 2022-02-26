@@ -1,6 +1,7 @@
 CREATE TABLE `Interni_ID` (
 	`ID` INT(32) NOT NULL AUTO_INCREMENT,
 	`Název` TEXT NOT NULL,
+	`Uzivatel` INT(8) NOT NULL,
 	PRIMARY KEY (`ID`)
 );
 
@@ -21,7 +22,7 @@ CREATE TABLE `Usporadani_kategorii` (
 CREATE TABLE `EAN` (
 	`ID` INT NOT NULL AUTO_INCREMENT,
 	`Interni_ID` INT(32) NOT NULL,
-	`EAN` INT(16) NOT NULL,
+	`EAN` INT(16),
 	PRIMARY KEY (`ID`)
 );
 
@@ -29,21 +30,20 @@ CREATE TABLE `Prirazeni_kategorii` (
 	`ID` INT(64) NOT NULL AUTO_INCREMENT,
 	`Soucastka` INT(32) NOT NULL,
 	`Kategorie` INT(16) NOT NULL,
-	`Uzivatel` INT(8) NOT NULL,
 	PRIMARY KEY (`ID`)
 );
 
 CREATE TABLE `Objednací číslo` (
 	`ID` INT NOT NULL AUTO_INCREMENT,
 	`Interni_ID` INT(32) NOT NULL,
-	`Objednací číslo` TEXT NOT NULL,
+	`Objednací číslo` TEXT,
 	PRIMARY KEY (`ID`)
 );
 
 CREATE TABLE `Číslo výrobce` (
 	`ID` INT NOT NULL AUTO_INCREMENT,
 	`Interni_ID` INT(32) NOT NULL,
-	`Číslo výrobce` TEXT NOT NULL,
+	`Číslo výrobce` TEXT,
 	PRIMARY KEY (`ID`)
 );
 
@@ -241,6 +241,7 @@ CREATE TABLE `Jmenovitý výkon` (
 	`ID` INT NOT NULL AUTO_INCREMENT,
 	`Interni_ID` INT(32) NOT NULL,
 	`Jmenovitý výkon` INT NOT NULL,
+	`Jednotka` INT(16) NOT NULL,
 	PRIMARY KEY (`ID`)
 );
 
@@ -320,6 +321,8 @@ CREATE TABLE `Uzivatele` (
 	PRIMARY KEY (`ID`)
 );
 
+ALTER TABLE `Interni_ID` ADD CONSTRAINT `Interni_ID_fk0` FOREIGN KEY (`Uzivatel`) REFERENCES `Uzivatele`(`ID`);
+
 ALTER TABLE `Usporadani_kategorii` ADD CONSTRAINT `Usporadani_kategorii_fk0` FOREIGN KEY (`Kategorie`) REFERENCES `Kategorie`(`ID`);
 
 ALTER TABLE `Usporadani_kategorii` ADD CONSTRAINT `Usporadani_kategorii_fk1` FOREIGN KEY (`Nadrazena`) REFERENCES `Kategorie`(`ID`);
@@ -331,8 +334,6 @@ ALTER TABLE `EAN` ADD CONSTRAINT `EAN_fk0` FOREIGN KEY (`Interni_ID`) REFERENCES
 ALTER TABLE `Prirazeni_kategorii` ADD CONSTRAINT `Prirazeni_kategorii_fk0` FOREIGN KEY (`Soucastka`) REFERENCES `Interni_ID`(`ID`);
 
 ALTER TABLE `Prirazeni_kategorii` ADD CONSTRAINT `Prirazeni_kategorii_fk1` FOREIGN KEY (`Kategorie`) REFERENCES `Kategorie`(`ID`);
-
-ALTER TABLE `Prirazeni_kategorii` ADD CONSTRAINT `Prirazeni_kategorii_fk2` FOREIGN KEY (`Uzivatel`) REFERENCES `Uzivatele`(`ID`);
 
 ALTER TABLE `Objednací číslo` ADD CONSTRAINT `Objednací číslo_fk0` FOREIGN KEY (`Interni_ID`) REFERENCES `Interni_ID`(`ID`);
 
@@ -409,6 +410,8 @@ ALTER TABLE `Barva` ADD CONSTRAINT `Barva_fk0` FOREIGN KEY (`Interni_ID`) REFERE
 ALTER TABLE `Barva` ADD CONSTRAINT `Barva_fk1` FOREIGN KEY (`Barva_S`) REFERENCES `Barvy`(`ID`);
 
 ALTER TABLE `Jmenovitý výkon` ADD CONSTRAINT `Jmenovitý výkon_fk0` FOREIGN KEY (`Interni_ID`) REFERENCES `Interni_ID`(`ID`);
+
+ALTER TABLE `Jmenovitý výkon` ADD CONSTRAINT `Jmenovitý výkon_fk1` FOREIGN KEY (`Jednotka`) REFERENCES `Jednotky`(`ID`);
 
 ALTER TABLE `Označení v knihovně` ADD CONSTRAINT `Označení v knihovně_fk0` FOREIGN KEY (`Interni_ID`) REFERENCES `Interni_ID`(`ID`);
 
