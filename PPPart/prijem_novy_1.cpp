@@ -47,7 +47,7 @@ Prijem_novy_1::~Prijem_novy_1()
 void Prijem_novy_1::Update_list()
 {
 
-    QString Query = "SELECT Nazev.ID,Nazev.Název,EAN.EAN FROM Interni_ID Nazev, EAN EAN WHERE Nazev.ID = EAN.Interni_ID AND Nazev.Název LIKE '"+Nazev+"' AND Nazev.ID IN (\
+    QString Query = "SELECT Nazev.ID AS "ID",Nazev.Název AS "Name",EAN.EAN AS "EAN" FROM Interni_ID Nazev, EAN EAN WHERE Nazev.ID = EAN.Interni_ID AND Nazev.Název LIKE '"+Nazev+"' AND Nazev.ID IN (\
                 SELECT `Interni_ID` FROM `Objednací číslo` WHERE "+Obj_cislo+" AND `Interni_ID` IN (\
                 SELECT `Interni_ID` FROM `EAN` WHERE "+EAN+"  AND `Interni_ID` IN (\
                 SELECT `Interni_ID` FROM `Číslo výrobce` WHERE "+Vyr_cislo+" ) ) )";
