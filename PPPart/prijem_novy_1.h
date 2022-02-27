@@ -43,6 +43,8 @@ private slots:
 
     void on_Kategorie_2_textChanged(const QString &arg1);
 
+    void on_pushButton_pressed();
+
 private:
     Ui::Prijem_novy_1 *ui;
 

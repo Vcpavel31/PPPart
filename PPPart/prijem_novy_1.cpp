@@ -37,6 +37,8 @@ Prijem_novy_1::Prijem_novy_1(QWidget *parent) :
     ui->Baleni->hide();
     ui->Int_oznaceni->hide();
 
+    ui->NewPart->hide();
+
     Update_list();
 }
 
@@ -60,6 +62,7 @@ void Prijem_novy_1::Update_list()
     if(!data.keys().contains("ID")||!data.keys().contains("Name")||!data.keys().contains("EAN"))
         {
             qDebug() << "Didnt get ID, Name or EAN";
+            ui->NewPart->show();
             return;
     }
     for(int i = 0; i != data["ID"].size(); i++)
@@ -68,11 +71,12 @@ void Prijem_novy_1::Update_list()
           {
             ui->tableWidget->insertRow(ui->tableWidget->rowCount());
             ui->tableWidget->setItem(ui->tableWidget->rowCount()-1, 0, new QTableWidgetItem(data["ID"].at(i)));
+            ui->NewPart->hide();
         }
         else
             {
                 qDebug() << "ERROR: didnt receive ID";
-                //TODO zobraz Nenalezeny součástky odpovídající kritériím
+                ui->NewPart->show();
         }
 
         if(!data["Name"].at(i).isEmpty())
@@ -232,5 +236,11 @@ void Prijem_novy_1::on_Kategorie_3_pressed()
 void Prijem_novy_1::on_Kategorie_2_textChanged(const QString &arg1)
 {
     categoryID.clear();
+}
+
+
+void Prijem_novy_1::on_pushButton_pressed()
+{
+    ui->checkBox->setChecked(true);
 }
 
