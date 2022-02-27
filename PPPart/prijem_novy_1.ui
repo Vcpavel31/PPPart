@@ -243,7 +243,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QComboBox" name="Stav_2"/>
+        <widget class="QLineEdit" name="Stav_2"/>
        </item>
       </layout>
      </widget>

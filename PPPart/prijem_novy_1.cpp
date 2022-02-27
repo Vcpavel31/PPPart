@@ -188,6 +188,14 @@ void Prijem_novy_1::on_checkBox_stateChanged(int arg1)
 
 void Prijem_novy_1::Show_secondary_input()
 {
+    ////////////////////////////////////////// ZÁSKÁNÍ STAVŮ PRO AUTOMATICKÉ DOPLNĚNÍ
+    QString Query = "SELECT `Název` AS 'Name' FROM `Stavy` WHERE 1";
+    QMap<QString, QStringList> data = network.getData(Query);
+    qDebug() << data["Name"];
+    QCompleter *completer = new QCompleter(data["Name"], this);
+    completer->setCaseSensitivity(Qt::CaseInsensitive);
+    ui->Stav_2->setCompleter(completer);
+
     ui->tableWidget->setEnabled(0);
 
     ui->Umisteni->show();

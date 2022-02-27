@@ -9,6 +9,7 @@
 #include <QtNetwork/QNetworkAccessManager>
 #include <QUrl>
 #include <QUrlQuery>
+#include <QCompleter>
 
 #include "networksql.h"
 #include "category.h"
