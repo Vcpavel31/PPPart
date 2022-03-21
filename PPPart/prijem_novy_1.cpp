@@ -30,7 +30,6 @@ Prijem_novy_1::Prijem_novy_1(QWidget *parent) :
     ui->Kladna_tolerance->hide();
     ui->Poc_vodicu->hide();
     ui->Material->hide();
-    ui->Kapacita->hide();
     ui->Jme_vykon->hide();
     ui->Jme_napeti->hide();
     ui->Ozn_knihovna->hide();
@@ -42,6 +41,8 @@ Prijem_novy_1::Prijem_novy_1(QWidget *parent) :
     ui->Date_exchange->setDate(QDate::currentDate());
     ui->Date_exchange->hide();
     Update_list();
+
+    ui->Hodnota_3->setCurrentIndex(4); // Default to --
 }
 
 Prijem_novy_1::~Prijem_novy_1()
@@ -190,7 +191,7 @@ void Prijem_novy_1::on_checkBox_stateChanged(int arg1)
 
 void Prijem_novy_1::Show_secondary_input()
 {
-    ////////////////////////////////////////// ZÁSKÁNÍ STAVŮ PRO AUTOMATICKÉ DOPLNĚNÍ
+    ////////////////////////////////////////// ZÍSKÁNÍ STAVŮ PRO AUTOMATICKÉ DOPLNĚNÍ
     QString Query = "SELECT `Název` AS 'Name' FROM `Stavy` WHERE 1";
     QMap<QString, QStringList> data = network.getData(Query);
     qDebug() << data["Name"];
@@ -206,6 +207,21 @@ void Prijem_novy_1::Show_secondary_input()
     ui->Stav->show();
     ui->Poznamka->show();
     ui->Polozek->show();
+
+    /*
+    /// https://stackoverflow.com/questions/6452077/how-to-get-click-event-of-qlineedit-in-qt
+    /// Pro každý line edit (nyní combobox, který má v databázi předchystaný výběr
+    /// Have fun Pěťo :D
+    */
+
+    if(ui->Stav_2->text().isEmpty())
+    {
+        ui->Stav_2->completer()->setCompletionPrefix("");
+        ui->Stav_2->completer()->complete();
+    }
+
+    ///
+
 }
 
 void Prijem_novy_1::Hide_secondary_input()

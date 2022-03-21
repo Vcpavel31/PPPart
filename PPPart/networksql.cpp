@@ -8,6 +8,7 @@ NetworkSQL::NetworkSQL(QObject *parent)
     User = settings->value("User").toString();
     Pass = settings->value("Pass").toString();
     User_ID = settings->value("User_ID").toString();
+    qDebug() << settings->fileName();
 }
 
 //TODO bug fix when enter more unknown component in to name
@@ -20,10 +21,12 @@ QMap<QString, QStringList> NetworkSQL::getData(QString Query)
 
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
 
+    qDebug() << Address;
+
     QUrlQuery params;
     params.addQueryItem("User", User);
     params.addQueryItem("Pass", Pass);
-    params.addQueryItem("Debug", "True");
+    params.addQueryItem("Debug", "False");
     params.addQueryItem("Query", Query);
 
     QNetworkReply* reply = manager->post(request, params.query().toUtf8());
