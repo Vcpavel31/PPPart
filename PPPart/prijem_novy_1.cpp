@@ -39,6 +39,8 @@ Prijem_novy_1::Prijem_novy_1(QWidget *parent) :
 
     ui->NewPart->hide();
 
+    ui->Date_exchange->setDate(QDate::currentDate());
+    ui->Date_exchange->hide();
     Update_list();
 }
 
@@ -250,5 +252,12 @@ void Prijem_novy_1::on_Kategorie_2_textChanged(const QString &arg1)
 void Prijem_novy_1::on_pushButton_pressed()
 {
     ui->checkBox->setChecked(true);
+}
+
+
+void Prijem_novy_1::on_comboBox_currentTextChanged(const QString &arg1)
+{
+    if(arg1 != "Kč") ui->Date_exchange->show();
+    else ui->Date_exchange->hide();
 }
 
