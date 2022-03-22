@@ -43,6 +43,8 @@ Prijem_novy_1::Prijem_novy_1(QWidget *parent) :
     Update_list();
 
     ui->Hodnota_3->setCurrentIndex(4); // Default to --
+
+    //connect(Stav_2, SIGNAL())
 }
 
 Prijem_novy_1::~Prijem_novy_1()
@@ -275,5 +277,24 @@ void Prijem_novy_1::on_comboBox_currentTextChanged(const QString &arg1)
 {
     if(arg1 != "Kč") ui->Date_exchange->show();
     else ui->Date_exchange->hide();
+}
+
+void Prijem_novy_1::focusInEvent(QFocusEvent *event)
+{
+    qDebug()<<"focusInEvent";
+
+    QWidget::focusInEvent(event);
+}
+
+void Prijem_novy_1::focusOutEvent(QFocusEvent *event)
+{
+    qDebug()<<"focusOutEvent";
+    QWidget::focusOutEvent(event);
+}
+
+void Prijem_novy_1::on_Stav_2_selectionChanged()
+{
+    qDebug() << "Nice";
+    Show_secondary_input();
 }
 
