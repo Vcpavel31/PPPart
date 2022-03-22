@@ -50,10 +50,6 @@ private slots:
 
     void on_Stav_2_selectionChanged();
 
-protected:
-    virtual void focusInEvent(QFocusEvent *event);
-    virtual void focusOutEvent(QFocusEvent *event);
-
 private:
     Ui::Prijem_novy_1 *ui;
 

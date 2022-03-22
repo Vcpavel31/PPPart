@@ -279,19 +279,6 @@ void Prijem_novy_1::on_comboBox_currentTextChanged(const QString &arg1)
     else ui->Date_exchange->hide();
 }
 
-void Prijem_novy_1::focusInEvent(QFocusEvent *event)
-{
-    qDebug()<<"focusInEvent";
-
-    QWidget::focusInEvent(event);
-}
-
-void Prijem_novy_1::focusOutEvent(QFocusEvent *event)
-{
-    qDebug()<<"focusOutEvent";
-    QWidget::focusOutEvent(event);
-}
-
 void Prijem_novy_1::on_Stav_2_selectionChanged()
 {
     qDebug() << "Nice";
