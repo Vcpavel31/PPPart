@@ -11,8 +11,12 @@ PPPart::PPPart(QWidget *parent)
 
     getAllData();
 
-    QString Query = "SELECT Kategorie.ID AS 'ID', Kategorie.Nazev AS 'Nazev', Usporadani.Nadrazena AS 'Nadrazena' FROM Kategorie Kategorie, Usporadani_kategorii Usporadani WHERE Kategorie.ID = Usporadani.Kategorie AND Usporadani.Uzivatel = '1'";
-
+    QString Query = "SELECT Kategorie.ID AS 'ID',\
+                     Kategorie.Nazev AS 'Nazev',\
+                     Usporadani.Nadrazena AS 'Nadrazena'\
+                     FROM Kategorie Kategorie, Usporadani_kategorii Usporadani\
+                     WHERE Kategorie.ID = Usporadani.Kategorie AND Usporadani.Uzivatel = '1'";
+    qDebug() << "Query: " << Query;
     QMap<QString, QStringList> data = network.getData(Query);
     qDebug() << "Data: " << data;
     ui->categories->setColumnHidden(1, 1);
@@ -45,6 +49,8 @@ void PPPart::getAllData()
 
 void PPPart::on_categories_itemClicked(QTreeWidgetItem *item, int column)
 {
+    (void) item; // dont care
+    (void) column; // dont care
     qDebug() << "left bar";
 }
 

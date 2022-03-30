@@ -9,6 +9,7 @@
 #include <QtNetwork/QNetworkAccessManager>
 #include <QUrl>
 #include <QUrlQuery>
+#include <QCompleter>
 
 #include "networksql.h"
 #include "category.h"
@@ -41,6 +42,14 @@ private slots:
 
     void on_Kategorie_3_pressed();
 
+    void on_Kategorie_2_textChanged(const QString &arg1);
+
+    void on_pushButton_pressed();
+
+    void on_comboBox_currentTextChanged(const QString &arg1);
+
+    void on_Stav_2_selectionChanged();
+
 private:
     Ui::Prijem_novy_1 *ui;
 
@@ -53,7 +62,9 @@ private:
     QStringList array;
 
     NetworkSQL network;
-    Category Category;
+    Category category;
+
+    QString categoryID;
 
     void Update_list();
     void Show_secondary_input();
