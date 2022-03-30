@@ -163,50 +163,6 @@ void Prijem_novy_1::on_tableWidget_doubleClicked(const QModelIndex &index)
             AND kategorie.Soucastka = "+ui->tableWidget->item(index.row(), 0)->text();
 
     QMap<QString, QStringList> data = network.getData(Query);
-
-    ui->Nazev_2->setText(data["Name"][0]);
-    ui->EAN_2->setText(data["EAN"][0]);
-    ui->Obj_cislo_2->setText(data["obj_cislo"][0]);
-    ui->Vyr_cislo_2->setText(data["vyr_cislo"][0]);
-
-    if(data["Vyrobce_W"][0] != QString("")) ui->Kategorie_2->setText(data["Vyrobce_W"][0]);
-    else if(data["Vyrobce_S"][0] != QString("")){
-        QString Query = "SELECT `Název` AS 'Name' FROM `Výrobci` WHERE `ID` = "+data["Vyrobce_S"][0];
-        QMap<QString, QStringList> producer = network.getData(Query);
-        ui->Kategorie_2->setText(producer["Name"][0]);
-    }
-    else ui->Kategorie_2->setText(QString(""));
-
-    ui->Nazev->setEnabled(0);
-    ui->EAN->setEnabled(0);
-    ui->Obj_cislo->setEnabled(0);
-    ui->Vyr_cislo->setEnabled(0);
-    ui->checkBox->setEnabled(0);
-    Show_secondary_input();
-}
-
-    QString Query = "SELECT Nazev.ID AS 'ID',\
-            Nazev.Název AS 'Name',\
-            EAN.EAN AS 'EAN',\
-            OBJ_cislo.`Objednací číslo` AS 'obj_cislo',\
-            VYR_cislo.`Číslo výrobce` AS 'vyr_cislo',\
-            Vyrobce.Výrobce_W AS 'Vyrobce_W',\
-            Vyrobce.Výrobce_S AS 'Vyrobce_S',\
-            kategorie.`Kategorie` AS 'Kategorie'\
-            FROM `Interni_ID` Nazev,\
-            `EAN` EAN,\
-            `Objednací číslo` OBJ_cislo,\
-            `Číslo výrobce` VYR_cislo,\
-            `Výrobce` Vyrobce,\
-            `Prirazeni_kategorii` kategorie\
-            WHERE Nazev.ID = "+ui->tableWidget->item(index.row(), 0)->text()+"\
-            AND EAN.Interni_ID = "+ui->tableWidget->item(index.row(), 0)->text()+"\
-            AND OBJ_cislo.Interni_ID = "+ui->tableWidget->item(index.row(), 0)->text()+"\
-            AND VYR_cislo.Interni_ID = "+ui->tableWidget->item(index.row(), 0)->text()+"\
-            AND Vyrobce.Interni_ID = "+ui->tableWidget->item(index.row(), 0)->text()+"\
-            AND kategorie.Soucastka = "+ui->tableWidget->item(index.row(), 0)->text();
-
-    QMap<QString, QStringList> data = network.getData(Query);
     qDebug() << "Data for completion" << data;
     ui->Nazev_2->setText(data["Name"][0]);
     ui->EAN_2->setText(data["EAN"][0]);
@@ -229,7 +185,7 @@ void Prijem_novy_1::on_tableWidget_doubleClicked(const QModelIndex &index)
     ui->EAN->setEnabled(0);
     ui->Obj_cislo->setEnabled(0);
     ui->Vyr_cislo->setEnabled(0);
-    ui->New_Part->setEnabled(0);
+    ui->NewPart->setEnabled(0);
 
     Show_secondary_input();
 }
@@ -299,7 +255,7 @@ void Prijem_novy_1::Hide_new_input()
 void Prijem_novy_1::on_Kategorie_3_pressed()
 {
 
-    Category.show();
+    category.show();
 
     if(category.exec() == QDialog::Accepted){
       // You can access everything you need in dialog object
@@ -342,17 +298,3 @@ void Prijem_novy_1::on_Currency_currentTextChanged(const QString &arg1)
     else ui->Date_exchange->hide();
 
 }
-
-
-void Prijem_novy_1::on_comboBox_currentTextChanged(const QString &arg1)
-{
-    if(arg1 != "Kč") ui->Date_exchange->show();
-    else ui->Date_exchange->hide();
-}
-
-void Prijem_novy_1::on_Stav_2_selectionChanged()
-{
-    qDebug() << "Nice";
-    Show_secondary_input();
-}
-
