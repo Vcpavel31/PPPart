@@ -15,58 +15,36 @@
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
-    <item row="1" column="1">
-     <widget class="QLabel" name="pozn">
-      <property name="text">
-       <string>Měnění prostřední tabulky popřípadě textu v prvém tabWidgetu</string>
-      </property>
-      <property name="scaledContents">
-       <bool>true</bool>
-      </property>
-      <property name="wordWrap">
-       <bool>true</bool>
-      </property>
-     </widget>
-    </item>
     <item row="0" column="0" rowspan="2" colspan="2">
      <layout class="QGridLayout" name="gridLayout_2">
-      <item row="0" column="0">
-       <layout class="QHBoxLayout" name="horizontalLayout">
-        <item>
-         <widget class="QPushButton" name="income">
-          <property name="text">
-           <string>Příjem</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QPushButton" name="outcome">
-          <property name="text">
-           <string>Výdej</string>
-          </property>
-         </widget>
-        </item>
-       </layout>
+      <item row="0" column="5">
+       <widget class="QPushButton" name="filters">
+        <property name="text">
+         <string>Filtry</string>
+        </property>
+       </widget>
       </item>
-      <item row="0" column="3">
-       <layout class="QHBoxLayout" name="horizontalLayout_2">
-        <item>
-         <widget class="QPushButton" name="print">
-          <property name="text">
-           <string>Tisk</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QPushButton" name="filters">
-          <property name="text">
-           <string>Filtry</string>
-          </property>
-         </widget>
-        </item>
-       </layout>
+      <item row="0" column="7">
+       <spacer name="horizontalSpacer_3">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
       </item>
-      <item row="1" column="5" colspan="2">
+      <item row="0" column="1">
+       <widget class="QPushButton" name="outcome">
+        <property name="text">
+         <string>Výdej</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="7" colspan="4">
        <widget class="QTabWidget" name="INFO">
         <property name="currentIndex">
          <number>1</number>
@@ -83,42 +61,14 @@
         </widget>
        </widget>
       </item>
-      <item row="0" column="6">
-       <layout class="QHBoxLayout" name="horizontalLayout_3">
-        <item>
-         <widget class="QPushButton" name="login">
-          <property name="text">
-           <string>Přihlášení</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QPushButton" name="settings">
-          <property name="text">
-           <string>Nastavení</string>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
-      <item row="1" column="0" colspan="2">
-       <widget class="QTreeWidget" name="categories">
-        <column>
-         <property name="text">
-          <string>Kategorie</string>
-         </property>
-        </column>
-        <column>
-         <property name="text">
-          <string notr="true">ID</string>
-         </property>
-         <property name="toolTip">
-          <string notr="true"/>
-         </property>
-        </column>
+      <item row="0" column="4">
+       <widget class="QPushButton" name="print">
+        <property name="text">
+         <string>Tisk</string>
+        </property>
        </widget>
       </item>
-      <item row="0" column="2">
+      <item row="0" column="3">
        <spacer name="horizontalSpacer">
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
@@ -131,20 +81,14 @@
         </property>
        </spacer>
       </item>
-      <item row="0" column="4">
-       <spacer name="horizontalSpacer_2">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
+      <item row="0" column="9">
+       <widget class="QPushButton" name="login">
+        <property name="text">
+         <string>Přihlášení</string>
         </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>40</width>
-          <height>20</height>
-         </size>
-        </property>
-       </spacer>
+       </widget>
       </item>
-      <item row="1" column="2" colspan="3">
+      <item row="1" column="3" colspan="4">
        <widget class="QTreeWidget" name="parts">
         <column>
          <property name="text">
@@ -402,14 +346,45 @@
         </item>
        </widget>
       </item>
-      <item row="0" column="5">
-       <spacer name="horizontalSpacer_3">
+      <item row="0" column="8">
+       <widget class="QPushButton" name="settings">
+        <property name="text">
+         <string>Nastavení</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0">
+       <widget class="QPushButton" name="income">
+        <property name="text">
+         <string>Příjem</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0" colspan="2">
+       <widget class="QTreeWidget" name="categories">
+        <column>
+         <property name="text">
+          <string>Kategorie</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string notr="true">ID</string>
+         </property>
+         <property name="toolTip">
+          <string notr="true"/>
+         </property>
+        </column>
+       </widget>
+      </item>
+      <item row="0" column="6">
+       <spacer name="horizontalSpacer_2">
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
         </property>
         <property name="sizeHint" stdset="0">
          <size>
-          <width>20</width>
+          <width>40</width>
           <height>20</height>
          </size>
         </property>
@@ -418,6 +393,25 @@
      </layout>
     </item>
    </layout>
+   <widget class="QLabel" name="pozn">
+    <property name="geometry">
+     <rect>
+      <x>674</x>
+      <y>404</y>
+      <width>664</width>
+      <height>395</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Měnění prostřední tabulky popřípadě textu v prvém tabWidgetu</string>
+    </property>
+    <property name="scaledContents">
+     <bool>true</bool>
+    </property>
+    <property name="wordWrap">
+     <bool>true</bool>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
