@@ -14,6 +14,9 @@ NetworkSQL::NetworkSQL(QObject *parent)
 //TODO bug fix when enter more unknown component in to name
 QMap<QString, QStringList> NetworkSQL::getData(QString Query)
 {
+
+    qDebug() << "URL" << Address;
+
     QMap<QString, QStringList> temp;
 
     QUrl url(Address);

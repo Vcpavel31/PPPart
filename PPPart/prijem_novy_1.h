@@ -38,17 +38,15 @@ private slots:
 
     void on_tableWidget_doubleClicked(const QModelIndex &index);
 
-    void on_checkBox_stateChanged(int arg1);
-
     void on_Kategorie_3_pressed();
 
     void on_Kategorie_2_textChanged(const QString &arg1);
 
     void on_pushButton_pressed();
 
-    void on_comboBox_currentTextChanged(const QString &arg1);
+    void on_New_Part_stateChanged(int arg1);
 
-    void on_Stav_2_selectionChanged();
+    void on_Currency_currentTextChanged(const QString &arg1);
 
 private:
     Ui::Prijem_novy_1 *ui;

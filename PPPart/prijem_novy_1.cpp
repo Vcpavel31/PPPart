@@ -42,9 +42,17 @@ Prijem_novy_1::Prijem_novy_1(QWidget *parent) :
     ui->Date_exchange->hide();
     Update_list();
 
+    QString Query = "SELECT `Nazev` AS 'Name' FROM `Kategorie` WHERE `ID` IN (SELECT `Kategorie` FROM `Usporadani_kategorii` WHERE `Uzivatel` = 1)";
+    QMap<QString, QStringList> data = network.getData(Query);
+
+    QCompleter *Category_Completer = new QCompleter(data["Name"], this);
+    Category_Completer->setCaseSensitivity(Qt::CaseInsensitive);
+    ui->Kategorie_2->setCompleter(Category_Completer);
+      
     ui->Hodnota_3->setCurrentIndex(4); // Default to --
 
     //connect(Stav_2, SIGNAL())
+
 }
 
 Prijem_novy_1::~Prijem_novy_1()
@@ -177,22 +185,60 @@ void Prijem_novy_1::on_tableWidget_doubleClicked(const QModelIndex &index)
     Show_secondary_input();
 }
 
+    QString Query = "SELECT Nazev.ID AS 'ID',\
+            Nazev.Název AS 'Name',\
+            EAN.EAN AS 'EAN',\
+            OBJ_cislo.`Objednací číslo` AS 'obj_cislo',\
+            VYR_cislo.`Číslo výrobce` AS 'vyr_cislo',\
+            Vyrobce.Výrobce_W AS 'Vyrobce_W',\
+            Vyrobce.Výrobce_S AS 'Vyrobce_S',\
+            kategorie.`Kategorie` AS 'Kategorie'\
+            FROM `Interni_ID` Nazev,\
+            `EAN` EAN,\
+            `Objednací číslo` OBJ_cislo,\
+            `Číslo výrobce` VYR_cislo,\
+            `Výrobce` Vyrobce,\
+            `Prirazeni_kategorii` kategorie\
+            WHERE Nazev.ID = "+ui->tableWidget->item(index.row(), 0)->text()+"\
+            AND EAN.Interni_ID = "+ui->tableWidget->item(index.row(), 0)->text()+"\
+            AND OBJ_cislo.Interni_ID = "+ui->tableWidget->item(index.row(), 0)->text()+"\
+            AND VYR_cislo.Interni_ID = "+ui->tableWidget->item(index.row(), 0)->text()+"\
+            AND Vyrobce.Interni_ID = "+ui->tableWidget->item(index.row(), 0)->text()+"\
+            AND kategorie.Soucastka = "+ui->tableWidget->item(index.row(), 0)->text();
 
-void Prijem_novy_1::on_checkBox_stateChanged(int arg1)
-{
-    qDebug()<<arg1;
-    if(!arg1){
-        Hide_secondary_input();
-        Hide_new_input();
+    QMap<QString, QStringList> data = network.getData(Query);
+    qDebug() << "Data for completion" << data;
+    ui->Nazev_2->setText(data["Name"][0]);
+    ui->EAN_2->setText(data["EAN"][0]);
+    ui->Obj_cislo_2->setText(data["obj_cislo"][0]);
+    ui->Vyr_cislo_2->setText(data["vyr_cislo"][0]);
+
+    if(data["Vyrobce_W"][0] != QString("")) ui->Vyrobce_2->setText(data["Vyrobce_W"][0]);
+    else if(data["Vyrobce_S"][0] != QString("")){
+        QString Query = "SELECT `Název` AS 'Name' FROM `Výrobci` WHERE `ID` = "+data["Vyrobce_S"][0];
+        QMap<QString, QStringList> producer = network.getData(Query);
+        ui->Vyrobce_2->setText(producer["Name"][0]);
     }
-    else{
-        Show_secondary_input();
-        Show_new_input();
-    }
+    else ui->Vyrobce_2->setText(QString(""));
+
+    Query = "SELECT `Nazev` AS 'Category_Name' FROM `Kategorie` WHERE `ID` = "+data["Kategorie"][0];
+    QMap<QString, QStringList> Category_Name = network.getData(Query);
+    ui->Kategorie_2->setText(Category_Name["Name"][0]);
+
+    ui->Nazev->setEnabled(0);
+    ui->EAN->setEnabled(0);
+    ui->Obj_cislo->setEnabled(0);
+    ui->Vyr_cislo->setEnabled(0);
+    ui->New_Part->setEnabled(0);
+
+    Show_secondary_input();
 }
 
 void Prijem_novy_1::Show_secondary_input()
 {
+
+    ui->tableWidget->hide();
+
     ////////////////////////////////////////// ZÍSKÁNÍ STAVŮ PRO AUTOMATICKÉ DOPLNĚNÍ
     QString Query = "SELECT `Název` AS 'Name' FROM `Stavy` WHERE 1";
     QMap<QString, QStringList> data = network.getData(Query);
@@ -252,6 +298,9 @@ void Prijem_novy_1::Hide_new_input()
 
 void Prijem_novy_1::on_Kategorie_3_pressed()
 {
+
+    Category.show();
+
     if(category.exec() == QDialog::Accepted){
       // You can access everything you need in dialog object
         QTreeWidgetItem item = category.getSelectedItem();
@@ -269,7 +318,29 @@ void Prijem_novy_1::on_Kategorie_2_textChanged(const QString &arg1)
 
 void Prijem_novy_1::on_pushButton_pressed()
 {
-    ui->checkBox->setChecked(true);
+    ui->New_Part->setChecked(true);
+}
+
+
+void Prijem_novy_1::on_New_Part_stateChanged(int arg1)
+{
+    qDebug()<<arg1;
+    if(!arg1){
+        Hide_secondary_input();
+        Hide_new_input();
+    }
+    else{
+        Show_secondary_input();
+        Show_new_input();
+    }
+}
+
+
+void Prijem_novy_1::on_Currency_currentTextChanged(const QString &arg1)
+{
+    if(arg1 != "Kč") ui->Date_exchange->show();
+    else ui->Date_exchange->hide();
+
 }
 
 
