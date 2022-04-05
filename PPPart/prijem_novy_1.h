@@ -60,6 +60,7 @@ private:
     QString Response = "";
 
     QStringList array;
+    QStringList Enabled_Categories;
 
     NetworkSQL network;
     Category category;

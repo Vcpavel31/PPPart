@@ -45,8 +45,8 @@ Prijem_novy_1::Prijem_novy_1(QWidget *parent) :
 
     QString Query = "SELECT `Nazev` AS 'Name' FROM `Kategorie` WHERE `ID` IN (SELECT `Kategorie` FROM `Usporadani_kategorii` WHERE `Uzivatel` = 1)";
     QMap<QString, QStringList> data = network.getData(Query);
-
-    QCompleter *Category_Completer = new QCompleter(data["Name"], this);
+    Enabled_Categories = data["Name"];
+    QCompleter *Category_Completer = new QCompleter(Enabled_Categories, this);
     Category_Completer->setCaseSensitivity(Qt::CaseInsensitive);
     ui->Kategorie_2->setCompleter(Category_Completer);
       
@@ -256,7 +256,8 @@ void Prijem_novy_1::on_Kategorie_3_pressed()
 void Prijem_novy_1::on_Kategorie_2_textChanged(const QString &arg1)
 {
     categoryID.clear();
-    //if(arg1 )
+    if(Enabled_Categories.indexOf(arg1) == -1) ui->Kategorie_Warning->show();
+    else ui->Kategorie_Warning->hide();
 }
 
 
