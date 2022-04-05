@@ -48,6 +48,8 @@ private slots:
 
     void on_Currency_currentTextChanged(const QString &arg1);
 
+    void on_Stav_2_selectionChanged();
+
 private:
     Ui::Prijem_novy_1 *ui;
 
