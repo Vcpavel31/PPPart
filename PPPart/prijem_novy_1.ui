@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1334</width>
-    <height>591</height>
+    <height>641</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -402,7 +402,7 @@
     </widget>
    </item>
    <item row="6" column="0">
-    <widget class="QCheckBox" name="checkBox">
+    <widget class="QCheckBox" name="New_Part">
      <property name="font">
       <font>
        <pointsize>15</pointsize>
@@ -509,7 +509,7 @@
         </property>
        </widget>
       </item>
-      <item>
+       <item>
        <widget class="QLabel" name="Kategorie_Warning">
         <property name="enabled">
          <bool>true</bool>
@@ -762,8 +762,6 @@
    </item>
   </layout>
  </widget>
- <resources>
-  <include location="breeze.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>
