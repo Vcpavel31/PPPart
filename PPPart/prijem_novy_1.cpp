@@ -37,6 +37,7 @@ Prijem_novy_1::Prijem_novy_1(QWidget *parent) :
     ui->Int_oznaceni->hide();
 
     ui->NewPart->hide();
+    ui->Kategorie_Warning->hide();
 
     ui->Date_exchange->setDate(QDate::currentDate());
     ui->Date_exchange->hide();
@@ -212,20 +213,6 @@ void Prijem_novy_1::Show_secondary_input()
     ui->Poznamka->show();
     ui->Polozek->show();
 
-    /*
-    /// https://stackoverflow.com/questions/6452077/how-to-get-click-event-of-qlineedit-in-qt
-    /// Pro každý line edit (nyní combobox, který má v databázi předchystaný výběr
-    /// Have fun Pěťo :D
-    */
-
-    if(ui->Stav_2->text().isEmpty())
-    {
-        ui->Stav_2->completer()->setCompletionPrefix("");
-        ui->Stav_2->completer()->complete();
-    }
-
-    ///
-
 }
 
 void Prijem_novy_1::Hide_secondary_input()
@@ -269,6 +256,7 @@ void Prijem_novy_1::on_Kategorie_3_pressed()
 void Prijem_novy_1::on_Kategorie_2_textChanged(const QString &arg1)
 {
     categoryID.clear();
+    //if(arg1 )
 }
 
 
@@ -291,10 +279,15 @@ void Prijem_novy_1::on_New_Part_stateChanged(int arg1)
     }
 }
 
+// Při dvojkliku na textfield stav se zobrazí nabídka
+void Prijem_novy_1::on_Stav_2_selectionChanged()
+{
+    ui->Stav_2->completer()->setCompletionPrefix("");
+    ui->Stav_2->completer()->complete();
+}
 
 void Prijem_novy_1::on_Currency_currentTextChanged(const QString &arg1)
 {
     if(arg1 != "Kč") ui->Date_exchange->show();
     else ui->Date_exchange->hide();
-
 }
