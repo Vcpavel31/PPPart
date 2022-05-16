@@ -49,7 +49,14 @@ Prijem_novy_1::Prijem_novy_1(QWidget *parent) :
     QCompleter *Category_Completer = new QCompleter(Enabled_Categories, this);
     Category_Completer->setCaseSensitivity(Qt::CaseInsensitive);
     ui->Kategorie_2->setCompleter(Category_Completer);
-      
+
+    Query = "SELECT `Název` AS 'Name' FROM `Dodavatelé` WHERE 1";
+    data = network.getData(Query);
+    Enabled_Categories = data["Name"];
+    QCompleter *Distribution_Completer = new QCompleter(Enabled_Categories, this);
+    Distribution_Completer->setCaseSensitivity(Qt::CaseInsensitive);
+    ui->Dodavatel_2->setCompleter(Distribution_Completer);
+
     ui->Hodnota_3->setCurrentIndex(4); // Default to --
 
     //connect(Stav_2, SIGNAL())
@@ -63,47 +70,48 @@ Prijem_novy_1::~Prijem_novy_1()
 
 void Prijem_novy_1::Update_list()
 {
+    if(updateable){
+        QString Query = "SELECT Nazev.ID AS 'ID',Nazev.Název AS 'Name',EAN.EAN AS 'EAN' FROM Interni_ID Nazev, EAN EAN WHERE Nazev.ID = EAN.Interni_ID AND Nazev.Název LIKE '"+Nazev+"' AND Nazev.ID IN (\
+                    SELECT `Interni_ID` FROM `Objednací číslo` WHERE "+Obj_cislo+" AND `Interni_ID` IN (\
+                    SELECT `Interni_ID` FROM `EAN` WHERE "+EAN+"  AND `Interni_ID` IN (\
+                    SELECT `Interni_ID` FROM `Číslo výrobce` WHERE "+Vyr_cislo+" ) ) )";
 
-    QString Query = "SELECT Nazev.ID AS 'ID',Nazev.Název AS 'Name',EAN.EAN AS 'EAN' FROM Interni_ID Nazev, EAN EAN WHERE Nazev.ID = EAN.Interni_ID AND Nazev.Název LIKE '"+Nazev+"' AND Nazev.ID IN (\
-                SELECT `Interni_ID` FROM `Objednací číslo` WHERE "+Obj_cislo+" AND `Interni_ID` IN (\
-                SELECT `Interni_ID` FROM `EAN` WHERE "+EAN+"  AND `Interni_ID` IN (\
-                SELECT `Interni_ID` FROM `Číslo výrobce` WHERE "+Vyr_cislo+" ) ) )";
 
-
-    QMap<QString, QStringList> data = network.getData(Query);
-    qDebug() << "Data: " << data;
-    ui->tableWidget->setRowCount(0);
-    if(!data.keys().contains("ID")||!data.keys().contains("Name")||!data.keys().contains("EAN"))
-        {
-            qDebug() << "Didnt get ID, Name or EAN";
-            ui->NewPart->show();
-            return;
-    }
-    for(int i = 0; i != data["ID"].size(); i++)
-    {
-        if(!data["ID"].at(i).isEmpty())
-          {
-            ui->tableWidget->insertRow(ui->tableWidget->rowCount());
-            ui->tableWidget->setItem(ui->tableWidget->rowCount()-1, 0, new QTableWidgetItem(data["ID"].at(i)));
-            ui->NewPart->hide();
-        }
-        else
+        QMap<QString, QStringList> data = network.getData(Query);
+        qDebug() << "Data: " << data;
+        ui->tableWidget->setRowCount(0);
+        if(!data.keys().contains("ID")||!data.keys().contains("Name")||!data.keys().contains("EAN"))
             {
-                qDebug() << "ERROR: didnt receive ID";
+                qDebug() << "Didnt get ID, Name or EAN";
                 ui->NewPart->show();
+                return;
         }
+        for(int i = 0; i != data["ID"].size(); i++)
+        {
+            if(!data["ID"].at(i).isEmpty())
+              {
+                ui->tableWidget->insertRow(ui->tableWidget->rowCount());
+                ui->tableWidget->setItem(ui->tableWidget->rowCount()-1, 0, new QTableWidgetItem(data["ID"].at(i)));
+                ui->NewPart->hide();
+            }
+            else
+                {
+                    qDebug() << "ERROR: didnt receive ID";
+                    ui->NewPart->show();
+            }
 
-        if(!data["Name"].at(i).isEmpty())
-            ui->tableWidget->setItem(ui->tableWidget->rowCount()-1, 1, new QTableWidgetItem(data["Name"].at(i)));
-        else
-            qDebug() << "ERROR: didnt receive Name";
+            if(!data["Name"].at(i).isEmpty())
+                ui->tableWidget->setItem(ui->tableWidget->rowCount()-1, 1, new QTableWidgetItem(data["Name"].at(i)));
+            else
+                qDebug() << "ERROR: didnt receive Name";
 
-        if(!data["EAN"].at(i).isEmpty())
-            ui->tableWidget->setItem(ui->tableWidget->rowCount()-1, 2, new QTableWidgetItem(data["EAN"].at(i)));
-        else
-            qDebug() << "ERROR: didnt receive EAN";
-        }
-    ui->tableWidget->update();
+            if(!data["EAN"].at(i).isEmpty())
+                ui->tableWidget->setItem(ui->tableWidget->rowCount()-1, 2, new QTableWidgetItem(data["EAN"].at(i)));
+            else
+                qDebug() << "ERROR: didnt receive EAN";
+            }
+        ui->tableWidget->update();
+    }
 }
 
 void Prijem_novy_1::on_Nazev_2_textChanged(const QString &arg1)
@@ -140,6 +148,7 @@ void Prijem_novy_1::on_Vyr_cislo_2_textChanged(const QString &arg1)
 
 void Prijem_novy_1::on_tableWidget_doubleClicked(const QModelIndex &index)
 {
+    updateable = false;
     qDebug()<<ui->tableWidget->item(index.row(), 0)->text();
 
     QString Query = "SELECT Nazev.ID AS 'ID',\
@@ -169,7 +178,7 @@ void Prijem_novy_1::on_tableWidget_doubleClicked(const QModelIndex &index)
     ui->EAN_2->setText(data["EAN"][0]);
     ui->Obj_cislo_2->setText(data["obj_cislo"][0]);
     ui->Vyr_cislo_2->setText(data["vyr_cislo"][0]);
-
+    qDebug() << "Data for vyrobce";
     if(data["Vyrobce_W"][0] != QString("")) ui->Vyrobce_2->setText(data["Vyrobce_W"][0]);
     else if(data["Vyrobce_S"][0] != QString("")){
         QString Query = "SELECT `Název` AS 'Name' FROM `Výrobci` WHERE `ID` = "+data["Vyrobce_S"][0];
@@ -178,16 +187,20 @@ void Prijem_novy_1::on_tableWidget_doubleClicked(const QModelIndex &index)
     }
     else ui->Vyrobce_2->setText(QString(""));
 
+
+
     Query = "SELECT `Nazev` AS 'Category_Name' FROM `Kategorie` WHERE `ID` = "+data["Kategorie"][0];
     QMap<QString, QStringList> Category_Name = network.getData(Query);
-    ui->Kategorie_2->setText(Category_Name["Name"][0]);
-
+    qDebug() << "Data for Kategorie" << Category_Name;
+    ui->Kategorie_2->setText(Category_Name["Category_Name"][0]);
+    qDebug() << "Enabling";
     ui->Nazev->setEnabled(0);
     ui->EAN->setEnabled(0);
     ui->Obj_cislo->setEnabled(0);
     ui->Vyr_cislo->setEnabled(0);
-    ui->NewPart->setEnabled(0);
-
+    ui->New_Part->setEnabled(0);
+    ui->NewPart->hide();
+    qDebug() << "Showing secondary";
     Show_secondary_input();
 }
 
@@ -218,6 +231,7 @@ void Prijem_novy_1::Show_secondary_input()
 void Prijem_novy_1::Hide_secondary_input()
 {
     ui->tableWidget->setEnabled(1);
+    ui->tableWidget->show();
 
     ui->Umisteni->hide();
     ui->Dodavatel->hide();
@@ -231,12 +245,14 @@ void Prijem_novy_1::Show_new_input()
 {
     ui->Kategorie->setEnabled(1);
     ui->Vyrobce->setEnabled(1);
+    ui->NewPart->hide();
 }
 
 void Prijem_novy_1::Hide_new_input()
 {
     ui->Kategorie->setEnabled(0);
     ui->Vyrobce->setEnabled(0);
+    ui->NewPart->show();
 }
 
 void Prijem_novy_1::on_Kategorie_3_pressed()

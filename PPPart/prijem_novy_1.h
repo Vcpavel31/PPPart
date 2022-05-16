@@ -66,6 +66,7 @@ private:
     Category category;
 
     QString categoryID;
+    bool updateable = true;
 
     void Update_list();
     void Show_secondary_input();

@@ -32,6 +32,7 @@ FORMS += \
     nastaveni.ui \
     pppart.ui \
     prijem_novy_1.ui \
+    vyber_skladu.ui \
     vydej_1.ui
 
 TRANSLATIONS += \

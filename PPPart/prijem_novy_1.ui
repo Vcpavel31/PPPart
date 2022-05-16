@@ -299,6 +299,11 @@
           <string>$</string>
          </property>
         </item>
+        <item>
+         <property name="text">
+          <string>£</string>
+         </property>
+        </item>
        </widget>
       </item>
       <item>
@@ -509,7 +514,7 @@
         </property>
        </widget>
       </item>
-       <item>
+      <item>
        <widget class="QLabel" name="Kategorie_Warning">
         <property name="enabled">
          <bool>true</bool>
@@ -762,6 +767,8 @@
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="breeze.qrc"/>
+ </resources>
  <connections/>
 </ui>

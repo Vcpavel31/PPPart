@@ -24,8 +24,6 @@ QMap<QString, QStringList> NetworkSQL::getData(QString Query)
 
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
 
-    qDebug() << Address;
-
     QUrlQuery params;
     params.addQueryItem("User", User);
     params.addQueryItem("Pass", Pass);
