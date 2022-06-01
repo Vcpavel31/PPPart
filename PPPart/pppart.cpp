@@ -11,27 +11,25 @@ PPPart::PPPart(QWidget *parent)
 
     getAllData();
 
-    QString Query = "SELECT Kategorie.ID AS 'ID',\
-                     Kategorie.Nazev AS 'Nazev',\
-                     Usporadani.Nadrazena AS 'Nadrazena'\
-                     FROM Kategorie Kategorie, Usporadani_kategorii Usporadani\
-                     WHERE Kategorie.ID = Usporadani.Kategorie AND Usporadani.Uzivatel = '1'";
+    QString Query = "SELECT `Categories`.ID AS 'ID',\
+                     `Categories`.`Name` AS 'Name',\
+                     `Categories_Arrangement`.`Ordered` AS 'Ordered'\
+                     FROM `Categories`, `Categories_Arrangement`\
+                     WHERE `Categories`.ID = `Categories_Arrangement`.`Category` AND `Categories`.`Hidden` = '0'";
     qDebug() << "Query: " << Query;
     QMap<QString, QStringList> data = network.getData(Query);
     qDebug() << "Data: " << data;
     ui->categories->setColumnHidden(1, 1);
     ui->categories->clear();
-    for(int i = 0; i != data["ID"].size(); i++)
-    {
-        if(data["Nadrazena"][i].isEmpty()){
-            ui->categories->insertTopLevelItem(ui->categories->topLevelItemCount(), new QTreeWidgetItem(QStringList({data["Nazev"][i], data["ID"][i]})));
+    for(int i = 0; i != data["ID"].size(); i++){
+        if(data["Ordered"][i].isEmpty()){
+            ui->categories->insertTopLevelItem(ui->categories->topLevelItemCount(), new QTreeWidgetItem(QStringList({data["Name"][i], data["ID"][i]})));
         }
         else{
-            QList<QTreeWidgetItem *> items = ui->categories->findItems(data["Nadrazena"][i], Qt::MatchExactly|Qt::MatchRecursive, 1);
-            if(!items.isEmpty()) // parent item exists
-                {
+            QList<QTreeWidgetItem *> items = ui->categories->findItems(data["Ordered"][i], Qt::MatchExactly|Qt::MatchRecursive, 1);
+            if(!items.isEmpty()){ // parent item exists
                 //only one item with same ID => at(0)
-                items.at(0)->addChild(new QTreeWidgetItem(QStringList({data["Nazev"][i], data["ID"][i]})));
+                items.at(0)->addChild(new QTreeWidgetItem(QStringList({data["Name"][i], data["ID"][i]})));
                 qDebug() << "Parent item exists: " << items.at(0)->text(0);
             }
         }
@@ -49,15 +47,40 @@ void PPPart::getAllData()
 
 void PPPart::on_categories_itemClicked(QTreeWidgetItem *item, int column)
 {
+    ui->parts->clear();
+    qDebug() << "left bar" << item->text(1);
+
+    //////////////////////////////////////////////////////////////////////////////////
+    /// TODO: Z DB získat jaké sloupce u vybrané kategorie jsou a na ty připravit Treewidget
+    /// TODO: Připravý z DB query pro další atributy které nejsou v halvní tabulce položek
+
+
+    /////////////////////////////////////////////////////////////////////////////////
+    /// \brief Data součástek
+    /// Získání informací o jednotlivých položkách ve skladu odpovídajícím kategorii
+
+    QString Query = ("SELECT `Item_ID` AS 'ID' FROM `Items_Categories` WHERE `Category_ID` = "+item->text(1));
+    QMap<QString, QStringList> items = network.getData(Query);
+    qDebug() << "Data: " << items;
+    for(int i = 0; i != items["ID"].size(); i++){
+        Query = ("SELECT `ID`,`Name`, `EAN`, `Product_number` FROM `Items` WHERE `ID` = "+items["ID"][i]);
+        QMap<QString, QStringList> data = network.getData(Query);
+        qDebug() << "Polozka: " << data;
+        for(int j = 0; j != data["ID"].size(); j++){
+            ui->parts->insertTopLevelItem(ui->parts->topLevelItemCount(), new QTreeWidgetItem(QStringList({data["ID"][j], data["EAN"][j], data["Name"][j], data["Product_number"][j]})));
+        }
+        
+    }
+    ui->parts->update();
     (void) item; // dont care
     (void) column; // dont care
-    qDebug() << "left bar";
 }
 
 
 void PPPart::on_settings_pressed()
 {
-    network.getData("SELECT `Interni_ID`, `EAN` FROM `EAN` WHERE `EAN` LIKE '%12%'");
+    // ?????????????????????????????????????????????????????????????
+    // network.getData("SELECT `Interni_ID`, `EAN` FROM `EAN` WHERE `EAN` LIKE '%12%'");
 }
 
 void PPPart::on_parts_itemDoubleClicked(QTreeWidgetItem *item, int column)
