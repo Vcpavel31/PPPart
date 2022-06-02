@@ -89,28 +89,7 @@
        </widget>
       </item>
       <item row="1" column="3" colspan="4">
-       <widget class="QTreeWidget" name="parts">
-        <column>
-         <property name="text">
-          <string>ID</string>
-         </property>
-        </column>
-        <column>
-         <property name="text">
-          <string>EAN</string>
-         </property>
-        </column>
-        <column>
-         <property name="text">
-          <string>Název</string>
-         </property>
-        </column>
-        <column>
-         <property name="text">
-          <string>Číslo výrobce</string>
-         </property>
-        </column>
-       </widget>
+       <widget class="QTreeWidget" name="parts"/>
       </item>
       <item row="0" column="8">
        <widget class="QPushButton" name="settings">

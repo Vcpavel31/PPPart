@@ -30,7 +30,7 @@ QNetworkReply::NetworkError NetworkSQL::pushData(QString Query)
     connect(reply, SIGNAL(finished()), &loop, SLOT(quit()));
     loop.exec();
 
-    reply->readAll();
+    //reply->readAll();
 
     return reply->error();
 }

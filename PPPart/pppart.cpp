@@ -48,19 +48,42 @@ void PPPart::on_categories_itemClicked(QTreeWidgetItem *item, int column)
     ui->parts->clear();
     qDebug() << "left bar" << item->text(1);
 
+
+
     //////////////////////////////////////////////////////////////////////////////////
     /// TODO: Z DB získat jaké sloupce u vybrané kategorie jsou a na ty připravit Treewidget
     /// TODO: Připravý z DB query pro další atributy které nejsou v halvní tabulce položek
-    QString Query = ("SELECT `Attributes` FROM `Categories_Attributes` WHERE `Hidden` = 0 AND `Category` = "+item->text(1));
+    QString Query = ("  SELECT  `Attributes`.*\
+                        FROM    `Attributes`, `Categories_Attributes`, `Categories_Arrangement`\
+                        WHERE   `Attributes`.`ID` = `Categories_Attributes`.`Attributes` AND\
+                                `Categories_Attributes`.`Hidden` = 0 AND\
+                                `Categories_Attributes`.`Category` = `Categories_Arrangement`.`Category` AND (\
+                                    (`Categories_Arrangement`.`Category` = "+item->text(1)+")\
+                                )");
+//                                    (`Categories_Arrangement`.`Ordered` = "+item->text(1)+") OR
+
     qDebug() << Query;
     QMap<QString, QStringList> attributes = network.getData(Query);
-    qDebug() << attributes;
-
+    //qDebug() << attributes;
+    QStringList labels = {"ID"};
+    for(int h = 0; h!= attributes["ID"].size(); h++){
+        //qDebug() << attributes["Attribute_Name"][h];
+        //ui->parts->setColumnCount(ui->parts->columnCount()+1);
+        labels << attributes["Attribute_Name"][h];
+        //qDebug() << network.pushData("INSERT INTO `Attributes`(`Attribute_Name`) VALUES ('Barva')");
+    }
+    ui->parts->setColumnCount(labels.count());
+    ui->parts->setHeaderLabels(labels);
     /////////////////////////////////////////////////////////////////////////////////
     /// \brief Data součástek
     /// Získání informací o jednotlivých položkách ve skladu odpovídajícím kategorii
 
-    Query = ("SELECT `Item_ID` AS 'ID' FROM `Categories_Items` WHERE `Category_ID` = "+item->text(1));
+    Query = ("  SELECT `Categories_Items`.`Item_ID` AS 'ID'\
+                FROM `Categories_Items`, `Categories_Arrangement`\
+                WHERE `Categories_Items`.`Category_ID` = `Categories_Arrangement`.`Category` AND (\
+                (`Categories_Arrangement`.`Ordered` = "+item->text(1)+") OR\
+                (`Categories_Arrangement`.`Category` = "+item->text(1)+")\
+            )");
     QMap<QString, QStringList> items = network.getData(Query);
     for(int i = 0; i != items["ID"].size(); i++){
         Query = ("SELECT `ID`,`Name`, `EAN`, `Product_number` FROM `Items` WHERE `ID` = "+items["ID"][i]);
