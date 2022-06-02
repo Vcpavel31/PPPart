@@ -11,6 +11,30 @@ NetworkSQL::NetworkSQL(QObject *parent)
     qDebug() << settings->fileName();
 }
 
+QMap<QString, QStringList> NetworkSQL::pushData(QString Query)
+{
+
+    QMap<QString, QStringList> temp;
+
+    QUrl url(Address);
+    QNetworkRequest request(url);
+
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
+
+    QUrlQuery params;
+    params.addQueryItem("User", User);
+    params.addQueryItem("Pass", Pass);
+    params.addQueryItem("Debug", "False");
+    params.addQueryItem("Query", Query);
+
+    QNetworkReply* reply = manager->post(request, params.query().toUtf8());
+
+    QEventLoop loop;
+    connect(reply, SIGNAL(finished()), &loop, SLOT(quit()));
+    loop.exec();
+
+}
+
 //TODO bug fix when enter more unknown component in to name
 QMap<QString, QStringList> NetworkSQL::getData(QString Query)
 {

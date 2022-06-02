@@ -16,9 +16,7 @@ PPPart::PPPart(QWidget *parent)
                      `Categories_Arrangement`.`Ordered` AS 'Ordered'\
                      FROM `Categories`, `Categories_Arrangement`\
                      WHERE `Categories`.ID = `Categories_Arrangement`.`Category` AND `Categories`.`Hidden` = '0'";
-    qDebug() << "Query: " << Query;
     QMap<QString, QStringList> data = network.getData(Query);
-    qDebug() << "Data: " << data;
     ui->categories->setColumnHidden(1, 1);
     ui->categories->clear();
     for(int i = 0; i != data["ID"].size(); i++){
@@ -53,19 +51,20 @@ void PPPart::on_categories_itemClicked(QTreeWidgetItem *item, int column)
     //////////////////////////////////////////////////////////////////////////////////
     /// TODO: Z DB získat jaké sloupce u vybrané kategorie jsou a na ty připravit Treewidget
     /// TODO: Připravý z DB query pro další atributy které nejsou v halvní tabulce položek
-
+    QString Query = ("SELECT `Attributes` FROM `Categories_Attributes` WHERE `Hidden` = 0 AND `Category` = "+item->text(1));
+    qDebug() << Query;
+    QMap<QString, QStringList> attributes = network.getData(Query);
+    qDebug() << attributes;
 
     /////////////////////////////////////////////////////////////////////////////////
     /// \brief Data součástek
     /// Získání informací o jednotlivých položkách ve skladu odpovídajícím kategorii
 
-    QString Query = ("SELECT `Item_ID` AS 'ID' FROM `Items_Categories` WHERE `Category_ID` = "+item->text(1));
+    Query = ("SELECT `Item_ID` AS 'ID' FROM `Categories_Items` WHERE `Category_ID` = "+item->text(1));
     QMap<QString, QStringList> items = network.getData(Query);
-    qDebug() << "Data: " << items;
     for(int i = 0; i != items["ID"].size(); i++){
         Query = ("SELECT `ID`,`Name`, `EAN`, `Product_number` FROM `Items` WHERE `ID` = "+items["ID"][i]);
         QMap<QString, QStringList> data = network.getData(Query);
-        qDebug() << "Polozka: " << data;
         for(int j = 0; j != data["ID"].size(); j++){
             ui->parts->insertTopLevelItem(ui->parts->topLevelItemCount(), new QTreeWidgetItem(QStringList({data["ID"][j], data["EAN"][j], data["Name"][j], data["Product_number"][j]})));
         }
