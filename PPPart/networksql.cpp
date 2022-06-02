@@ -11,11 +11,8 @@ NetworkSQL::NetworkSQL(QObject *parent)
     qDebug() << settings->fileName();
 }
 
-QMap<QString, QStringList> NetworkSQL::pushData(QString Query)
+QNetworkReply::NetworkError NetworkSQL::pushData(QString Query)
 {
-
-    QMap<QString, QStringList> temp;
-
     QUrl url(Address);
     QNetworkRequest request(url);
 
@@ -33,6 +30,9 @@ QMap<QString, QStringList> NetworkSQL::pushData(QString Query)
     connect(reply, SIGNAL(finished()), &loop, SLOT(quit()));
     loop.exec();
 
+    reply->readAll();
+
+    return reply->error();
 }
 
 //TODO bug fix when enter more unknown component in to name
