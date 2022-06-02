@@ -48,7 +48,7 @@ void PPPart::on_categories_itemClicked(QTreeWidgetItem *item, int column)
     ui->parts->clear();
     qDebug() << "left bar" << item->text(1);
 
-
+    ui->parts->setColumnCount(0);
 
     //////////////////////////////////////////////////////////////////////////////////
     /// TODO: Z DB získat jaké sloupce u vybrané kategorie jsou a na ty připravit Treewidget
@@ -70,7 +70,6 @@ void PPPart::on_categories_itemClicked(QTreeWidgetItem *item, int column)
         //qDebug() << attributes["Attribute_Name"][h];
         //ui->parts->setColumnCount(ui->parts->columnCount()+1);
         labels << attributes["Attribute_Name"][h];
-        //qDebug() << network.pushData("INSERT INTO `Attributes`(`Attribute_Name`) VALUES ('Barva')");
     }
     ui->parts->setColumnCount(labels.count());
     ui->parts->setHeaderLabels(labels);
