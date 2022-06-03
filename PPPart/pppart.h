@@ -38,6 +38,8 @@ private:
 
     NetworkSQL network;
 
+    QStringList hodnoty;
+
     void getAllData();
 };
 #endif // PPPART_H

@@ -59,17 +59,20 @@ void PPPart::on_categories_itemClicked(QTreeWidgetItem *item, int column)
                                 `Categories_Attributes`.`Hidden` = 0 AND\
                                 `Categories_Attributes`.`Category` = `Categories_Arrangement`.`Category` AND (\
                                     (`Categories_Arrangement`.`Category` = "+item->text(1)+")\
-                                )");
+                                )\
+                        ORDER BY `Attributes`.`ID` ASC");
 //                                    (`Categories_Arrangement`.`Ordered` = "+item->text(1)+") OR
 
     qDebug() << Query;
     QMap<QString, QStringList> attributes = network.getData(Query);
     //qDebug() << attributes;
     QStringList labels = {"ID"};
+    QMap<QString, QStringList> data;
     for(int h = 0; h!= attributes["ID"].size(); h++){
         //qDebug() << attributes["Attribute_Name"][h];
         //ui->parts->setColumnCount(ui->parts->columnCount()+1);
         labels << attributes["Attribute_Name"][h];
+        data[attributes["Attribute_Name"][h]] << "";
     }
     ui->parts->setColumnCount(labels.count());
     ui->parts->setHeaderLabels(labels);
@@ -84,13 +87,39 @@ void PPPart::on_categories_itemClicked(QTreeWidgetItem *item, int column)
                 (`Categories_Arrangement`.`Category` = "+item->text(1)+")\
             )");
     QMap<QString, QStringList> items = network.getData(Query);
+    hodnoty = {};
     for(int i = 0; i != items["ID"].size(); i++){
-        Query = ("SELECT `ID`,`Name`, `EAN`, `Product_number` FROM `Items` WHERE `ID` = "+items["ID"][i]);
-        QMap<QString, QStringList> data = network.getData(Query);
-        for(int j = 0; j != data["ID"].size(); j++){
-            ui->parts->insertTopLevelItem(ui->parts->topLevelItemCount(), new QTreeWidgetItem(QStringList({data["ID"][j], data["EAN"][j], data["Name"][j], data["Product_number"][j]})));
+        Query = ("SELECT `ID`,`Name` AS 'Název', `EAN`, `Product_number` FROM `Items` WHERE `ID` = "+items["ID"][i]);
+        QMap<QString, QStringList> response = network.getData(Query);
+        qDebug() << "RESPONSE FFF" << response;
+        QMapIterator<QString, QStringList> why(response);
+        while (why.hasNext()) {
+            why.next();
+            data[why.key()] = why.value();
         }
-        
+        qDebug() << "ALLL DAATAAAAAAAAAA" << data;
+
+
+
+
+
+
+        Query = "SELECT `Attribute`.`Attribute_Info`,`Attribute`.`Attribute_Date`,`Attribute`.`Attribute_Value` AS 'Attribute_Value', `Attributes`.`Attribute_Name` AS 'Attribute_Name' FROM `Attribute`,`Attributes` WHERE `Attribute`.`Item_ID` = 1 AND `Attributes`.`ID` = `Attribute`.`Attribute_Option`";
+        response = network.getData(Query);
+        qDebug() << "RESPONSE FFF" << response;
+        for(int j = 0; j != response.count(); j++){
+            data[response["Attribute_Name"][j]] = response["Attribute_Value"][j];
+        }
+
+
+
+
+        for(int k = 0; k != labels.count(); k++){
+                hodnoty += data[labels[k]];
+        }
+        qDebug() << "HODNOTYYYYYYYYYY" << hodnoty;
+
+        ui->parts->insertTopLevelItem(ui->parts->topLevelItemCount(), new QTreeWidgetItem(hodnoty));
     }
     ui->parts->update();
     (void) item; // dont care

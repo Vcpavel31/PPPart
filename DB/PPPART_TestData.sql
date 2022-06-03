@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Počítač: localhost:3306
--- Vytvořeno: Čtv 02. čen 2022, 18:01
+-- Vytvořeno: Pát 03. čen 2022, 14:49
 -- Verze serveru: 10.5.15-MariaDB-0+deb11u1
 -- Verze PHP: 7.4.28
 
@@ -24,6 +24,25 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Struktura tabulky `Amounts`
+--
+
+CREATE TABLE `Amounts` (
+  `ID` bigint(20) NOT NULL,
+  `Item_ID` bigint(20) UNSIGNED NOT NULL,
+  `Amount` double NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci;
+
+--
+-- Vypisuji data pro tabulku `Amounts`
+--
+
+INSERT INTO `Amounts` (`ID`, `Item_ID`, `Amount`) VALUES
+(1, 1, 245);
+
+-- --------------------------------------------------------
+
+--
 -- Struktura tabulky `Attribute`
 --
 
@@ -35,6 +54,14 @@ CREATE TABLE `Attribute` (
   `Attribute_Info` text COLLATE utf8mb4_czech_ci DEFAULT NULL,
   `Attribute_Date` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci;
+
+--
+-- Vypisuji data pro tabulku `Attribute`
+--
+
+INSERT INTO `Attribute` (`ID`, `Item_ID`, `Attribute_Option`, `Attribute_Value`, `Attribute_Info`, `Attribute_Date`) VALUES
+(2, 1, 6, 'PLA', NULL, NULL),
+(3, 1, 5, 'Zelená', 'Metalická', NULL);
 
 -- --------------------------------------------------------
 
@@ -57,7 +84,8 @@ INSERT INTO `Attributes` (`ID`, `Attribute_Name`) VALUES
 (3, 'EAN'),
 (4, 'Číslo výrobce'),
 (5, 'Barva'),
-(6, 'Materiál');
+(6, 'Materiál'),
+(7, 'Množství');
 
 -- --------------------------------------------------------
 
@@ -113,16 +141,21 @@ CREATE TABLE `Categories_Attributes` (
   `ID` mediumint(9) NOT NULL,
   `Category` mediumint(9) UNSIGNED NOT NULL,
   `Attributes` int(11) UNSIGNED NOT NULL,
-  `Hidden` tinyint(1) UNSIGNED NOT NULL DEFAULT 0
+  `Hidden` tinyint(1) UNSIGNED NOT NULL DEFAULT 0,
+  `Unit` varchar(3) COLLATE utf8mb4_czech_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci;
 
 --
 -- Vypisuji data pro tabulku `Categories_Attributes`
 --
 
-INSERT INTO `Categories_Attributes` (`ID`, `Category`, `Attributes`, `Hidden`) VALUES
-(1, 2, 3, 0),
-(2, 2, 2, 0);
+INSERT INTO `Categories_Attributes` (`ID`, `Category`, `Attributes`, `Hidden`, `Unit`) VALUES
+(1, 2, 3, 0, 'g'),
+(2, 2, 2, 0, 'g'),
+(3, 4, 3, 0, 'g'),
+(4, 4, 2, 0, 'g'),
+(5, 1, 6, 0, NULL),
+(6, 2, 5, 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -227,6 +260,13 @@ CREATE TABLE `Suppliers` (
 --
 
 --
+-- Klíče pro tabulku `Amounts`
+--
+ALTER TABLE `Amounts`
+  ADD PRIMARY KEY (`ID`),
+  ADD KEY `Item_ID` (`Item_ID`);
+
+--
 -- Klíče pro tabulku `Attribute`
 --
 ALTER TABLE `Attribute`
@@ -303,16 +343,22 @@ ALTER TABLE `Suppliers`
 --
 
 --
+-- AUTO_INCREMENT pro tabulku `Amounts`
+--
+ALTER TABLE `Amounts`
+  MODIFY `ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT pro tabulku `Attribute`
 --
 ALTER TABLE `Attribute`
-  MODIFY `ID` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `ID` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT pro tabulku `Attributes`
 --
 ALTER TABLE `Attributes`
-  MODIFY `ID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `ID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT pro tabulku `Categories`
@@ -330,7 +376,7 @@ ALTER TABLE `Categories_Arrangement`
 -- AUTO_INCREMENT pro tabulku `Categories_Attributes`
 --
 ALTER TABLE `Categories_Attributes`
-  MODIFY `ID` mediumint(9) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `ID` mediumint(9) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT pro tabulku `Categories_Items`
@@ -365,6 +411,12 @@ ALTER TABLE `Suppliers`
 --
 -- Omezení pro exportované tabulky
 --
+
+--
+-- Omezení pro tabulku `Amounts`
+--
+ALTER TABLE `Amounts`
+  ADD CONSTRAINT `Amounts_ibfk_1` FOREIGN KEY (`Item_ID`) REFERENCES `Items` (`ID`);
 
 --
 -- Omezení pro tabulku `Attribute`
