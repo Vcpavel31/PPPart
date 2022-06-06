@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Počítač: localhost:3306
--- Vytvořeno: Pát 03. čen 2022, 14:49
+-- Vytvořeno: Sob 04. čen 2022, 19:24
 -- Verze serveru: 10.5.15-MariaDB-0+deb11u1
 -- Verze PHP: 7.4.28
 
@@ -175,7 +175,8 @@ CREATE TABLE `Categories_Items` (
 
 INSERT INTO `Categories_Items` (`ID`, `Item_ID`, `Category_ID`) VALUES
 (1, 1, 2),
-(2, 2, 4);
+(2, 2, 4),
+(3, 3, 2);
 
 -- --------------------------------------------------------
 
@@ -197,7 +198,8 @@ CREATE TABLE `Items` (
 
 INSERT INTO `Items` (`ID`, `Name`, `EAN`, `Product_number`, `Producer`) VALUES
 (1, 'PLA - Metalická Zelená', 8594185641186, '050290000', 1),
-(2, 'ASA Extrafill \"Traffic White\"', 8595632824008, 'ASA175_9016', 2);
+(2, 'ASA Extrafill \"Traffic White\"', 8595632824008, 'ASA175_9016', 2),
+(3, 'PLA - Bílá', 8594185640028, '050060000', 1);
 
 -- --------------------------------------------------------
 
@@ -382,13 +384,13 @@ ALTER TABLE `Categories_Attributes`
 -- AUTO_INCREMENT pro tabulku `Categories_Items`
 --
 ALTER TABLE `Categories_Items`
-  MODIFY `ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT pro tabulku `Items`
 --
 ALTER TABLE `Items`
-  MODIFY `ID` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `ID` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT pro tabulku `Producer`

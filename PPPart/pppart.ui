@@ -89,7 +89,13 @@
        </widget>
       </item>
       <item row="1" column="3" colspan="4">
-       <widget class="QTreeWidget" name="parts"/>
+       <widget class="QTreeWidget" name="parts">
+        <column>
+         <property name="text">
+          <string notr="true">1</string>
+         </property>
+        </column>
+       </widget>
       </item>
       <item row="0" column="8">
        <widget class="QPushButton" name="settings">

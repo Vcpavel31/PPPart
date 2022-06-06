@@ -66,13 +66,11 @@ void PPPart::on_categories_itemClicked(QTreeWidgetItem *item, int column)
     qDebug() << Query;
     QMap<QString, QStringList> attributes = network.getData(Query);
     //qDebug() << attributes;
-    QStringList labels = {"ID"};
-    QMap<QString, QStringList> data;
+    QStringList labels = {"ID"};    
     for(int h = 0; h!= attributes["ID"].size(); h++){
         //qDebug() << attributes["Attribute_Name"][h];
         //ui->parts->setColumnCount(ui->parts->columnCount()+1);
         labels << attributes["Attribute_Name"][h];
-        data[attributes["Attribute_Name"][h]] << "";
     }
     ui->parts->setColumnCount(labels.count());
     ui->parts->setHeaderLabels(labels);
@@ -87,8 +85,11 @@ void PPPart::on_categories_itemClicked(QTreeWidgetItem *item, int column)
                 (`Categories_Arrangement`.`Category` = "+item->text(1)+")\
             )");
     QMap<QString, QStringList> items = network.getData(Query);
-    hodnoty = {};
+    qDebug() << "AHA" << items;
     for(int i = 0; i != items["ID"].size(); i++){
+        hodnoty = {};
+        QMap<QString, QStringList> data;
+        qDebug() << items["ID"][i];
         Query = ("SELECT `ID`,`Name` AS 'Název', `EAN`, `Product_number` FROM `Items` WHERE `ID` = "+items["ID"][i]);
         QMap<QString, QStringList> response = network.getData(Query);
         qDebug() << "RESPONSE FFF" << response;
@@ -101,21 +102,24 @@ void PPPart::on_categories_itemClicked(QTreeWidgetItem *item, int column)
 
 
 
-
-
-
-        Query = "SELECT `Attribute`.`Attribute_Info`,`Attribute`.`Attribute_Date`,`Attribute`.`Attribute_Value` AS 'Attribute_Value', `Attributes`.`Attribute_Name` AS 'Attribute_Name' FROM `Attribute`,`Attributes` WHERE `Attribute`.`Item_ID` = 1 AND `Attributes`.`ID` = `Attribute`.`Attribute_Option`";
+        Query = "SELECT `Attribute`.`Attribute_Info`,`Attribute`.`Attribute_Date`,`Attribute`.`Attribute_Value` AS 'Attribute_Value', `Attributes`.`Attribute_Name` AS 'Attribute_Name' FROM `Attribute`,`Attributes` WHERE `Attribute`.`Item_ID` = "+items["ID"][i]+" AND `Attributes`.`ID` = `Attribute`.`Attribute_Option`";
         response = network.getData(Query);
         qDebug() << "RESPONSE FFF" << response;
-        for(int j = 0; j != response.count(); j++){
-            data[response["Attribute_Name"][j]] = response["Attribute_Value"][j];
+        for(int j = 0; j != response["Attribute_Name"].count(); j++){
+            qDebug() << j;
+            qDebug() << response["Attribute_Name"][j];
+            qDebug() << response["Attribute_Value"][j];
+            data[response["Attribute_Name"][j]] << response["Attribute_Value"][j];
         }
 
 
-
-
         for(int k = 0; k != labels.count(); k++){
-                hodnoty += data[labels[k]];
+            qDebug() << labels[k] << data[labels[k]];
+
+            data[labels[k]].removeAll(QString(""));
+
+            hodnoty += data[labels[k]];
+
         }
         qDebug() << "HODNOTYYYYYYYYYY" << hodnoty;
 
@@ -124,6 +128,7 @@ void PPPart::on_categories_itemClicked(QTreeWidgetItem *item, int column)
     ui->parts->update();
     (void) item; // dont care
     (void) column; // dont care
+
 }
 
 
