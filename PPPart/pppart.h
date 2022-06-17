@@ -6,6 +6,7 @@
 #include <QTreeWidgetItem>
 #include <QInputDialog>
 #include <QMessageBox>
+#include <QLineSeries>
 
 #include "prijem_novy_1.h"
 #include "networksql.h"
@@ -31,6 +32,9 @@ public slots:
 
     void on_income_pressed();
 
+private slots:
+    void on_parts_itemClicked(QTreeWidgetItem *item, int column);
+
 private:
     Ui::PPPart *ui;
 
@@ -39,6 +43,8 @@ private:
     NetworkSQL network;
 
     QStringList hodnoty;
+
+    QLineSeries *series;
 
     void getAllData();
 };

@@ -167,3 +167,9 @@ void PPPart::on_income_pressed()
     income.show();
 }
 
+
+void PPPart::on_parts_itemClicked(QTreeWidgetItem *item, int column)
+{
+
+}
+
