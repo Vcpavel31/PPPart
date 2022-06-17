@@ -45,6 +45,7 @@ void PPPart::getAllData()
 
 void PPPart::on_categories_itemClicked(QTreeWidgetItem *item, int column)
 {
+
     ui->parts->clear();
     qDebug() << "left bar" << item->text(1);
 
@@ -66,7 +67,9 @@ void PPPart::on_categories_itemClicked(QTreeWidgetItem *item, int column)
     qDebug() << Query;
     QMap<QString, QStringList> attributes = network.getData(Query);
     //qDebug() << attributes;
-    QStringList labels = {"ID"};    
+
+    QStringList labels = {"ID", "Množství"};
+
     for(int h = 0; h!= attributes["ID"].size(); h++){
         //qDebug() << attributes["Attribute_Name"][h];
         //ui->parts->setColumnCount(ui->parts->columnCount()+1);
@@ -126,6 +129,7 @@ void PPPart::on_categories_itemClicked(QTreeWidgetItem *item, int column)
         ui->parts->insertTopLevelItem(ui->parts->topLevelItemCount(), new QTreeWidgetItem(hodnoty));
     }
     ui->parts->update();
+
     (void) item; // dont care
     (void) column; // dont care
 
@@ -167,9 +171,32 @@ void PPPart::on_income_pressed()
     income.show();
 }
 
-
 void PPPart::on_parts_itemClicked(QTreeWidgetItem *item, int column)
 {
+    qDebug() << "Prepare for graph";
 
+    QLineSeries *series = new QLineSeries();
+
+    series->append(0, 6);
+    series->append(2, 4);
+    series->append(3, 8);
+    series->append(7, 4);
+    series->append(10, 5);
+    *series << QPointF(11, 1) << QPointF(13, 3) << QPointF(17, 6) << QPointF(18, 3) << QPointF(20, 2);
+
+    qDebug() << "Create Graph";
+
+    QChart *chart = new QChart();
+    chart->legend()->hide();
+    chart->addSeries(series);
+    chart->createDefaultAxes();
+    chart->setTitle("Simple line chart example");
+
+    qDebug() << "Show Graph";
+
+    QChartView *chartView = new QChartView(chart);
+    chartView->setRenderHint(QPainter::Antialiasing);
+    chartView->setParent(ui->stock_info);
+    (void) item; // dont care
+    (void) column; // dont care
 }
-

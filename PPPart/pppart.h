@@ -7,6 +7,7 @@
 #include <QInputDialog>
 #include <QMessageBox>
 #include <QLineSeries>
+#include <QtCharts>
 
 #include "prijem_novy_1.h"
 #include "networksql.h"
@@ -43,8 +44,6 @@ private:
     NetworkSQL network;
 
     QStringList hodnoty;
-
-    QLineSeries *series;
 
     void getAllData();
 };
