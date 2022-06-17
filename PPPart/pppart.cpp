@@ -49,6 +49,90 @@ void PPPart::getAllData()
 
 void PPPart::on_categories_itemClicked(QTreeWidgetItem *item, int column)
 {
+<<<<<<< Updated upstream
+=======
+    ui->parts->clear();
+    qDebug() << "left bar" << item->text(1);
+
+    ui->parts->setColumnCount(0);
+
+    //////////////////////////////////////////////////////////////////////////////////
+    /// TODO: Z DB získat jaké sloupce u vybrané kategorie jsou a na ty připravit Treewidget
+    /// TODO: Připravý z DB query pro další atributy které nejsou v halvní tabulce položek
+    QString Query = ("  SELECT  `Attributes`.*\
+                        FROM    `Attributes`, `Categories_Attributes`, `Categories_Arrangement`\
+                        WHERE   `Attributes`.`ID` = `Categories_Attributes`.`Attributes` AND\
+                                `Categories_Attributes`.`Hidden` = 0 AND\
+                                `Categories_Attributes`.`Category` = `Categories_Arrangement`.`Category` AND (\
+                                    (`Categories_Arrangement`.`Category` = "+item->text(1)+")\
+                                )\
+                        ORDER BY `Attributes`.`ID` ASC");
+//                                    (`Categories_Arrangement`.`Ordered` = "+item->text(1)+") OR
+
+    qDebug() << Query;
+    QMap<QString, QStringList> attributes = network.getData(Query);
+    //qDebug() << attributes;
+    QStringList labels = {"ID", "Množství"};
+    for(int h = 0; h!= attributes["ID"].size(); h++){
+        //qDebug() << attributes["Attribute_Name"][h];
+        //ui->parts->setColumnCount(ui->parts->columnCount()+1);
+        labels << attributes["Attribute_Name"][h];
+    }
+    ui->parts->setColumnCount(labels.count());
+    ui->parts->setHeaderLabels(labels);
+    /////////////////////////////////////////////////////////////////////////////////
+    /// \brief Data součástek
+    /// Získání informací o jednotlivých položkách ve skladu odpovídajícím kategorii
+
+    Query = ("  SELECT `Categories_Items`.`Item_ID` AS 'ID'\
+                FROM `Categories_Items`, `Categories_Arrangement`\
+                WHERE `Categories_Items`.`Category_ID` = `Categories_Arrangement`.`Category` AND (\
+                (`Categories_Arrangement`.`Ordered` = "+item->text(1)+") OR\
+                (`Categories_Arrangement`.`Category` = "+item->text(1)+")\
+            )");
+    QMap<QString, QStringList> items = network.getData(Query);
+    qDebug() << "AHA" << items;
+    for(int i = 0; i != items["ID"].size(); i++){
+        hodnoty = {};
+        QMap<QString, QStringList> data;
+        qDebug() << items["ID"][i];
+        Query = ("SELECT `ID`,`Name` AS 'Název', `EAN`, `Product_number` FROM `Items` WHERE `ID` = "+items["ID"][i]);
+        QMap<QString, QStringList> response = network.getData(Query);
+        qDebug() << "RESPONSE FFF" << response;
+        QMapIterator<QString, QStringList> why(response);
+        while (why.hasNext()) {
+            why.next();
+            data[why.key()] = why.value();
+        }
+        qDebug() << "ALLL DAATAAAAAAAAAA" << data;
+
+
+
+        Query = "SELECT `Attribute`.`Attribute_Info`,`Attribute`.`Attribute_Date`,`Attribute`.`Attribute_Value` AS 'Attribute_Value', `Attributes`.`Attribute_Name` AS 'Attribute_Name' FROM `Attribute`,`Attributes` WHERE `Attribute`.`Item_ID` = "+items["ID"][i]+" AND `Attributes`.`ID` = `Attribute`.`Attribute_Option`";
+        response = network.getData(Query);
+        qDebug() << "RESPONSE FFF" << response;
+        for(int j = 0; j != response["Attribute_Name"].count(); j++){
+            qDebug() << j;
+            qDebug() << response["Attribute_Name"][j];
+            qDebug() << response["Attribute_Value"][j];
+            data[response["Attribute_Name"][j]] << response["Attribute_Value"][j];
+        }
+
+
+        for(int k = 0; k != labels.count(); k++){
+            qDebug() << labels[k] << data[labels[k]];
+
+            data[labels[k]].removeAll(QString(""));
+
+            hodnoty += data[labels[k]];
+
+        }
+        qDebug() << "HODNOTYYYYYYYYYY" << hodnoty;
+
+        ui->parts->insertTopLevelItem(ui->parts->topLevelItemCount(), new QTreeWidgetItem(hodnoty));
+    }
+    ui->parts->update();
+>>>>>>> Stashed changes
     (void) item; // dont care
     (void) column; // dont care
     qDebug() << "left bar";
@@ -89,3 +173,37 @@ void PPPart::on_income_pressed()
     income.show();
 }
 
+<<<<<<< Updated upstream
+=======
+
+void PPPart::on_parts_itemClicked(QTreeWidgetItem *item, int column)
+{
+    qDebug() << "Prepare for graph";
+
+    QLineSeries *series = new QLineSeries();
+
+    series->append(0, 6);
+    series->append(2, 4);
+    series->append(3, 8);
+    series->append(7, 4);
+    series->append(10, 5);
+    *series << QPointF(11, 1) << QPointF(13, 3) << QPointF(17, 6) << QPointF(18, 3) << QPointF(20, 2);
+
+    qDebug() << "Create Graph";
+
+    QChart *chart = new QChart();
+    chart->legend()->hide();
+    chart->addSeries(series);
+    chart->createDefaultAxes();
+    chart->setTitle("Simple line chart example");
+
+    qDebug() << "Show Graph";
+
+    QChartView *chartView = new QChartView(chart);
+    chartView->setRenderHint(QPainter::Antialiasing);
+    chartView->setParent(ui->stock_info);
+    (void) item; // dont care
+    (void) column; // dont care
+}
+
+>>>>>>> Stashed changes
