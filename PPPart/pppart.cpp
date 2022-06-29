@@ -197,6 +197,9 @@ void PPPart::on_parts_itemClicked(QTreeWidgetItem *item, int column)
     QChartView *chartView = new QChartView(chart);
     chartView->setRenderHint(QPainter::Antialiasing);
     chartView->setParent(ui->stock_info);
+    if(ui->graph->itemAt(0)!=NULL)
+        ui->graph->removeItem(ui->graph->itemAt(0));
+    ui->graph->addWidget(chartView);
     (void) item; // dont care
     (void) column; // dont care
 }

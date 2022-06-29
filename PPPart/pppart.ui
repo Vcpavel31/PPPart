@@ -58,6 +58,17 @@
          <attribute name="title">
           <string>Skladové informace</string>
          </attribute>
+         <widget class="QWidget" name="verticalLayoutWidget">
+          <property name="geometry">
+           <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>371</width>
+            <height>711</height>
+           </rect>
+          </property>
+          <layout class="QVBoxLayout" name="graph"/>
+         </widget>
         </widget>
        </widget>
       </item>
@@ -151,7 +162,7 @@
      <x>0</x>
      <y>0</y>
      <width>1347</width>
-     <height>21</height>
+     <height>26</height>
     </rect>
    </property>
   </widget>
