@@ -95,19 +95,16 @@ void PPPart::on_categories_itemClicked(QTreeWidgetItem *item, int column)
         qDebug() << items["ID"][i];
         Query = ("SELECT `ID`,`Name` AS 'Název', `EAN`, `Product_number` FROM `Items` WHERE `ID` = "+items["ID"][i]);
         QMap<QString, QStringList> response = network.getData(Query);
-        qDebug() << "RESPONSE FFF" << response;
+        qDebug() << "RESPONSE Default" << response;
         QMapIterator<QString, QStringList> why(response);
         while (why.hasNext()) {
             why.next();
             data[why.key()] = why.value();
         }
-        qDebug() << "ALLL DAATAAAAAAAAAA" << data;
-
-
 
         Query = "SELECT `Attribute`.`Attribute_Info`,`Attribute`.`Attribute_Date`,`Attribute`.`Attribute_Value` AS 'Attribute_Value', `Attributes`.`Attribute_Name` AS 'Attribute_Name' FROM `Attribute`,`Attributes` WHERE `Attribute`.`Item_ID` = "+items["ID"][i]+" AND `Attributes`.`ID` = `Attribute`.`Attribute_Option`";
         response = network.getData(Query);
-        qDebug() << "RESPONSE FFF" << response;
+        qDebug() << "RESPONSE Attributes" << response;
         for(int j = 0; j != response["Attribute_Name"].count(); j++){
             qDebug() << j;
             qDebug() << response["Attribute_Name"][j];
@@ -115,16 +112,27 @@ void PPPart::on_categories_itemClicked(QTreeWidgetItem *item, int column)
             data[response["Attribute_Name"][j]] << response["Attribute_Value"][j];
         }
 
+        /////////////////////////////////////////////////////////////////////// Zíksat Množství a zapsat ho
+
+        Query = ("SELECT `Amount`,`Date` FROM `Amounts` WHERE `Item_ID` = '"+items["ID"][i]+"' ORDER BY `Amounts`.`Date` DESC LIMIT 1");
+        response = network.getData(Query);
+        qDebug() << "RESPONSE Amount" << response;
+        data["Množství"] << response["Amount"];
 
         for(int k = 0; k != labels.count(); k++){
-            qDebug() << labels[k] << data[labels[k]];
+            if(data[labels[k]].isEmpty()){
+                qDebug() << labels[k] << data[labels[k]];
+                hodnoty += "";
+            }
+            else{
+                qDebug() << labels[k] << data[labels[k]];
 
-            data[labels[k]].removeAll(QString(""));
+                data[labels[k]].removeAll(QString(""));
 
-            hodnoty += data[labels[k]];
-
+                hodnoty += data[labels[k]];
+            }
         }
-        qDebug() << "HODNOTYYYYYYYYYY" << hodnoty;
+        qDebug() << hodnoty;
 
         ui->parts->insertTopLevelItem(ui->parts->topLevelItemCount(), new QTreeWidgetItem(hodnoty));
     }
@@ -173,15 +181,41 @@ void PPPart::on_income_pressed()
 
 void PPPart::on_parts_itemClicked(QTreeWidgetItem *item, int column)
 {
+
+    qDebug() << column << item;
+
+    qDebug() << item->text(0);
+
+    QString Query = "SELECT `ID`,`Name` AS 'Název', `EAN`, `Product_number` FROM `Items` WHERE `ID` = "+item->text(0);
+    QMap<QString, QStringList> response = network.getData(Query);
+    QMapIterator<QString, QStringList> why(response);
+    while (why.hasNext()) {
+        why.next();
+        qDebug() << why.key() << why.value()[0];
+        ui->Information;
+    }
+
     qDebug() << "Prepare for graph";
 
     QLineSeries *series = new QLineSeries();
 
-    series->append(0, 6);
-    series->append(2, 4);
-    series->append(3, 8);
-    series->append(7, 4);
-    series->append(10, 5);
+
+    /////////////////////////////////////////////////////////////////////// Zíksat Množství
+
+    Query = ("SELECT `Amount`,`Date` FROM `Amounts` WHERE `Item_ID` = '"+item->text(0)+"' ORDER BY `Amounts`.`Date` DESC");
+    response = network.getData(Query);
+    qDebug() << "RESPONSE Amount" << response;
+
+
+    // TO FIX  :::: https://stackoverflow.com/questions/52507050/qlineseries-and-qdatetimeaxis-chart-doesnt-display-values
+
+    for(int j = 0; j != response["Amount"].count(); j++){
+        qDebug() << j << response["Date"][j] << response["Amount"][j];
+        //*series << (response["Date"][j], response["Amount"][j]);
+    }
+
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     *series << QPointF(11, 1) << QPointF(13, 3) << QPointF(17, 6) << QPointF(18, 3) << QPointF(20, 2);
 
     qDebug() << "Create Graph";
