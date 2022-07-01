@@ -212,8 +212,10 @@ void PPPart::on_parts_itemClicked(QTreeWidgetItem *item, int column)
     for(int j = 0; j != response["Amount"].count(); j++){
         qDebug() << j << response["Date"][j] << response["Amount"][j].toInt();
         QDateTime momentInTime;
-        momentInTime.setDate(QDate(response["Date"][j].split(" ")[0].split("-")[0], response["Date"][j].split(" ")[0].split("-")[1] , response["Date"][j].split(" ")[0].split("-")[2]));
-        *series << QPointF(momentInTime.toMSecsSinceEpoch(), response["Amount"][j]);
+        momentInTime.setDate(QDate(response["Date"][j].split(" ")[0].split("-")[0].toInt(),\
+                                    response["Date"][j].split(" ")[0].split("-")[1].toInt(),\
+                                    response["Date"][j].split(" ")[0].split("-")[2].toInt()));
+        series->append(momentInTime.toMSecsSinceEpoch(), response["Amount"][j]);
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
