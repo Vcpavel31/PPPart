@@ -20,6 +20,8 @@ public:
     explicit NetworkSQL(QObject *parent = nullptr);
 
     QMap<QString, QStringList> getData(QString);
+    QNetworkReply::NetworkError pushData(QString);
+
     QString getStringData(QString);
 
     QString User_ID;

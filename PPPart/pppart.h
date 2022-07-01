@@ -6,11 +6,8 @@
 #include <QTreeWidgetItem>
 #include <QInputDialog>
 #include <QMessageBox>
-<<<<<<< Updated upstream
-=======
 #include <QLineSeries>
 #include <QtCharts>
->>>>>>> Stashed changes
 
 #include "prijem_novy_1.h"
 #include "networksql.h"
@@ -36,6 +33,9 @@ public slots:
 
     void on_income_pressed();
 
+private slots:
+    void on_parts_itemClicked(QTreeWidgetItem *item, int column);
+
 private:
     Ui::PPPart *ui;
 
@@ -43,11 +43,8 @@ private:
 
     NetworkSQL network;
 
-<<<<<<< Updated upstream
-=======
     QStringList hodnoty;
 
->>>>>>> Stashed changes
     void getAllData();
 };
 #endif // PPPART_H

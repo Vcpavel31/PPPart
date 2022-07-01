@@ -48,16 +48,19 @@ private slots:
 
     void on_Currency_currentTextChanged(const QString &arg1);
 
+    void on_Stav_2_selectionChanged();
+
 private:
     Ui::Prijem_novy_1 *ui;
 
     QString Nazev = "%";
     QString EAN = "(`EAN` LIKE '%' OR `EAN` IS NULL)";
-    QString Obj_cislo = "(`Objednací číslo` LIKE '%' OR `Objednací číslo` IS NULL)";
-    QString Vyr_cislo = "(`Číslo výrobce` LIKE '%' OR `Číslo výrobce` IS NULL)";
+    QString Obj_cislo = "";
+    QString Vyr_cislo = "(`Product_number` LIKE '%' OR `Product_number` IS NULL)";
     QString Response = "";
 
     QStringList array;
+    QStringList Enabled_Categories;
 
     NetworkSQL network;
     Category category;
@@ -65,10 +68,7 @@ private:
     QString categoryID;
 
     void Update_list();
-    void Show_secondary_input();
-    void Hide_secondary_input();
-    void Show_new_input();
-    void Hide_new_input();
+
 };
 
 #endif // PRIJEM_NOVY_1_H

@@ -11,27 +11,23 @@ PPPart::PPPart(QWidget *parent)
 
     getAllData();
 
-    QString Query = "SELECT Kategorie.ID AS 'ID',\
-                     Kategorie.Nazev AS 'Nazev',\
-                     Usporadani.Nadrazena AS 'Nadrazena'\
-                     FROM Kategorie Kategorie, Usporadani_kategorii Usporadani\
-                     WHERE Kategorie.ID = Usporadani.Kategorie AND Usporadani.Uzivatel = '1'";
-    qDebug() << "Query: " << Query;
+    QString Query = "SELECT `Categories`.ID AS 'ID',\
+                     `Categories`.`Name` AS 'Name',\
+                     `Categories_Arrangement`.`Ordered` AS 'Ordered'\
+                     FROM `Categories`, `Categories_Arrangement`\
+                     WHERE `Categories`.ID = `Categories_Arrangement`.`Category` AND `Categories`.`Hidden` = '0'";
     QMap<QString, QStringList> data = network.getData(Query);
-    qDebug() << "Data: " << data;
     ui->categories->setColumnHidden(1, 1);
     ui->categories->clear();
-    for(int i = 0; i != data["ID"].size(); i++)
-    {
-        if(data["Nadrazena"][i].isEmpty()){
-            ui->categories->insertTopLevelItem(ui->categories->topLevelItemCount(), new QTreeWidgetItem(QStringList({data["Nazev"][i], data["ID"][i]})));
+    for(int i = 0; i != data["ID"].size(); i++){
+        if(data["Ordered"][i].isEmpty()){
+            ui->categories->insertTopLevelItem(ui->categories->topLevelItemCount(), new QTreeWidgetItem(QStringList({data["Name"][i], data["ID"][i]})));
         }
         else{
-            QList<QTreeWidgetItem *> items = ui->categories->findItems(data["Nadrazena"][i], Qt::MatchExactly|Qt::MatchRecursive, 1);
-            if(!items.isEmpty()) // parent item exists
-                {
+            QList<QTreeWidgetItem *> items = ui->categories->findItems(data["Ordered"][i], Qt::MatchExactly|Qt::MatchRecursive, 1);
+            if(!items.isEmpty()){ // parent item exists
                 //only one item with same ID => at(0)
-                items.at(0)->addChild(new QTreeWidgetItem(QStringList({data["Nazev"][i], data["ID"][i]})));
+                items.at(0)->addChild(new QTreeWidgetItem(QStringList({data["Name"][i], data["ID"][i]})));
                 qDebug() << "Parent item exists: " << items.at(0)->text(0);
             }
         }
@@ -49,8 +45,7 @@ void PPPart::getAllData()
 
 void PPPart::on_categories_itemClicked(QTreeWidgetItem *item, int column)
 {
-<<<<<<< Updated upstream
-=======
+
     ui->parts->clear();
     qDebug() << "left bar" << item->text(1);
 
@@ -72,7 +67,9 @@ void PPPart::on_categories_itemClicked(QTreeWidgetItem *item, int column)
     qDebug() << Query;
     QMap<QString, QStringList> attributes = network.getData(Query);
     //qDebug() << attributes;
+
     QStringList labels = {"ID", "Množství"};
+
     for(int h = 0; h!= attributes["ID"].size(); h++){
         //qDebug() << attributes["Attribute_Name"][h];
         //ui->parts->setColumnCount(ui->parts->columnCount()+1);
@@ -140,16 +137,17 @@ void PPPart::on_categories_itemClicked(QTreeWidgetItem *item, int column)
         ui->parts->insertTopLevelItem(ui->parts->topLevelItemCount(), new QTreeWidgetItem(hodnoty));
     }
     ui->parts->update();
->>>>>>> Stashed changes
+
     (void) item; // dont care
     (void) column; // dont care
-    qDebug() << "left bar";
+
 }
 
 
 void PPPart::on_settings_pressed()
 {
-    network.getData("SELECT `Interni_ID`, `EAN` FROM `EAN` WHERE `EAN` LIKE '%12%'");
+    // ?????????????????????????????????????????????????????????????
+    // network.getData("SELECT `Interni_ID`, `EAN` FROM `EAN` WHERE `EAN` LIKE '%12%'");
 }
 
 void PPPart::on_parts_itemDoubleClicked(QTreeWidgetItem *item, int column)
@@ -180,9 +178,6 @@ void PPPart::on_income_pressed()
 {
     income.show();
 }
-
-<<<<<<< Updated upstream
-=======
 
 void PPPart::on_parts_itemClicked(QTreeWidgetItem *item, int column)
 {
@@ -236,8 +231,9 @@ void PPPart::on_parts_itemClicked(QTreeWidgetItem *item, int column)
     QChartView *chartView = new QChartView(chart);
     chartView->setRenderHint(QPainter::Antialiasing);
     chartView->setParent(ui->stock_info);
+    if(ui->graph->itemAt(0)!=NULL)
+        ui->graph->removeItem(ui->graph->itemAt(0));
+    ui->graph->addWidget(chartView);
     (void) item; // dont care
     (void) column; // dont care
 }
-
->>>>>>> Stashed changes

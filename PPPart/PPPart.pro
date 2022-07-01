@@ -1,6 +1,6 @@
 QT       += core gui network
 
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets charts
 
 RESOURCES = breeze.qrc
 
@@ -32,6 +32,7 @@ FORMS += \
     nastaveni.ui \
     pppart.ui \
     prijem_novy_1.ui \
+    vyber_skladu.ui \
     vydej_1.ui
 
 TRANSLATIONS += \
