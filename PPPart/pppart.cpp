@@ -210,8 +210,10 @@ void PPPart::on_parts_itemClicked(QTreeWidgetItem *item, int column)
     // TO FIX  :::: https://stackoverflow.com/questions/52507050/qlineseries-and-qdatetimeaxis-chart-doesnt-display-values
 
     for(int j = 0; j != response["Amount"].count(); j++){
-        qDebug() << j << response["Date"][j] << response["Amount"][j];
-        //*series << (response["Date"][j], response["Amount"][j]);
+        qDebug() << j << response["Date"][j] << response["Amount"][j].toInt();
+        QDateTime momentInTime;
+        momentInTime.setDate(QDate(response["Date"][j].split(" ")[0].split("-")[0], response["Date"][j].split(" ")[0].split("-")[1] , response["Date"][j].split(" ")[0].split("-")[2]));
+        *series << QPointF(momentInTime.toMSecsSinceEpoch(), response["Amount"][j]);
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -220,11 +222,32 @@ void PPPart::on_parts_itemClicked(QTreeWidgetItem *item, int column)
 
     qDebug() << "Create Graph";
 
+
+    QDateTimeAxis *axisX = new QDateTimeAxis;
+    axisX->setTickCount(10);
+    axisX->setFormat("mm yyyy");
+    axisX->setTitleText("Datum");
+
+
+    QValueAxis *axisY = new QValueAxis;
+    axisY->setLabelFormat("%i");
+    axisY->setTitleText("Množství");
+
+
+
+
+
     QChart *chart = new QChart();
     chart->legend()->hide();
     chart->addSeries(series);
-    chart->createDefaultAxes();
-    chart->setTitle("Simple line chart example");
+    chart->setTitle("Množství položek ve skladu");
+    //chart->createDefaultAxes();
+    chart->addAxis(axisY, Qt::AlignLeft);
+    chart->addAxis(axisX, Qt::AlignBottom);
+    series->attachAxis(axisY);
+    series->attachAxis(axisX);
+    series->setUseOpenGL(true);
+
 
     qDebug() << "Show Graph";
 

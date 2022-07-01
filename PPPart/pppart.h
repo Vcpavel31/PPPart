@@ -8,6 +8,8 @@
 #include <QMessageBox>
 #include <QLineSeries>
 #include <QtCharts>
+#include <QDate>
+#include <QDateTimeAxis>
 
 #include "prijem_novy_1.h"
 #include "networksql.h"
