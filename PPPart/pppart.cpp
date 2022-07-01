@@ -210,17 +210,19 @@ void PPPart::on_parts_itemClicked(QTreeWidgetItem *item, int column)
     // TO FIX  :::: https://stackoverflow.com/questions/52507050/qlineseries-and-qdatetimeaxis-chart-doesnt-display-values
 
     for(int j = 0; j != response["Amount"].count(); j++){
-        qDebug() << j << response["Date"][j] << response["Amount"][j].toInt();
+        qDebug() << j << QDate(response["Date"][j].split(" ")[0].split("-")[0].toInt(),\
+                response["Date"][j].split(" ")[0].split("-")[1].toInt(),\
+                response["Date"][j].split(" ")[0].split("-")[2].toInt()) << response["Amount"][j].toInt();
         QDateTime momentInTime;
         momentInTime.setDate(QDate(response["Date"][j].split(" ")[0].split("-")[0].toInt(),\
                                     response["Date"][j].split(" ")[0].split("-")[1].toInt(),\
                                     response["Date"][j].split(" ")[0].split("-")[2].toInt()));
-        series->append(momentInTime.toMSecsSinceEpoch(), response["Amount"][j]);
+        series->append(momentInTime.toMSecsSinceEpoch(), response["Amount"][j].toInt());
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    *series << QPointF(11, 1) << QPointF(13, 3) << QPointF(17, 6) << QPointF(18, 3) << QPointF(20, 2);
+//    *series << QPointF(11, 1) << QPointF(13, 3) << QPointF(17, 6) << QPointF(18, 3) << QPointF(20, 2);
 
     qDebug() << "Create Graph";
 
@@ -234,8 +236,8 @@ void PPPart::on_parts_itemClicked(QTreeWidgetItem *item, int column)
     QValueAxis *axisY = new QValueAxis;
     axisY->setLabelFormat("%i");
     axisY->setTitleText("Množství");
-
-
+    axisY->setMin(0);
+    axisY->setMax(50);
 
 
 
