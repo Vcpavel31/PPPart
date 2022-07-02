@@ -235,7 +235,7 @@ void PPPart::on_parts_itemClicked(QTreeWidgetItem *item, int column)
         axisX->setFormat("dd.MM.yyyy");
         axisX->setTitleText("Datum");
 
-        Query = "SELECT (MIN(`Date`)-INTERVAL 1 DAY) AS 'Min_date', (MAX(`Date`)+INTERVAL 1 DAY) AS 'Max_date' FROM `Amounts` WHERE `Item_ID` = 1";
+        Query = "SELECT (MIN(`Date`)-INTERVAL 1 DAY) AS 'Min', (MAX(`Date`)+INTERVAL 1 DAY) AS 'Max' FROM `Amounts` WHERE `Item_ID` = 1";
         qDebug() << Query;
         response = network.getData(Query);
         qDebug() << response;
