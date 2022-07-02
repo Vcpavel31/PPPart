@@ -13,6 +13,7 @@
 #include <QtOpenGL>
 #include <QTime>
 #include <QDateTime>
+#include <QHeaderView>
 
 #include "prijem_novy_1.h"
 #include "networksql.h"

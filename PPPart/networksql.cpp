@@ -39,7 +39,7 @@ QNetworkReply::NetworkError NetworkSQL::pushData(QString Query)
 QMap<QString, QStringList> NetworkSQL::getData(QString Query)
 {
 
-    qDebug() << "URL: " << Address << " Query: " << Query;
+    //qDebug() << "URL: " << Address << " Query: " << Query;
 
     QMap<QString, QStringList> temp;
 
