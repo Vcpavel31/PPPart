@@ -10,6 +10,9 @@
 #include <QtCharts>
 #include <QDate>
 #include <QDateTimeAxis>
+#include <QtOpenGL>
+#include <QTime>
+#include <QDateTime>
 
 #include "prijem_novy_1.h"
 #include "networksql.h"

@@ -195,72 +195,96 @@ void PPPart::on_parts_itemClicked(QTreeWidgetItem *item, int column)
         ui->Information;
     }
 
-    qDebug() << "Prepare for graph";
-
-    QLineSeries *series = new QLineSeries();
-
-
-    /////////////////////////////////////////////////////////////////////// Zíksat Množství
-
-    Query = ("SELECT `Amount`,`Date` FROM `Amounts` WHERE `Item_ID` = '"+item->text(0)+"' ORDER BY `Amounts`.`Date` DESC");
+    Query = "SELECT COUNT(`ID`) FROM `Amounts` WHERE `Item_ID` = "+item->text(0);
     response = network.getData(Query);
-    qDebug() << "RESPONSE Amount" << response;
+    if(response["COUNT(`ID`)"][0].toInt() != 0){
+        qDebug() << "Prepare for graph";
+
+        QLineSeries *series = new QLineSeries();
 
 
-    // TO FIX  :::: https://stackoverflow.com/questions/52507050/qlineseries-and-qdatetimeaxis-chart-doesnt-display-values
+        /////////////////////////////////////////////////////////////////////// Zíksat Množství
 
-    for(int j = 0; j != response["Amount"].count(); j++){
-        qDebug() << j << QDate(response["Date"][j].split(" ")[0].split("-")[0].toInt(),\
-                response["Date"][j].split(" ")[0].split("-")[1].toInt(),\
-                response["Date"][j].split(" ")[0].split("-")[2].toInt()) << response["Amount"][j].toInt();
-        QDateTime momentInTime;
-        momentInTime.setDate(QDate(response["Date"][j].split(" ")[0].split("-")[0].toInt(),\
-                                    response["Date"][j].split(" ")[0].split("-")[1].toInt(),\
-                                    response["Date"][j].split(" ")[0].split("-")[2].toInt()));
-        series->append(momentInTime.toMSecsSinceEpoch(), response["Amount"][j].toInt());
+        Query = ("SELECT `Amount`,`Date` FROM `Amounts` WHERE `Item_ID` = '"+item->text(0)+"' ORDER BY `Amounts`.`Date` DESC");
+        response = network.getData(Query);
+        qDebug() << "RESPONSE Amount" << response;
+
+
+        // TO FIX  :::: https://stackoverflow.com/questions/52507050/qlineseries-and-qdatetimeaxis-chart-doesnt-display-values
+
+        for(int j = 0; j != response["Amount"].count(); j++){
+            qDebug() << j << QDate(response["Date"][j].split(" ")[0].split("-")[0].toInt(),\
+                    response["Date"][j].split(" ")[0].split("-")[1].toInt(),\
+                    response["Date"][j].split(" ")[0].split("-")[2].toInt()) << response["Amount"][j].toInt();
+            QDateTime momentInTime;
+            momentInTime.setDate(QDate(response["Date"][j].split(" ")[0].split("-")[0].toInt(),\
+                                        response["Date"][j].split(" ")[0].split("-")[1].toInt(),\
+                                        response["Date"][j].split(" ")[0].split("-")[2].toInt()));
+            series->append(momentInTime.toMSecsSinceEpoch(), response["Amount"][j].toInt());
+        }
+
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    //    *series << QPointF(11, 1) << QPointF(13, 3) << QPointF(17, 6) << QPointF(18, 3) << QPointF(20, 2);
+
+        qDebug() << "Create Graph";
+
+
+        QDateTimeAxis *axisX = new QDateTimeAxis;
+        axisX->setTickCount(10);
+        axisX->setFormat("dd.MM.yyyy");
+        axisX->setTitleText("Datum");
+
+        Query = "SELECT (MIN(`Date`)-INTERVAL 1 DAY) AS 'Min_date', (MAX(`Date`)+INTERVAL 1 DAY) AS 'Max_date' FROM `Amounts` WHERE `Item_ID` = 1";
+        qDebug() << Query;
+        response = network.getData(Query);
+        qDebug() << response;
+
+        axisX->setMin(QDateTime(QDate(response["Min"][0].split(" ")[0].split("-")[0].toInt(),\
+                                        response["Min"][0].split(" ")[0].split("-")[1].toInt(),\
+                                        response["Min"][0].split(" ")[0].split("-")[2].toInt()),\
+                                QTime(response["Min"][0].split(" ")[1].split(":")[0].toInt(),\
+                                        response["Min"][0].split(" ")[1].split(":")[1].toInt(),\
+                                        response["Min"][0].split(" ")[1].split(":")[2].toInt(), 0)));
+
+        axisX->setMax(QDateTime(QDate(response["Max"][0].split(" ")[0].split("-")[0].toInt(),\
+                                        response["Max"][0].split(" ")[0].split("-")[1].toInt(),\
+                                        response["Max"][0].split(" ")[0].split("-")[2].toInt()),\
+                                QTime(response["Max"][0].split(" ")[1].split(":")[0].toInt(),\
+                                        response["Max"][0].split(" ")[1].split(":")[1].toInt(),\
+                                        response["Max"][0].split(" ")[1].split(":")[2].toInt(), 0)));
+
+        QValueAxis *axisY = new QValueAxis;
+        axisY->setLabelFormat("%i");
+        axisY->setTitleText("Množství");
+
+        Query = ("SELECT MIN(`Amount`), MAX(`Amount`) FROM `Amounts` WHERE `Item_ID` = '"+item->text(0)+"' LIMIT 1");
+        response = network.getData(Query);
+        axisY->setMin(response["MIN(`Amount`)"][0].toInt()-50);
+        axisY->setMax(response["MAX(`Amount`)"][0].toInt()+50);
+
+
+        QChart *chart = new QChart();
+        chart->legend()->hide();
+        chart->addSeries(series);
+        chart->setTitle("Množství položek ve skladu");
+        //chart->createDefaultAxes();
+        chart->addAxis(axisY, Qt::AlignLeft);
+        chart->addAxis(axisX, Qt::AlignBottom);
+        series->attachAxis(axisY);
+        series->attachAxis(axisX);
+        series->setUseOpenGL(true);
+
+
+        qDebug() << "Show Graph";
+
+        QChartView *chartView = new QChartView(chart);
+        chartView->setRenderHint(QPainter::Antialiasing);
+        chartView->setParent(ui->stock_info);
+        if(ui->graph->itemAt(0)!=NULL)
+            ui->graph->removeItem(ui->graph->itemAt(0));
+        ui->graph->addWidget(chartView);
     }
-
-    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-//    *series << QPointF(11, 1) << QPointF(13, 3) << QPointF(17, 6) << QPointF(18, 3) << QPointF(20, 2);
-
-    qDebug() << "Create Graph";
-
-
-    QDateTimeAxis *axisX = new QDateTimeAxis;
-    axisX->setTickCount(10);
-    axisX->setFormat("mm yyyy");
-    axisX->setTitleText("Datum");
-
-
-    QValueAxis *axisY = new QValueAxis;
-    axisY->setLabelFormat("%i");
-    axisY->setTitleText("Množství");
-    axisY->setMin(0);
-    axisY->setMax(50);
-
-
-
-    QChart *chart = new QChart();
-    chart->legend()->hide();
-    chart->addSeries(series);
-    chart->setTitle("Množství položek ve skladu");
-    //chart->createDefaultAxes();
-    chart->addAxis(axisY, Qt::AlignLeft);
-    chart->addAxis(axisX, Qt::AlignBottom);
-    series->attachAxis(axisY);
-    series->attachAxis(axisX);
-    series->setUseOpenGL(true);
-
-
-    qDebug() << "Show Graph";
-
-    QChartView *chartView = new QChartView(chart);
-    chartView->setRenderHint(QPainter::Antialiasing);
-    chartView->setParent(ui->stock_info);
-    if(ui->graph->itemAt(0)!=NULL)
-        ui->graph->removeItem(ui->graph->itemAt(0));
-    ui->graph->addWidget(chartView);
     (void) item; // dont care
     (void) column; // dont care
 }
