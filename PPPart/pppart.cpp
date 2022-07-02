@@ -209,9 +209,6 @@ void PPPart::on_parts_itemClicked(QTreeWidgetItem *item, int column)
         response = network.getData(Query);
         qDebug() << "RESPONSE Amount" << response;
 
-
-        // TO FIX  :::: https://stackoverflow.com/questions/52507050/qlineseries-and-qdatetimeaxis-chart-doesnt-display-values
-
         for(int j = 0; j != response["Amount"].count(); j++){
             qDebug() << j << QDate(response["Date"][j].split(" ")[0].split("-")[0].toInt(),\
                     response["Date"][j].split(" ")[0].split("-")[1].toInt(),\
@@ -223,45 +220,36 @@ void PPPart::on_parts_itemClicked(QTreeWidgetItem *item, int column)
             series->append(momentInTime.toMSecsSinceEpoch(), response["Amount"][j].toInt());
         }
 
-        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    //    *series << QPointF(11, 1) << QPointF(13, 3) << QPointF(17, 6) << QPointF(18, 3) << QPointF(20, 2);
-
         qDebug() << "Create Graph";
-
 
         QDateTimeAxis *axisX = new QDateTimeAxis;
         axisX->setTickCount(10);
         axisX->setFormat("dd.MM.yyyy");
         axisX->setTitleText("Datum");
 
-        Query = "SELECT (MIN(`Date`)-INTERVAL 1 DAY) AS 'Min', (MAX(`Date`)+INTERVAL 1 DAY) AS 'Max' FROM `Amounts` WHERE `Item_ID` = 1";
-        qDebug() << Query;
+        Query = "SELECT IF( MIN(`Amount`) >= 50, MIN(`Amount`), 0 ) AS 'Min_Amount', MAX(`Amount`)+50 AS 'Max_Amount', ( MIN(`Date`)- INTERVAL 1 DAY ) AS 'Min_Date', IF( MAX(`Date`)+ INTERVAL 1 DAY >= CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, MAX(`Date`)+ INTERVAL 1 DAY ) AS 'Max_Date' FROM `Amounts` WHERE `Item_ID` = "+item->text(0);
         response = network.getData(Query);
-        qDebug() << response;
 
-        axisX->setMin(QDateTime(QDate(response["Min"][0].split(" ")[0].split("-")[0].toInt(),\
-                                        response["Min"][0].split(" ")[0].split("-")[1].toInt(),\
-                                        response["Min"][0].split(" ")[0].split("-")[2].toInt()),\
-                                QTime(response["Min"][0].split(" ")[1].split(":")[0].toInt(),\
-                                        response["Min"][0].split(" ")[1].split(":")[1].toInt(),\
-                                        response["Min"][0].split(" ")[1].split(":")[2].toInt(), 0)));
+        axisX->setMin(QDateTime(QDate(response["Min_Date"][0].split(" ")[0].split("-")[0].toInt(),\
+                                        response["Min_Date"][0].split(" ")[0].split("-")[1].toInt(),\
+                                        response["Min_Date"][0].split(" ")[0].split("-")[2].toInt()),\
+                                QTime(response["Min_Date"][0].split(" ")[1].split(":")[0].toInt(),\
+                                        response["Min_Date"][0].split(" ")[1].split(":")[1].toInt(),\
+                                        response["Min_Date"][0].split(" ")[1].split(":")[2].toInt(), 0)));
 
-        axisX->setMax(QDateTime(QDate(response["Max"][0].split(" ")[0].split("-")[0].toInt(),\
-                                        response["Max"][0].split(" ")[0].split("-")[1].toInt(),\
-                                        response["Max"][0].split(" ")[0].split("-")[2].toInt()),\
-                                QTime(response["Max"][0].split(" ")[1].split(":")[0].toInt(),\
-                                        response["Max"][0].split(" ")[1].split(":")[1].toInt(),\
-                                        response["Max"][0].split(" ")[1].split(":")[2].toInt(), 0)));
+        axisX->setMax(QDateTime(QDate(response["Max_Date"][0].split(" ")[0].split("-")[0].toInt(),\
+                                        response["Max_Date"][0].split(" ")[0].split("-")[1].toInt(),\
+                                        response["Max_Date"][0].split(" ")[0].split("-")[2].toInt()),\
+                                QTime(response["Max_Date"][0].split(" ")[1].split(":")[0].toInt(),\
+                                        response["Max_Date"][0].split(" ")[1].split(":")[1].toInt(),\
+                                        response["Max_Date"][0].split(" ")[1].split(":")[2].toInt(), 0)));
 
         QValueAxis *axisY = new QValueAxis;
         axisY->setLabelFormat("%i");
         axisY->setTitleText("Množství");
 
-        Query = ("SELECT MIN(`Amount`), MAX(`Amount`) FROM `Amounts` WHERE `Item_ID` = '"+item->text(0)+"' LIMIT 1");
-        response = network.getData(Query);
-        axisY->setMin(response["MIN(`Amount`)"][0].toInt()-50);
-        axisY->setMax(response["MAX(`Amount`)"][0].toInt()+50);
+        axisY->setMin(response["Min_Amount"][0].toInt());
+        axisY->setMax(response["Max_Amount"][0].toInt());
 
 
         QChart *chart = new QChart();
@@ -273,7 +261,7 @@ void PPPart::on_parts_itemClicked(QTreeWidgetItem *item, int column)
         chart->addAxis(axisX, Qt::AlignBottom);
         series->attachAxis(axisY);
         series->attachAxis(axisX);
-        series->setUseOpenGL(true);
+        //series->setUseOpenGL(true);
 
 
         qDebug() << "Show Graph";

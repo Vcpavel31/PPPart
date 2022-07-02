@@ -42,6 +42,7 @@ private slots:
     void on_parts_itemClicked(QTreeWidgetItem *item, int column);
 
 private:
+
     Ui::PPPart *ui;
 
     Prijem_novy_1 income;
