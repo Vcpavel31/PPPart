@@ -149,6 +149,10 @@ void PPPart::on_categories_itemClicked(QTreeWidgetItem *item, int column)
     int nazev, id = 0;
     QTreeWidgetItem *header = ui->parts->headerItem();
     for (int i = 0; i < header->columnCount(); i++) {
+
+        // Set column width to fit content in every column
+        ui->parts->resizeColumnToContents(i);
+
         if(header->text(i) == "Název"){
             qDebug() << "Sloupec Název: " << i;
             nazev = i;
@@ -158,8 +162,7 @@ void PPPart::on_categories_itemClicked(QTreeWidgetItem *item, int column)
             id = i;
         }
     }
-
-    ui->parts->setColumnWidth(id,0);
+    ui->parts->setColumnHidden(id, 1);
     ui->parts->sortItems(nazev, Qt::AscendingOrder);
     ui->parts->sortColumn();
 }
@@ -348,7 +351,7 @@ void PPPart::on_parts_itemClicked(QTreeWidgetItem *item, int column)
         chart->addAxis(axisX, Qt::AlignBottom);
         series->attachAxis(axisY);
         series->attachAxis(axisX);
-        series->setUseOpenGL(true);
+        //series->setUseOpenGL(true);
 
         qDebug() << "Show Graph";
 

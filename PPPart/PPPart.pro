@@ -12,6 +12,9 @@ CONFIG += c++11
 
 SOURCES += \
     category.cpp \
+    input_element1.cpp \
+    input_element2.cpp \
+    input_element3.cpp \
     main.cpp \
     nastaveni.cpp \
     networksql.cpp \
@@ -21,6 +24,9 @@ SOURCES += \
 
 HEADERS += \
     category.h \
+    input_element1.h \
+    input_element2.h \
+    input_element3.h \
     nastaveni.h \
     networksql.h \
     pppart.h \
@@ -29,6 +35,9 @@ HEADERS += \
 
 FORMS += \
     category.ui \
+    input_element1.ui \
+    input_element2.ui \
+    input_element3.ui \
     nastaveni.ui \
     pppart.ui \
     prijem_novy_1.ui \
