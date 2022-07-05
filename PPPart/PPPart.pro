@@ -29,13 +29,6 @@ HEADERS += \
 
 FORMS += \
     category.ui \
-    input_element1.ui \
-    input_element2.ui \
-    input_element3.ui \
-    input_element4.ui \
-    input_element5.ui \
-    input_element6.ui \
-    input_element7.ui \
     nastaveni.ui \
     pppart.ui \
     prijem_novy_1.ui \

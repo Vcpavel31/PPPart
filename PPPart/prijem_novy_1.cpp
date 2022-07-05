@@ -224,82 +224,57 @@ void Prijem_novy_1::on_New_Part_stateChanged(int arg1)
 
         ui->tableWidget->setEnabled(0);
 
+        QString Query = "SELECT IF(`Alias` IS NULL, `Attribute_Name`, `Alias`) AS 'Name', `Type`, `ID` FROM `Attributes` WHERE 1";
+        QMap<QString, QStringList> response = network.getData(Query);
+        qDebug() << response;
 
         int i = 0;
         int column_ends = 0;
         int column = 0;
 
-        QWidget*central = new QWidget(this);
+        for(int j = 1; j!=response["ID"].size(); j++){ //attributes["ID"].size(); h++){
 
-        QLabel* descriptor;
-        QLabel* unit;
-        QLineEdit* input;
-        QSpinBox* number;
-        QDoubleSpinBox* Dnumber;
-        QPlainTextEdit* text;
-        QDateEdit* datum;
-        QComboBox* select;
-
-        for(int j = 1; j!=8; j++){ //attributes["ID"].size(); h++){
-
-            switch(j){
+            switch(response["Type"][j].toInt()){
+                case 0:
+                    i--;
+                    break;
                 case 1:
-                    //QPushButton* button = new QPushButton(QString::number(j),central);
-                    //ui->gridLayout_2->addWidget(button, i%4, i/4);
-                    descriptor = new QLabel("Test1", central);
-                    ui->gridLayout_2->addWidget(descriptor, i%4, column);
-                    input = new QLineEdit("", central);
-                    ui->gridLayout_2->addWidget(input, i%4, column+1);
+                    ui->gridLayout_2->addWidget(new QLabel(response["Name"][j]), i%4, column);
+                    ui->gridLayout_2->addWidget(new QLineEdit(), i%4, column+1);
                     column_ends = column+1;
                     break;
                 case 2:
-                    descriptor = new QLabel("Test2", central);
-                    ui->gridLayout_2->addWidget(descriptor, i%4, column);
-                    number = new QSpinBox(central);
-                    ui->gridLayout_2->addWidget(number, i%4, column+1);
+                    ui->gridLayout_2->addWidget(new QLabel(response["Name"][j]), i%4, column);
+                    ui->gridLayout_2->addWidget(new QSpinBox(), i%4, column+1);
                     column_ends = column+1;
                     break;
                 case 3:
-                    descriptor = new QLabel("Test3", central);
-                    ui->gridLayout_2->addWidget(descriptor, i%4, column);
-                    text = new QPlainTextEdit(central);
-                    ui->gridLayout_2->addWidget(text, i%4, column+1);
+                    ui->gridLayout_2->addWidget(new QLabel(response["Name"][j]), i%4, column);
+                    ui->gridLayout_2->addWidget(new QPlainTextEdit(), i%4, column+1);
                     column_ends = column+1;
                     break;
                 case 4:
-                    descriptor = new QLabel("Test4", central);
-                    ui->gridLayout_2->addWidget(descriptor, i%4, column);
-                    Dnumber = new QDoubleSpinBox(central);
-                    ui->gridLayout_2->addWidget(Dnumber, i%4, column+1);
-                    select = new QComboBox(central);
-                    ui->gridLayout_2->addWidget(select, i%4, column+2);
-                    datum = new QDateEdit(central);
-                    ui->gridLayout_2->addWidget(datum, i%4, column+3);
+                    ui->gridLayout_2->addWidget(new QLabel(response["Name"][j]), i%4, column);
+                    ui->gridLayout_2->addWidget(new QDoubleSpinBox(), i%4, column+1);
+                    ui->gridLayout_2->addWidget(new QComboBox(), i%4, column+2);
+                    ui->gridLayout_2->addWidget(new QDateEdit(), i%4, column+3);
                     column_ends = column+3;
                     break;
                 case 5:
-                    descriptor = new QLabel("Test5", central);
-                    ui->gridLayout_2->addWidget(descriptor, i%4, column);
-                    Dnumber = new QDoubleSpinBox(central);
-                    ui->gridLayout_2->addWidget(Dnumber, i%4, column+1);
-                    select = new QComboBox(central);
-                    ui->gridLayout_2->addWidget(select, i%4, column+2);
+                    ui->gridLayout_2->addWidget(new QLabel(response["Name"][j]), i%4, column);
+                    ui->gridLayout_2->addWidget(new QDoubleSpinBox(), i%4, column+1);
+                    ui->gridLayout_2->addWidget(new QComboBox(), i%4, column+2);
                     column_ends = column+2;
                     break;
                 case 6:
-                    descriptor = new QLabel("Test6", central);
-                    ui->gridLayout_2->addWidget(descriptor, i%4, column);
-                    Dnumber = new QDoubleSpinBox(central);
-                    ui->gridLayout_2->addWidget(Dnumber, i%4, column+1);
-                    unit = new QLabel("Unit6", central);
-                    ui->gridLayout_2->addWidget(unit, i%4, column+2);
+                    ui->gridLayout_2->addWidget(new QLabel(response["Name"][j]), i%4, column);
+                    ui->gridLayout_2->addWidget(new QDoubleSpinBox(), i%4, column+1);
+                    ui->gridLayout_2->addWidget(new QLabel("Unit6"), i%4, column+2);
                     column_ends = column+2;
                     break;
                 case 7:
-                    descriptor = new QLabel("Test7", central);
-                    ui->gridLayout_2->addWidget(descriptor, i%4, column);
-                    Dnumber = new QDoubleSpinBox(central);
-                    ui->gridLayout_2->addWidget(Dnumber, i%4, column+1);
+                    ui->gridLayout_2->addWidget(new QLabel(response["Name"][j]), i%4, column);
+                    ui->gridLayout_2->addWidget(new QDoubleSpinBox(), i%4, column+1);
                     column_ends = column+1;
                     break;
             }
