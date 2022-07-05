@@ -39,7 +39,7 @@ QNetworkReply::NetworkError NetworkSQL::pushData(QString Query)
 QMap<QString, QStringList> NetworkSQL::getData(QString Query)
 {
 
-    qDebug() << "URL" << Address;
+    //qDebug() << "URL: " << Address << " Query: " << Query;
 
     QMap<QString, QStringList> temp;
 
@@ -54,7 +54,7 @@ QMap<QString, QStringList> NetworkSQL::getData(QString Query)
     params.addQueryItem("Debug", "False");
     params.addQueryItem("Query", Query);
 
-    QNetworkReply* reply = manager->post(request, params.query().toUtf8());
+    QNetworkReply* reply = manager->post(request, params.query().toUtf8().replace("+", "%2b"));
 
     QEventLoop loop;
     connect(reply, SIGNAL(finished()), &loop, SLOT(quit()));

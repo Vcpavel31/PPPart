@@ -1,13 +1,14 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.4deb2
+-- version 4.9.1
 -- https://www.phpmyadmin.net/
 --
--- Počítač: localhost:3306
--- Vytvořeno: Sob 04. čen 2022, 19:24
--- Verze serveru: 10.5.15-MariaDB-0+deb11u1
--- Verze PHP: 7.4.28
+-- Počítač: innodb.endora.cz:3306
+-- Vytvořeno: Úte 05. čec 2022, 14:35
+-- Verze serveru: 5.6.45-86.1
+-- Verze PHP: 7.3.9
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -18,7 +19,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Databáze: `PPPART`
+-- Databáze: `vcpave1644611634`
 --
 
 -- --------------------------------------------------------
@@ -30,6 +31,7 @@ SET time_zone = "+00:00";
 CREATE TABLE `Amounts` (
   `ID` bigint(20) NOT NULL,
   `Item_ID` bigint(20) UNSIGNED NOT NULL,
+  `Date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `Amount` double NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci;
 
@@ -37,8 +39,11 @@ CREATE TABLE `Amounts` (
 -- Vypisuji data pro tabulku `Amounts`
 --
 
-INSERT INTO `Amounts` (`ID`, `Item_ID`, `Amount`) VALUES
-(1, 1, 245);
+INSERT INTO `Amounts` (`ID`, `Item_ID`, `Date`, `Amount`) VALUES
+(1, 1, '2022-06-30 19:19:03', 245),
+(2, 1, '2022-06-30 19:43:04', 350),
+(3, 1, '2022-07-01 11:55:00', 0),
+(4, 1, '2022-07-02 12:54:25', 1000);
 
 -- --------------------------------------------------------
 
@@ -51,7 +56,7 @@ CREATE TABLE `Attribute` (
   `Item_ID` bigint(20) UNSIGNED NOT NULL,
   `Attribute_Option` int(10) UNSIGNED NOT NULL,
   `Attribute_Value` tinytext COLLATE utf8mb4_czech_ci NOT NULL,
-  `Attribute_Info` text COLLATE utf8mb4_czech_ci DEFAULT NULL,
+  `Attribute_Info` text COLLATE utf8mb4_czech_ci,
   `Attribute_Date` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci;
 
@@ -96,7 +101,7 @@ INSERT INTO `Attributes` (`ID`, `Attribute_Name`) VALUES
 CREATE TABLE `Categories` (
   `ID` mediumint(8) UNSIGNED NOT NULL,
   `Name` tinytext COLLATE utf8mb4_czech_ci NOT NULL,
-  `Hidden` tinyint(1) UNSIGNED NOT NULL DEFAULT 0
+  `Hidden` tinyint(1) UNSIGNED NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci;
 
 --
@@ -141,7 +146,7 @@ CREATE TABLE `Categories_Attributes` (
   `ID` mediumint(9) NOT NULL,
   `Category` mediumint(9) UNSIGNED NOT NULL,
   `Attributes` int(11) UNSIGNED NOT NULL,
-  `Hidden` tinyint(1) UNSIGNED NOT NULL DEFAULT 0,
+  `Hidden` tinyint(1) UNSIGNED NOT NULL DEFAULT '0',
   `Unit` varchar(3) COLLATE utf8mb4_czech_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci;
 
@@ -188,7 +193,7 @@ CREATE TABLE `Items` (
   `ID` bigint(20) UNSIGNED NOT NULL,
   `Name` tinytext COLLATE utf8mb4_czech_ci NOT NULL,
   `EAN` bigint(11) DEFAULT NULL,
-  `Product_number` tinytext COLLATE utf8mb4_czech_ci DEFAULT NULL,
+  `Product_number` tinytext COLLATE utf8mb4_czech_ci,
   `Producer` smallint(5) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci;
 
@@ -210,7 +215,7 @@ INSERT INTO `Items` (`ID`, `Name`, `EAN`, `Product_number`, `Producer`) VALUES
 CREATE TABLE `Producer` (
   `ID` smallint(6) UNSIGNED NOT NULL,
   `Name` tinytext COLLATE utf8mb4_czech_ci NOT NULL,
-  `URL` text COLLATE utf8mb4_czech_ci DEFAULT NULL
+  `URL` text COLLATE utf8mb4_czech_ci
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci;
 
 --
@@ -252,9 +257,9 @@ CREATE TABLE `Suppliers` (
   `ID` int(11) NOT NULL,
   `Item_ID` bigint(20) UNSIGNED NOT NULL,
   `Supplier` smallint(6) UNSIGNED NOT NULL,
-  `Supplier_Name` tinytext COLLATE utf8mb4_czech_ci DEFAULT NULL,
-  `Supplier_Code` tinytext COLLATE utf8mb4_czech_ci DEFAULT NULL,
-  `Supplier_Link` mediumtext COLLATE utf8mb4_czech_ci DEFAULT NULL
+  `Supplier_Name` tinytext COLLATE utf8mb4_czech_ci,
+  `Supplier_Code` tinytext COLLATE utf8mb4_czech_ci,
+  `Supplier_Link` mediumtext COLLATE utf8mb4_czech_ci
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci;
 
 --
@@ -348,7 +353,7 @@ ALTER TABLE `Suppliers`
 -- AUTO_INCREMENT pro tabulku `Amounts`
 --
 ALTER TABLE `Amounts`
-  MODIFY `ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT pro tabulku `Attribute`

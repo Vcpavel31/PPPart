@@ -8,6 +8,12 @@
 #include <QMessageBox>
 #include <QLineSeries>
 #include <QtCharts>
+#include <QDate>
+#include <QDateTimeAxis>
+#include <QtOpenGL>
+#include <QTime>
+#include <QDateTime>
+#include <QHeaderView>
 
 #include "prijem_novy_1.h"
 #include "networksql.h"
@@ -37,6 +43,7 @@ private slots:
     void on_parts_itemClicked(QTreeWidgetItem *item, int column);
 
 private:
+
     Ui::PPPart *ui;
 
     Prijem_novy_1 income;

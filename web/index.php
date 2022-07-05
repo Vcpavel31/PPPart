@@ -1,5 +1,4 @@
 <?php
-error_reporting(E_ALL & ~E_NOTICE & ~E_WARNING & ~E_STRICT & ~E_DEPRECATED);
 
 $dbServername = "innodb.endora.cz";
 $dbName = "vcpave1644611634";
@@ -28,7 +27,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $result -> free();
         } 
         else {
-            echo "Error: " . $sql . "<br>" . $conn->error;
+            echo "Error: " . $sql . "<br>" . $conn->error . "<br> on Query: " . $_POST["Query"];
         }
         $conn -> close();
     }
