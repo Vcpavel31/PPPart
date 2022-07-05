@@ -6,6 +6,17 @@
 #include <QTreeWidgetItem>
 #include <QInputDialog>
 #include <QMessageBox>
+#include <QLineSeries>
+#include <QtCharts>
+#include <QDate>
+#include <QDateTimeAxis>
+#include <QtOpenGL>
+#include <QTime>
+#include <QDateTime>
+#include <QHeaderView>
+
+#include "prijem_novy_1.h"
+#include "networksql.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class PPPart; }
@@ -19,14 +30,28 @@ public:
     PPPart(QWidget *parent = nullptr);
     ~PPPart();
 
-private slots:
-    void on_treeWidget_2_itemDoubleClicked(QTreeWidgetItem *item, int column);
+public slots:
+    void on_categories_itemClicked(QTreeWidgetItem *item, int column);
 
-    void on_treeWidget_itemClicked(QTreeWidgetItem *item, int column);
+    void on_settings_pressed();
+
+    void on_parts_itemDoubleClicked(QTreeWidgetItem *item, int column);
+
+    void on_income_pressed();
+
+private slots:
+    void on_parts_itemClicked(QTreeWidgetItem *item, int column);
 
 private:
+
     Ui::PPPart *ui;
 
+    Prijem_novy_1 income;
 
+    NetworkSQL network;
+
+    QStringList hodnoty;
+
+    void getAllData();
 };
 #endif // PPPART_H

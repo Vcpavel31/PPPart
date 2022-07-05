@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Prijem_novy_1</class>
+ <widget class="QDialog" name="Prijem_novy_1">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1334</width>
+    <height>641</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="4" column="0">
+    <widget class="QWidget" name="EAN" native="true">
+     <layout class="QHBoxLayout" name="_4">
+      <item>
+       <widget class="QLabel" name="EAN_1">
+        <property name="text">
+         <string>EAN</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLineEdit" name="EAN_2"/>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="7" column="0">
+    <widget class="QCheckBox" name="New_Part">
+     <property name="font">
+      <font>
+       <pointsize>15</pointsize>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>Nová součástka</string>
+     </property>
+    </widget>
+   </item>
+   <item row="9" column="0">
+    <widget class="QWidget" name="Vyrobce" native="true">
+     <layout class="QHBoxLayout" name="horizontalLayout_5">
+      <item>
+       <widget class="QLabel" name="Vyrobce_1">
+        <property name="text">
+         <string>Výrobce</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLineEdit" name="Vyrobce_2"/>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="2" column="1" rowspan="9" colspan="2">
+    <widget class="QTableWidget" name="tableWidget">
+     <property name="autoFillBackground">
+      <bool>true</bool>
+     </property>
+     <property name="editTriggers">
+      <set>QAbstractItemView::NoEditTriggers</set>
+     </property>
+     <property name="showDropIndicator" stdset="0">
+      <bool>false</bool>
+     </property>
+     <property name="dragDropOverwriteMode">
+      <bool>false</bool>
+     </property>
+     <property name="alternatingRowColors">
+      <bool>true</bool>
+     </property>
+     <property name="selectionMode">
+      <enum>QAbstractItemView::SingleSelection</enum>
+     </property>
+     <property name="selectionBehavior">
+      <enum>QAbstractItemView::SelectRows</enum>
+     </property>
+     <property name="cornerButtonEnabled">
+      <bool>false</bool>
+     </property>
+     <column>
+      <property name="text">
+       <string>ID</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Název</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>EAN</string>
+      </property>
+     </column>
+    </widget>
+   </item>
+   <item row="12" column="1" rowspan="2">
+    <widget class="QPushButton" name="Print">
+     <property name="text">
+      <string>Tisk</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="1" colspan="2">
+    <widget class="QWidget" name="NewPart" native="true">
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <item>
+       <widget class="QLabel" name="label">
+        <property name="text">
+         <string>V databázi nebyla nalezne součástka odpovídající zadaným kritériím. Chcete vytvořit novou součástku?</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+        <property name="wordWrap">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="pushButton">
+        <property name="text">
+         <string>Nová součástka</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="1" column="0" rowspan="3">
+    <widget class="QWidget" name="Nazev" native="true">
+     <layout class="QHBoxLayout" name="horizontalLayout_2">
+      <item>
+       <widget class="QLabel" name="Nazev_1">
+        <property name="text">
+         <string>Název</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLineEdit" name="Nazev_2"/>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="12" column="2">
+    <widget class="QPushButton" name="Next_part">
+     <property name="text">
+      <string>Vložit další součátku</string>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="0">
+    <widget class="QWidget" name="Obj_cislo" native="true">
+     <layout class="QHBoxLayout" name="Obj_cislo_3">
+      <item>
+       <widget class="QLabel" name="Obj_cislo_1">
+        <property name="text">
+         <string>Objednací číslo</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLineEdit" name="Obj_cislo_2"/>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="8" column="0">
+    <widget class="QWidget" name="Kategorie" native="true">
+     <layout class="QHBoxLayout" name="horizontalLayout_4">
+      <item>
+       <widget class="QLabel" name="Kategorie_1">
+        <property name="text">
+         <string>Kategorie</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLineEdit" name="Kategorie_2">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QToolButton" name="Kategorie_3">
+        <property name="text">
+         <string>...</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="Kategorie_Warning">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>70</width>
+          <height>50</height>
+         </size>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="pixmap">
+         <pixmap resource="breeze.qrc">:/dark/message_warning.svg</pixmap>
+        </property>
+        <property name="scaledContents">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="6" column="0">
+    <widget class="QWidget" name="Vyr_cislo" native="true">
+     <layout class="QHBoxLayout" name="horizontalLayout_6">
+      <item>
+       <widget class="QLabel" name="Vyr_cislo_1">
+        <property name="text">
+         <string>Číslo výrobce</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLineEdit" name="Vyr_cislo_2"/>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="10" column="0">
+    <widget class="QWidget" name="Umisteni" native="true">
+     <layout class="QHBoxLayout" name="Umisteni_4">
+      <item>
+       <widget class="QLabel" name="Umisteni_1">
+        <property name="text">
+         <string>Umístění:</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLineEdit" name="Umisteni_2">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QToolButton" name="Umisteni_3">
+        <property name="text">
+         <string>...</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="12" column="0" rowspan="2">
+    <widget class="QLabel" name="pozn">
+     <property name="text">
+      <string>Datum přidání vždy odeslat s CURRENT_TIMESTAMP</string>
+     </property>
+     <property name="scaledContents">
+      <bool>false</bool>
+     </property>
+     <property name="wordWrap">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="13" column="2">
+    <widget class="QPushButton" name="Done">
+     <property name="text">
+      <string>Dokončit vkládání</string>
+     </property>
+    </widget>
+   </item>
+   <item row="11" column="1" colspan="2">
+    <spacer name="horizontalSpacer">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="sizeType">
+      <enum>QSizePolicy::Fixed</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>350</width>
+       <height>0</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+  </layout>
+ </widget>
+ <resources>
+  <include location="breeze.qrc"/>
+ </resources>
+ <connections/>
+</ui>

@@ -1,0 +1,39 @@
+Název
+Pozice ve skladu
+EAN
+Objednací číslo
+Číslo výrobce
+Výrobce
+Dodavatel
+Vlastní označení
+Poznámka
+Stav
+Cena
+Počet skladem
+Minimální počet skladem
+
+Délka
+Vnitřní ID
+Pouzdro
+Tolerance
+Hmotnost
+Hodnota
+Koncovka 1
+Koncovka 2
+Záporná tolerance
+Kladná tolerance
+Počet vodičů
+Materiál
+Kapacita
+Jmenovitý výkon
+Označení v knihovně
+Datum přidání
+Datum poslední manipulace
+Balení
+
+Typ špulky
+Počet objednáno
+Rozměr
+Rozměr pouzdra
+Rozteč vývodů
+Výška pozdra

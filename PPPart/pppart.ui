@@ -6,499 +6,193 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1307</width>
-    <height>711</height>
+    <width>1347</width>
+    <height>851</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>PPPart</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QPushButton" name="pushButton_6">
-    <property name="geometry">
-     <rect>
-      <x>1120</x>
-      <y>10</y>
-      <width>80</width>
-      <height>24</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Login</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButton_4">
-    <property name="geometry">
-     <rect>
-      <x>210</x>
-      <y>10</y>
-      <width>80</width>
-      <height>24</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Výdej</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButton_5">
-    <property name="geometry">
-     <rect>
-      <x>480</x>
-      <y>10</y>
-      <width>80</width>
-      <height>24</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Tisk</string>
-    </property>
-   </widget>
-   <widget class="QTreeWidget" name="treeWidget_2">
-    <property name="geometry">
-     <rect>
-      <x>190</x>
-      <y>50</y>
-      <width>831</width>
-      <height>611</height>
-     </rect>
-    </property>
-    <column>
-     <property name="text">
-      <string>Číslo s.</string>
-     </property>
-    </column>
-    <column>
-     <property name="text">
-      <string>Počet</string>
-     </property>
-    </column>
-    <column>
-     <property name="text">
-      <string>Hodnota</string>
-     </property>
-    </column>
-    <column>
-     <property name="text">
-      <string>Tolerance</string>
-     </property>
-    </column>
-    <column>
-     <property name="text">
-      <string>Jmen. výkon</string>
-     </property>
-    </column>
-    <column>
-     <property name="text">
-      <string>Místo uložení</string>
-     </property>
-    </column>
-    <column>
-     <property name="text">
-      <string>Pouzdro</string>
-     </property>
-    </column>
-    <column>
-     <property name="text">
-      <string>Průmerná cena</string>
-     </property>
-    </column>
-    <item>
-     <property name="text">
-      <string>CRCW0402110KFKTD
-</string>
-     </property>
-     <property name="text">
-      <string>0</string>
-     </property>
-     <property name="text">
-      <string>110K</string>
-     </property>
-     <property name="text">
-      <string>1%</string>
-     </property>
-     <property name="text">
-      <string>1/16W</string>
-     </property>
-     <property name="text">
-      <string>Bílá_A4</string>
-     </property>
-     <property name="text">
-      <string>R0402</string>
-     </property>
-     <property name="text">
-      <string/>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>Několik</string>
-     </property>
-     <property name="text">
-      <string>25</string>
-     </property>
-     <property name="text">
-      <string>10K</string>
-     </property>
-     <property name="text">
-      <string>1%</string>
-     </property>
-     <property name="text">
-      <string>1/16W</string>
-     </property>
-     <property name="text">
-      <string>Několik</string>
-     </property>
-     <property name="text">
-      <string>R0402</string>
-     </property>
-     <property name="text">
-      <string/>
-     </property>
-     <item>
-      <property name="text">
-       <string>RC0402FR-7D10KL
-</string>
-      </property>
-      <property name="text">
-       <string>15</string>
-      </property>
-      <property name="text">
-       <string/>
-      </property>
-      <property name="text">
-       <string/>
-      </property>
-      <property name="text">
-       <string/>
-      </property>
-      <property name="text">
-       <string>Bílá_A4</string>
-      </property>
-      <property name="text">
-       <string/>
-      </property>
-      <property name="text">
-       <string/>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>SR0402FR-7T10KL
-</string>
-      </property>
-      <property name="text">
-       <string>10</string>
-      </property>
-      <property name="text">
-       <string/>
-      </property>
-      <property name="text">
-       <string/>
-      </property>
-      <property name="text">
-       <string/>
-      </property>
-      <property name="text">
-       <string>Bílá_A5</string>
-      </property>
-      <property name="text">
-       <string/>
-      </property>
-      <property name="text">
-       <string/>
-      </property>
-     </item>
-    </item>
-    <item>
-     <property name="text">
-      <string>Několik</string>
-     </property>
-     <property name="text">
-      <string>100</string>
-     </property>
-     <property name="text">
-      <string>20K</string>
-     </property>
-     <property name="text">
-      <string>1%</string>
-     </property>
-     <property name="text">
-      <string>1/16W</string>
-     </property>
-     <property name="text">
-      <string>Bílá A4</string>
-     </property>
-     <property name="text">
-      <string>R0402</string>
-     </property>
-     <property name="text">
-      <string/>
-     </property>
-     <item>
-      <property name="text">
-       <string>CRCW0402110KFKTD
-</string>
-      </property>
-      <property name="text">
-       <string>0</string>
-      </property>
-      <property name="text">
-       <string/>
-      </property>
-      <property name="text">
-       <string/>
-      </property>
-      <property name="text">
-       <string/>
-      </property>
-      <property name="text">
-       <string/>
-      </property>
-      <property name="text">
-       <string/>
-      </property>
-      <property name="text">
-       <string/>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>RC0402FR-7D10KL
-</string>
-      </property>
-      <property name="text">
-       <string>100</string>
-      </property>
-      <property name="text">
-       <string/>
-      </property>
-      <property name="text">
-       <string/>
-      </property>
-      <property name="text">
-       <string/>
-      </property>
-      <property name="text">
-       <string/>
-      </property>
-      <property name="text">
-       <string/>
-      </property>
-      <property name="text">
-       <string/>
-      </property>
-     </item>
-    </item>
-    <item>
-     <property name="text">
-      <string>TNPW040210K0DETD
-</string>
-     </property>
-     <property name="text">
-      <string>10000</string>
-     </property>
-     <property name="text">
-      <string>40K</string>
-     </property>
-     <property name="text">
-      <string>5%</string>
-     </property>
-     <property name="text">
-      <string>1/16W</string>
-     </property>
-     <property name="text">
-      <string>Bílá A8</string>
-     </property>
-     <property name="text">
-      <string>R0603</string>
-     </property>
-     <property name="text">
-      <string/>
-     </property>
-    </item>
-   </widget>
-   <widget class="QTreeWidget" name="treeWidget">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>50</y>
-      <width>161</width>
-      <height>611</height>
-     </rect>
-    </property>
-    <column>
-     <property name="text">
-      <string>Kategorie</string>
-     </property>
-    </column>
-    <item>
-     <property name="text">
-      <string>Aktivní součástky</string>
-     </property>
-     <item>
-      <property name="text">
-       <string>Tranzistory</string>
-      </property>
-      <item>
-       <property name="text">
-        <string>MOSFET</string>
-       </property>
-       <item>
+   <layout class="QGridLayout" name="gridLayout">
+    <item row="0" column="0" rowspan="2" colspan="2">
+     <layout class="QGridLayout" name="gridLayout_2">
+      <item row="0" column="5">
+       <widget class="QPushButton" name="filters">
         <property name="text">
-         <string>P-channel</string>
+         <string>Filtry</string>
         </property>
-       </item>
-       <item>
+       </widget>
+      </item>
+      <item row="0" column="7">
+       <spacer name="horizontalSpacer_3">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item row="0" column="1">
+       <widget class="QPushButton" name="outcome">
         <property name="text">
-         <string>N-channel</string>
+         <string>Výdej</string>
         </property>
-       </item>
+       </widget>
       </item>
-      <item>
-       <property name="text">
-        <string>PNP</string>
-       </property>
+      <item row="1" column="7" colspan="4">
+       <widget class="QTabWidget" name="INFO">
+        <property name="currentIndex">
+         <number>0</number>
+        </property>
+        <widget class="QWidget" name="informations">
+         <attribute name="title">
+          <string>Informace</string>
+         </attribute>
+         <widget class="QTableWidget" name="Information">
+          <property name="geometry">
+           <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>371</width>
+            <height>731</height>
+           </rect>
+          </property>
+          <column>
+           <property name="text">
+            <string>Název</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Hodnota</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Poznámka</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Datum</string>
+           </property>
+          </column>
+         </widget>
+        </widget>
+        <widget class="QWidget" name="stock_info">
+         <attribute name="title">
+          <string>Skladové informace</string>
+         </attribute>
+         <widget class="QWidget" name="verticalLayoutWidget">
+          <property name="geometry">
+           <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>381</width>
+            <height>731</height>
+           </rect>
+          </property>
+          <layout class="QVBoxLayout" name="graph"/>
+         </widget>
+        </widget>
+       </widget>
       </item>
-      <item>
-       <property name="text">
-        <string>NPN</string>
-       </property>
+      <item row="0" column="4">
+       <widget class="QPushButton" name="print">
+        <property name="text">
+         <string>Tisk</string>
+        </property>
+       </widget>
       </item>
-     </item>
-     <item>
-      <property name="text">
-       <string>Diody</string>
-      </property>
-     </item>
+      <item row="0" column="3">
+       <spacer name="horizontalSpacer">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>300</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item row="0" column="9">
+       <widget class="QPushButton" name="login">
+        <property name="text">
+         <string>Přihlášení</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="3" colspan="4">
+       <widget class="QTreeWidget" name="parts">
+        <column>
+         <property name="text">
+          <string notr="true">1</string>
+         </property>
+        </column>
+       </widget>
+      </item>
+      <item row="0" column="8">
+       <widget class="QPushButton" name="settings">
+        <property name="text">
+         <string>Nastavení</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0">
+       <widget class="QPushButton" name="income">
+        <property name="text">
+         <string>Příjem</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0" colspan="2">
+       <widget class="QTreeWidget" name="categories">
+        <column>
+         <property name="text">
+          <string>Kategorie</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string notr="true">ID</string>
+         </property>
+         <property name="toolTip">
+          <string notr="true"/>
+         </property>
+        </column>
+       </widget>
+      </item>
+      <item row="0" column="6">
+       <spacer name="horizontalSpacer_2">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+     </layout>
     </item>
-    <item>
-     <property name="text">
-      <string>Pasivní členy</string>
-     </property>
-     <item>
-      <property name="text">
-       <string>Odpory</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>Kondenzítory</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>Cívky+tlumivky</string>
-      </property>
-     </item>
-    </item>
-    <item>
-     <property name="text">
-      <string>Elektromechanika</string>
-     </property>
-    </item>
-   </widget>
-   <widget class="QTabWidget" name="tabWidget">
-    <property name="geometry">
-     <rect>
-      <x>1040</x>
-      <y>50</y>
-      <width>251</width>
-      <height>611</height>
-     </rect>
-    </property>
-    <property name="currentIndex">
-     <number>0</number>
-    </property>
-    <widget class="QWidget" name="tab">
-     <attribute name="title">
-      <string>Informace</string>
-     </attribute>
-    </widget>
-    <widget class="QWidget" name="tab_2">
-     <attribute name="title">
-      <string>Skladové informace</string>
-     </attribute>
-    </widget>
-   </widget>
-   <widget class="QPushButton" name="pushButton_3">
-    <property name="geometry">
-     <rect>
-      <x>570</x>
-      <y>10</y>
-      <width>41</width>
-      <height>24</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Filtry</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButton">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>10</y>
-      <width>91</width>
-      <height>24</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Příjem stavající</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButton_2">
-    <property name="geometry">
-     <rect>
-      <x>1210</x>
-      <y>10</y>
-      <width>80</width>
-      <height>24</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Nastavení</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButton_7">
-    <property name="geometry">
-     <rect>
-      <x>110</x>
-      <y>10</y>
-      <width>91</width>
-      <height>24</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Příjem nový</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_2">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>300</y>
-      <width>131</width>
-      <height>81</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Měnění prostřední tabulky popřípadě textu v prvém tabWidgetu</string>
-    </property>
-    <property name="scaledContents">
-     <bool>true</bool>
-    </property>
-    <property name="wordWrap">
-     <bool>true</bool>
-    </property>
-   </widget>
+   </layout>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1307</width>
-     <height>26</height>
+     <width>1347</width>
+     <height>21</height>
     </rect>
    </property>
   </widget>
