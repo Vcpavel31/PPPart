@@ -14,96 +14,167 @@
    <string>Dialog</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="0" column="2">
-    <widget class="QWidget" name="Umisteni" native="true">
-     <layout class="QHBoxLayout" name="Umisteni_4">
+   <item row="4" column="0">
+    <widget class="QWidget" name="EAN" native="true">
+     <layout class="QHBoxLayout" name="_4">
       <item>
-       <widget class="QLabel" name="Umisteni_1">
+       <widget class="QLabel" name="EAN_1">
         <property name="text">
-         <string>Umístění:</string>
+         <string>EAN</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QLineEdit" name="Umisteni_2">
-        <property name="enabled">
-         <bool>false</bool>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QToolButton" name="Umisteni_3">
-        <property name="text">
-         <string>...</string>
-        </property>
-       </widget>
+       <widget class="QLineEdit" name="EAN_2"/>
       </item>
      </layout>
     </widget>
    </item>
-   <item row="7" column="3">
-    <widget class="QWidget" name="Pouzdro" native="true">
-     <layout class="QHBoxLayout" name="horizontalLayout_13">
-      <item>
-       <widget class="QLabel" name="Pouzdro_1">
-        <property name="text">
-         <string>Pouzdro</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLineEdit" name="Pouzdro_2"/>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item row="5" column="4">
-    <widget class="QWidget" name="Kladna_tolerance" native="true">
-     <layout class="QHBoxLayout" name="horizontalLayout_20">
-      <item>
-       <widget class="QLabel" name="Kladna_tolerance_1">
-        <property name="text">
-         <string>Kladná tolerance</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QDoubleSpinBox" name="Kladna_tolerance_2"/>
-      </item>
-      <item>
-       <widget class="QLabel" name="Kladna_tolerance_3">
-        <property name="text">
-         <string>%</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item row="8" column="3">
-    <widget class="QWidget" name="Tolerance" native="true">
-     <layout class="QHBoxLayout" name="horizontalLayout_14">
-      <item>
-       <widget class="QLabel" name="Tolerance_1">
-        <property name="text">
-         <string>Tolerance</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QDoubleSpinBox" name="Tolerance_2"/>
-      </item>
-      <item>
-       <widget class="QLabel" name="Tolerance_3">
-        <property name="text">
-         <string>%</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
+   <item row="7" column="0">
+    <widget class="QCheckBox" name="New_Part">
+     <property name="font">
+      <font>
+       <pointsize>15</pointsize>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>Nová součástka</string>
+     </property>
     </widget>
    </item>
    <item row="9" column="0">
+    <widget class="QWidget" name="Vyrobce" native="true">
+     <layout class="QHBoxLayout" name="horizontalLayout_5">
+      <item>
+       <widget class="QLabel" name="Vyrobce_1">
+        <property name="text">
+         <string>Výrobce</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLineEdit" name="Vyrobce_2"/>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="2" column="1" rowspan="9" colspan="2">
+    <widget class="QTableWidget" name="tableWidget">
+     <property name="autoFillBackground">
+      <bool>true</bool>
+     </property>
+     <property name="editTriggers">
+      <set>QAbstractItemView::NoEditTriggers</set>
+     </property>
+     <property name="showDropIndicator" stdset="0">
+      <bool>false</bool>
+     </property>
+     <property name="dragDropOverwriteMode">
+      <bool>false</bool>
+     </property>
+     <property name="alternatingRowColors">
+      <bool>true</bool>
+     </property>
+     <property name="selectionMode">
+      <enum>QAbstractItemView::SingleSelection</enum>
+     </property>
+     <property name="selectionBehavior">
+      <enum>QAbstractItemView::SelectRows</enum>
+     </property>
+     <property name="cornerButtonEnabled">
+      <bool>false</bool>
+     </property>
+     <column>
+      <property name="text">
+       <string>ID</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Název</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>EAN</string>
+      </property>
+     </column>
+    </widget>
+   </item>
+   <item row="12" column="1" rowspan="2">
+    <widget class="QPushButton" name="Print">
+     <property name="text">
+      <string>Tisk</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="1" colspan="2">
+    <widget class="QWidget" name="NewPart" native="true">
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <item>
+       <widget class="QLabel" name="label">
+        <property name="text">
+         <string>V databázi nebyla nalezne součástka odpovídající zadaným kritériím. Chcete vytvořit novou součástku?</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+        <property name="wordWrap">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="pushButton">
+        <property name="text">
+         <string>Nová součástka</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="1" column="0" rowspan="3">
+    <widget class="QWidget" name="Nazev" native="true">
+     <layout class="QHBoxLayout" name="horizontalLayout_2">
+      <item>
+       <widget class="QLabel" name="Nazev_1">
+        <property name="text">
+         <string>Název</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLineEdit" name="Nazev_2"/>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="12" column="2">
+    <widget class="QPushButton" name="Next_part">
+     <property name="text">
+      <string>Vložit další součátku</string>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="0">
+    <widget class="QWidget" name="Obj_cislo" native="true">
+     <layout class="QHBoxLayout" name="Obj_cislo_3">
+      <item>
+       <widget class="QLabel" name="Obj_cislo_1">
+        <property name="text">
+         <string>Objednací číslo</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLineEdit" name="Obj_cislo_2"/>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="8" column="0">
     <widget class="QWidget" name="Kategorie" native="true">
      <layout class="QHBoxLayout" name="horizontalLayout_4">
       <item>
@@ -152,200 +223,7 @@
      </layout>
     </widget>
    </item>
-   <item row="7" column="4">
-    <widget class="QWidget" name="Material" native="true">
-     <layout class="QHBoxLayout" name="horizontalLayout_22">
-      <item>
-       <widget class="QLabel" name="Material_1">
-        <property name="text">
-         <string>Materiál</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLineEdit" name="Material_2"/>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item row="10" column="3">
-    <widget class="QWidget" name="Hodnota" native="true">
-     <layout class="QHBoxLayout" name="horizontalLayout_16">
-      <item>
-       <widget class="QLabel" name="Hodnota_1">
-        <property name="text">
-         <string>Hodnota</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QDoubleSpinBox" name="Hodnota_2"/>
-      </item>
-      <item>
-       <widget class="QComboBox" name="Hodnota_3">
-        <item>
-         <property name="text">
-          <string>T</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>G</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>M</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>K</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>--</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>m</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>u</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>n</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>p</string>
-         </property>
-        </item>
-       </widget>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item row="6" column="4">
-    <widget class="QWidget" name="Poc_vodicu" native="true">
-     <layout class="QHBoxLayout" name="horizontalLayout_21">
-      <item>
-       <widget class="QLabel" name="Poc_vodicu_1">
-        <property name="text">
-         <string>Počet vodičů</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QSpinBox" name="Poc_vodicu_2"/>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item row="5" column="3">
-    <widget class="QWidget" name="Min_sklad" native="true">
-     <layout class="QHBoxLayout" name="horizontalLayout_12">
-      <item>
-       <widget class="QLabel" name="Min_sklad_1">
-        <property name="text">
-         <string>Minimální počet požek ve skladu</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QSpinBox" name="Min_sklad_2"/>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item row="6" column="3">
-    <widget class="QWidget" name="Delka" native="true">
-     <layout class="QHBoxLayout" name="horizontalLayout_3">
-      <item>
-       <widget class="QLabel" name="Delka_1">
-        <property name="text">
-         <string>Délka</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QDoubleSpinBox" name="doubleSpinBox_9"/>
-      </item>
-      <item>
-       <widget class="QComboBox" name="Delka_3"/>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item row="7" column="2" rowspan="4">
-    <widget class="QWidget" name="Poznamka" native="true">
-     <layout class="QHBoxLayout" name="horizontalLayout_8">
-      <item>
-       <widget class="QLabel" name="Poznamka_1">
-        <property name="text">
-         <string>Poznámka</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPlainTextEdit" name="Poznamka_2"/>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item row="9" column="3">
-    <widget class="QWidget" name="Hmotnost" native="true">
-     <layout class="QHBoxLayout" name="horizontalLayout_15">
-      <item>
-       <widget class="QLabel" name="Hmotnost_1">
-        <property name="text">
-         <string>Hmotnost</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QDoubleSpinBox" name="Hmotnost_2"/>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item row="9" column="4">
-    <widget class="QWidget" name="Jme_napeti" native="true">
-     <layout class="QHBoxLayout" name="horizontalLayout_25">
-      <item>
-       <widget class="QLabel" name="Jme_napeti_1">
-        <property name="text">
-         <string>Jmenovité napětí</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QDoubleSpinBox" name="Jme_napeti_2"/>
-      </item>
-      <item>
-       <widget class="QLabel" name="Jme_napeti_3">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="text">
-         <string>V</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item row="5" column="0">
+   <item row="6" column="0">
     <widget class="QWidget" name="Vyr_cislo" native="true">
      <layout class="QHBoxLayout" name="horizontalLayout_6">
       <item>
@@ -361,7 +239,34 @@
      </layout>
     </widget>
    </item>
-   <item row="11" column="0" rowspan="2">
+   <item row="10" column="0">
+    <widget class="QWidget" name="Umisteni" native="true">
+     <layout class="QHBoxLayout" name="Umisteni_4">
+      <item>
+       <widget class="QLabel" name="Umisteni_1">
+        <property name="text">
+         <string>Umístění:</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLineEdit" name="Umisteni_2">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QToolButton" name="Umisteni_3">
+        <property name="text">
+         <string>...</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="12" column="0" rowspan="2">
     <widget class="QLabel" name="pozn">
      <property name="text">
       <string>Datum přidání vždy odeslat s CURRENT_TIMESTAMP</string>
@@ -374,313 +279,28 @@
      </property>
     </widget>
    </item>
-   <item row="4" column="3">
-    <widget class="QWidget" name="Int_oznaceni" native="true">
-     <layout class="QHBoxLayout" name="horizontalLayout_27">
-      <item>
-       <widget class="QLabel" name="Int_oznaceni_1">
-        <property name="text">
-         <string>Interní označení</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLineEdit" name="Int_oznaceni_2"/>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item row="0" column="1">
-    <widget class="QWidget" name="NewPart" native="true">
-     <layout class="QVBoxLayout" name="verticalLayout">
-      <item>
-       <widget class="QLabel" name="label">
-        <property name="text">
-         <string>V databázi nebyla nalezne součástka odpovídající zadaným kritériím. Chcete vytvořit novou součástku?</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
-        </property>
-        <property name="wordWrap">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item row="11" column="4">
-    <widget class="QPushButton" name="Next_part">
-     <property name="text">
-      <string>Vložit další součátku</string>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="0">
-    <widget class="QWidget" name="Nazev" native="true">
-     <layout class="QHBoxLayout" name="horizontalLayout_2">
-      <item>
-       <widget class="QLabel" name="Nazev_1">
-        <property name="text">
-         <string>Název</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLineEdit" name="Nazev_2"/>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item row="4" column="4">
-    <widget class="QWidget" name="Zaporna_tolerance" native="true">
-     <layout class="QHBoxLayout" name="horizontalLayout_19">
-      <item>
-       <widget class="QLabel" name="Zaporna_tolerance_1">
-        <property name="text">
-         <string>Záporná tolerance</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QDoubleSpinBox" name="Zaporna_tolerance_2"/>
-      </item>
-      <item>
-       <widget class="QLabel" name="Zaporna_tolerance_3">
-        <property name="text">
-         <string>%</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item row="8" column="4">
-    <widget class="QWidget" name="Jme_vykon" native="true">
-     <layout class="QHBoxLayout" name="horizontalLayout_24">
-      <item>
-       <widget class="QLabel" name="Jme_vykon_1">
-        <property name="text">
-         <string>Jmenovitý výkon</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QDoubleSpinBox" name="Jme_vykon_2"/>
-      </item>
-      <item>
-       <widget class="QLabel" name="Jme_vykon_3">
-        <property name="text">
-         <string>W</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item row="3" column="4">
-    <widget class="QWidget" name="Koncovka_2" native="true">
-     <layout class="QHBoxLayout" name="horizontalLayout_18">
-      <item>
-       <widget class="QLabel" name="Koncovka_2_1">
-        <property name="text">
-         <string>Koncovka 2</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLineEdit" name="Koncovka_2_2"/>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item row="12" column="4">
+   <item row="13" column="2">
     <widget class="QPushButton" name="Done">
      <property name="text">
       <string>Dokončit vkládání</string>
      </property>
     </widget>
    </item>
-   <item row="3" column="0">
-    <widget class="QWidget" name="EAN" native="true">
-     <layout class="QHBoxLayout" name="_4">
-      <item>
-       <widget class="QLabel" name="EAN_1">
-        <property name="text">
-         <string>EAN</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLineEdit" name="EAN_2"/>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item row="5" column="2">
-    <widget class="QWidget" name="Cena" native="true">
-     <layout class="QHBoxLayout" name="horizontalLayout_10">
-      <item>
-       <widget class="QLabel" name="Cena_1">
-        <property name="text">
-         <string>Cena</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QDoubleSpinBox" name="Cena_2"/>
-      </item>
-      <item>
-       <widget class="QComboBox" name="comboBox">
-        <item>
-         <property name="text">
-          <string>Kč</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>€</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>$</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>£</string>
-         </property>
-        </item>
-       </widget>
-      </item>
-      <item>
-       <widget class="QDateEdit" name="Date_exchange">
-        <property name="enabled">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item row="10" column="0">
-    <widget class="QWidget" name="Vyrobce" native="true">
-     <layout class="QHBoxLayout" name="horizontalLayout_5">
-      <item>
-       <widget class="QLabel" name="Vyrobce_1">
-        <property name="text">
-         <string>Výrobce</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLineEdit" name="Vyrobce_2"/>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item row="7" column="0">
-    <widget class="QCheckBox" name="New_Part">
-     <property name="font">
-      <font>
-       <pointsize>15</pointsize>
-       <bold>true</bold>
-      </font>
+   <item row="11" column="1" colspan="2">
+    <spacer name="horizontalSpacer">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
      </property>
-     <property name="text">
-      <string>Nová součástka</string>
+     <property name="sizeType">
+      <enum>QSizePolicy::Fixed</enum>
      </property>
-    </widget>
-   </item>
-   <item row="1" column="1">
-    <widget class="QPushButton" name="pushButton">
-     <property name="text">
-      <string>Nová součástka</string>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>350</width>
+       <height>0</height>
+      </size>
      </property>
-    </widget>
-   </item>
-   <item row="2" column="1" rowspan="11">
-    <widget class="QTableWidget" name="tableWidget">
-     <property name="autoFillBackground">
-      <bool>true</bool>
-     </property>
-     <property name="editTriggers">
-      <set>QAbstractItemView::NoEditTriggers</set>
-     </property>
-     <property name="showDropIndicator" stdset="0">
-      <bool>false</bool>
-     </property>
-     <property name="dragDropOverwriteMode">
-      <bool>false</bool>
-     </property>
-     <property name="alternatingRowColors">
-      <bool>true</bool>
-     </property>
-     <property name="selectionMode">
-      <enum>QAbstractItemView::SingleSelection</enum>
-     </property>
-     <property name="selectionBehavior">
-      <enum>QAbstractItemView::SelectRows</enum>
-     </property>
-     <property name="cornerButtonEnabled">
-      <bool>false</bool>
-     </property>
-     <column>
-      <property name="text">
-       <string>ID</string>
-      </property>
-     </column>
-     <column>
-      <property name="text">
-       <string>Název</string>
-      </property>
-     </column>
-     <column>
-      <property name="text">
-       <string>EAN</string>
-      </property>
-     </column>
-    </widget>
-   </item>
-   <item row="0" column="4">
-    <widget class="QWidget" name="Koncovka_1" native="true">
-     <layout class="QHBoxLayout" name="horizontalLayout_17">
-      <item>
-       <widget class="QLabel" name="Koncovka_1_1">
-        <property name="text">
-         <string>Koncovka 1</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLineEdit" name="Koncovka_1_2"/>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item row="11" column="3" rowspan="2">
-    <widget class="QPushButton" name="Print">
-     <property name="text">
-      <string>Tisk</string>
-     </property>
-    </widget>
-   </item>
-   <item row="4" column="0">
-    <widget class="QWidget" name="Obj_cislo" native="true">
-     <layout class="QHBoxLayout" name="Obj_cislo_3">
-      <item>
-       <widget class="QLabel" name="Obj_cislo_1">
-        <property name="text">
-         <string>Objednací číslo</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLineEdit" name="Obj_cislo_2"/>
-      </item>
-     </layout>
-    </widget>
+    </spacer>
    </item>
   </layout>
  </widget>

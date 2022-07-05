@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Input_Element2</class>
- <widget class="QDialog" name="Input_Element2">
+ <class>Input_Element5</class>
+ <widget class="QDialog" name="Input_Element5">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -19,13 +19,13 @@
      <property name="text">
       <string>TEXT</string>
      </property>
-     <property name="wordWrap">
-      <bool>false</bool>
-     </property>
     </widget>
    </item>
    <item>
-    <widget class="QSpinBox" name="SpinBox"/>
+    <widget class="QDoubleSpinBox" name="DoubleSpinBox"/>
+   </item>
+   <item>
+    <widget class="QComboBox" name="ComboBox"/>
    </item>
   </layout>
  </widget>

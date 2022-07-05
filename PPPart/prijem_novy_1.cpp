@@ -12,35 +12,9 @@ Prijem_novy_1::Prijem_novy_1(QWidget *parent) :
     ui->Kategorie->setEnabled(0);
     ui->Vyrobce->setEnabled(0);
 
-    ui->Umisteni->hide();
-    ui->Dodavatel->hide();
-    ui->Poznamka->hide();
-    ui->Stav->hide();
-    ui->Cena->hide();
-    ui->Polozek->hide();
-    ui->Min_sklad->hide();
-    ui->Delka->hide();
-    ui->Pouzdro->hide();
-    ui->Tolerance->hide();
-    ui->Hmotnost->hide();
-    ui->Hodnota->hide();
-    ui->Koncovka_1->hide();
-    ui->Koncovka_2->hide();
-    ui->Zaporna_tolerance->hide();
-    ui->Kladna_tolerance->hide();
-    ui->Poc_vodicu->hide();
-    ui->Material->hide();
-    ui->Jme_vykon->hide();
-    ui->Jme_napeti->hide();
-    ui->Ozn_knihovna->hide();
-    ui->Baleni->hide();
-    ui->Int_oznaceni->hide();
-
     ui->NewPart->hide();
     ui->Kategorie_Warning->hide();
 
-    ui->Date_exchange->setDate(QDate::currentDate());
-    ui->Date_exchange->hide();
     Update_list();
 
     QString Query = "SELECT `Categories`.`Name` FROM `Categories`, `Categories_Arrangement` WHERE `Categories`.`Hidden` = 0 AND `Categories`.`ID` = `Categories_Arrangement`.`Category`";
@@ -55,16 +29,16 @@ Prijem_novy_1::Prijem_novy_1(QWidget *parent) :
     Enabled_Categories = data["Name"];
     QCompleter *Distribution_Completer = new QCompleter(Enabled_Categories, this);
     Distribution_Completer->setCaseSensitivity(Qt::CaseInsensitive);
-    ui->Dodavatel_2->setCompleter(Distribution_Completer);
+    //ui->Dodavatel_2->setCompleter(Distribution_Completer);
 
     Query = "SELECT `Name` FROM `Producer` WHERE 1";
     data = network.getData(Query);
     Enabled_Categories = data["Name"];
     QCompleter *Production_Completer = new QCompleter(Enabled_Categories, this);
     Production_Completer->setCaseSensitivity(Qt::CaseInsensitive);
-    ui->Vyrobce_2->setCompleter(Production_Completer);
+    //ui->Vyrobce_2->setCompleter(Production_Completer);
 
-    ui->Hodnota_3->setCurrentIndex(4); // Default to --
+    //ui->Hodnota_3->setCurrentIndex(4); // Default to --
 
     //connect(Stav_2, SIGNAL())
 
@@ -83,23 +57,18 @@ void Prijem_novy_1::Update_list()
     QMap<QString, QStringList> data = network.getData(Query);
     qDebug() << "Data: " << data;
     ui->tableWidget->setRowCount(0);
-    if(!data.keys().contains("ID")||!data.keys().contains("Name")||!data.keys().contains("EAN")){
-        qDebug() << "Didnt get ID, Name or EAN";
+    if(!data.keys().contains("ID")){    //||!data.keys().contains("Name")||!data.keys().contains("EAN")
         ui->NewPart->show();
-        ui->pushButton->show();
         return;
     }
     for(int i = 0; i != data["ID"].size(); i++){
-        if(!data["ID"].at(i).isEmpty()){
+        if(data["ID"].at(i).isEmpty()){
+            ui->NewPart->show();
+        }
+        else{
             ui->tableWidget->insertRow(ui->tableWidget->rowCount());
             ui->tableWidget->setItem(ui->tableWidget->rowCount()-1, 0, new QTableWidgetItem(data["ID"].at(i)));
             ui->NewPart->hide();
-            ui->pushButton->hide();
-        }
-        else{
-            qDebug() << "ERROR: didnt receive ID";
-            ui->NewPart->show();
-            ui->pushButton->show();
         }
 
         if(!data["Name"].at(i).isEmpty()) ui->tableWidget->setItem(ui->tableWidget->rowCount()-1, 1, new QTableWidgetItem(data["Name"].at(i)));
@@ -109,6 +78,8 @@ void Prijem_novy_1::Update_list()
         else qDebug() << "ERROR: didnt receive EAN";
     }
     ui->tableWidget->update();
+    ui->tableWidget->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+    ui->tableWidget->setColumnHidden(0, 1); // Hide ID Column for usability
 }
 
 void Prijem_novy_1::on_Nazev_2_textChanged(const QString &arg1)
@@ -180,21 +151,18 @@ void Prijem_novy_1::on_tableWidget_doubleClicked(const QModelIndex &index)
     //ui->Vyr_cislo->setEnabled(0);
     //ui->New_Part->setEnabled(0);
     ui->NewPart->hide();
-    ui->pushButton->hide();
-
-
 
 
     qDebug() << "Showing secondary";
 
 
-    ui->Umisteni->show();
+    ui->Umisteni->show();/*
     ui->Dodavatel->show();
     ui->Cena->show();
     ui->Stav->show();
     ui->Poznamka->show();
     ui->Polozek->show();
-
+*/
 }
 
 void Prijem_novy_1::on_Kategorie_3_pressed()
@@ -229,42 +197,38 @@ void Prijem_novy_1::on_New_Part_stateChanged(int arg1)
 {
     qDebug()<<arg1;
     if(!arg1){
-        //ui->pushButton->show();
-        //ui->NewPart->show();
-
         ui->tableWidget->setEnabled(1);
         ui->tableWidget->show();
 
-        ui->Umisteni->hide();
+        ui->Umisteni->hide();/*
         ui->Dodavatel->hide();
         ui->Cena->hide();
         ui->Stav->hide();
         ui->Poznamka->hide();
-        ui->Polozek->hide();
+        ui->Polozek->hide();*/
 
         ui->Kategorie->setEnabled(0);
         ui->Vyrobce->setEnabled(0);
-
+        Update_list();
     }
     else{
-        //ui->pushButton->hide();
-        //ui->NewPart->hide();
+        ui->NewPart->hide();
 
         ui->tableWidget->hide();
 
         QCompleter *completer = new QCompleter({"Nový", "Použitý", "Poškozený", "Nefunkční"}, this);
         completer->setCaseSensitivity(Qt::CaseInsensitive);
-        ui->Stav_2->setCompleter(completer);
+        //ui->Stav_2->setCompleter(completer);
 
         ui->tableWidget->setEnabled(0);
 
-        ui->Umisteni->show();
+        ui->Umisteni->show();/*
         ui->Dodavatel->show();
         ui->Cena->show();
         ui->Stav->show();
         ui->Poznamka->show();
         ui->Polozek->show();
-
+*/
         ui->Kategorie->setEnabled(1);
         ui->Vyrobce->setEnabled(1);
 
@@ -274,12 +238,12 @@ void Prijem_novy_1::on_New_Part_stateChanged(int arg1)
 // Při dvojkliku na textfield stav se zobrazí nabídka
 void Prijem_novy_1::on_Stav_2_selectionChanged()
 {
-    ui->Stav_2->completer()->setCompletionPrefix("");
-    ui->Stav_2->completer()->complete();
+    //ui->Stav_2->completer()->setCompletionPrefix("");
+    //ui->Stav_2->completer()->complete();
 }
 
 void Prijem_novy_1::on_Currency_currentTextChanged(const QString &arg1)
 {
-    if(arg1 != "Kč") ui->Date_exchange->show();
-    else ui->Date_exchange->hide();
+    //if(arg1 != "Kč") ui->Date_exchange->show();
+    //else ui->Date_exchange->hide();
 }

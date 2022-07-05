@@ -15,14 +15,14 @@
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout">
    <item>
-    <widget class="QLabel" name="QLabel">
+    <widget class="QLabel" name="Label">
      <property name="text">
       <string>TEXT</string>
      </property>
     </widget>
    </item>
    <item>
-    <widget class="QLineEdit" name="QLineEdit"/>
+    <widget class="QLineEdit" name="LineEdit"/>
    </item>
   </layout>
  </widget>
