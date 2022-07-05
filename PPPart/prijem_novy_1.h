@@ -10,6 +10,14 @@
 #include <QUrl>
 #include <QUrlQuery>
 #include <QCompleter>
+#include <QPushButton>
+#include <QLabel>
+#include <QLineEdit>
+#include <QSpinBox>
+#include <QDoubleSpinBox>
+#include <QPlainTextEdit>
+#include <QComboBox>
+#include <QDateEdit>
 
 #include "networksql.h"
 #include "category.h"

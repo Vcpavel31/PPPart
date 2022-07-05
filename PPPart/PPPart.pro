@@ -1,4 +1,4 @@
-QT       += core gui network opengl
+QT       += core gui network opengl widgets
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets charts
 
@@ -12,13 +12,6 @@ CONFIG += c++11
 
 SOURCES += \
     category.cpp \
-    input_element1.cpp \
-    input_element2.cpp \
-    input_element3.cpp \
-    input_element4.cpp \
-    input_element5.cpp \
-    input_element6.cpp \
-    input_element7.cpp \
     main.cpp \
     nastaveni.cpp \
     networksql.cpp \
@@ -28,13 +21,6 @@ SOURCES += \
 
 HEADERS += \
     category.h \
-    input_element1.h \
-    input_element2.h \
-    input_element3.h \
-    input_element4.h \
-    input_element5.h \
-    input_element6.h \
-    input_element7.h \
     nastaveni.h \
     networksql.h \
     pppart.h \
