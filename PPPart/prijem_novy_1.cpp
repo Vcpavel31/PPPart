@@ -15,31 +15,30 @@ Prijem_novy_1::Prijem_novy_1(QWidget *parent) :
 
     Update_list();
 
-    QString Query = "SELECT `Categories`.`Name` FROM `Categories`, `Categories_Arrangement` WHERE `Categories`.`Hidden` = 0 AND `Categories`.`ID` = `Categories_Arrangement`.`Category`";
+    QString Query = "SELECT `Categories`.`Name` AS 'Name', `Categories`.`ID` AS 'ID' FROM `Categories`, `Categories_Arrangement` WHERE `Categories`.`Hidden` = 0 AND `Categories`.`ID` = `Categories_Arrangement`.`Category`";
     QMap<QString, QStringList> data = network.getData(Query);
     Enabled_Categories = data["Name"];
+    for(int i; i != data["ID"].size();i++){
+        Categories[data["Name"][i]] = data["ID"][i].toInt();
+    }
     QCompleter *Category_Completer = new QCompleter(Enabled_Categories, this);
     Category_Completer->setCaseSensitivity(Qt::CaseInsensitive);
     ui->Kategorie_2->setCompleter(Category_Completer);
-
+/*
     Query = "SELECT `Supplier_Name` AS 'Name' FROM `Supplier` WHERE 1";
     data = network.getData(Query);
     Enabled_Categories = data["Name"];
     QCompleter *Distribution_Completer = new QCompleter(Enabled_Categories, this);
     Distribution_Completer->setCaseSensitivity(Qt::CaseInsensitive);
-    //ui->Dodavatel_2->setCompleter(Distribution_Completer);
+    ui->Dodavatel_2->setCompleter(Distribution_Completer);
 
     Query = "SELECT `Name` FROM `Producer` WHERE 1";
     data = network.getData(Query);
     Enabled_Categories = data["Name"];
     QCompleter *Production_Completer = new QCompleter(Enabled_Categories, this);
     Production_Completer->setCaseSensitivity(Qt::CaseInsensitive);
-    //ui->Vyrobce_2->setCompleter(Production_Completer);
-
-    //ui->Hodnota_3->setCurrentIndex(4); // Default to --
-
-    //connect(Stav_2, SIGNAL())
-
+    ui->Vyrobce_2->setCompleter(Production_Completer);
+*/
 }
 
 Prijem_novy_1::~Prijem_novy_1()
@@ -172,16 +171,23 @@ void Prijem_novy_1::on_Kategorie_3_pressed()
       // You can access everything you need in dialog object
         QTreeWidgetItem item = category.getSelectedItem();
         ui->Kategorie_2->setText(item.text(0));
-        categoryID = item.text(1);
+        categoryID = Categories[item.text(1)];
     }
 }
 
 
 void Prijem_novy_1::on_Kategorie_2_textChanged(const QString &arg1)
 {
-    categoryID.clear();
-    if(Enabled_Categories.indexOf(arg1) == -1) ui->Kategorie_Warning->show();
-    else ui->Kategorie_Warning->hide();
+    qDebug() << arg1 << ":  " << Enabled_Categories.indexOf(arg1) << " IN: " << Enabled_Categories;
+    if(Enabled_Categories.indexOf(arg1) == -1){
+        ui->Kategorie_Warning->show();
+        categoryID = -1;
+    }
+    else{
+        ui->Kategorie_Warning->hide();
+        categoryID = Categories[arg1];
+        if(ui->New_Part->checkState()) create_input();
+    }
 }
 
 
@@ -201,133 +207,51 @@ void Prijem_novy_1::on_New_Part_stateChanged(int arg1)
 
         ui->Umisteni->hide();
 
-
-        /*
-        ui->Dodavatel->hide();
-        ui->Cena->hide();
-        ui->Stav->hide();
-        ui->Poznamka->hide();
-        ui->Polozek->hide();
-        */
-
         ui->Kategorie->setEnabled(0);
         ui->Vyrobce->setEnabled(0);
         Update_list();
     }
     else{
-        ui->NewPart->hide();
+        if(categoryID != -1) create_input();
 
+        ui->NewPart->hide();
         ui->tableWidget->hide();
 
-        QCompleter *completer = new QCompleter({"Nový", "Použitý", "Poškozený", "Nefunkční"}, this);
-        completer->setCaseSensitivity(Qt::CaseInsensitive);
-        //ui->Stav_2->setCompleter(completer);
-
         ui->tableWidget->setEnabled(0);
-
-        QString Query = "SELECT IF(`Alias` IS NULL, `Attribute_Name`, `Alias`) AS 'Name', `Type`, `ID`, `Options`, `Unit` FROM `Attributes` WHERE 1";
-        QMap<QString, QStringList> response = network.getData(Query);
-        qDebug() << response;
-
-        int i = 0;
-        int column_ends = 0;
-        int column = 0;
-
-        for(int j = 1; j!=response["ID"].size(); j++){ //attributes["ID"].size(); h++){
-
-            switch(response["Type"][j].toInt()){
-                case 0:
-                    i--;
-                    break;
-                case 1:
-                    pointers[response["Name"][j]]                   = new QLineEdit();
-
-                    ui->gridLayout_2->addWidget(new QLabel(response["Name"][j]),                    i%4, column);
-                    ui->gridLayout_2->addWidget(pointers[response["Name"][j]],                      i%4, column+1);
-                    column_ends = column+1;
-                    break;
-                case 2:
-                    pointers[response["Name"][j]]                   = new QSpinBox();
-
-                    ui->gridLayout_2->addWidget(new QLabel(response["Name"][j]),                    i%4, column);
-                    ui->gridLayout_2->addWidget(pointers[response["Name"][j]],                      i%4, column+1);
-                    column_ends = column+1;
-                    break;
-                case 3:
-                    pointers[response["Name"][j]]                   = new QPlainTextEdit();
-
-                    ui->gridLayout_2->addWidget(new QLabel(response["Name"][j]),                    i%4, column);
-                    ui->gridLayout_2->addWidget(pointers[response["Name"][j]],                      i%4, column+1);
-                    column_ends = column+1;
-                    break;
-                case 4:
-                    pointers[response["Name"][j]+"_DoubleSpinBox"]  = new QDoubleSpinBox();
-                    pointers[response["Name"][j]+"_ComboBox"]       = new QComboBox();
-                    pointers[response["Name"][j]+"_DateEdit"]       = new QDateEdit();
-
-                    ui->gridLayout_2->addWidget(new QLabel(response["Name"][j]),                    i%4, column);
-                    ui->gridLayout_2->addWidget(pointers[response["Name"][j]+"_DoubleSpinBox"],     i%4, column+1);
-                    ui->gridLayout_2->addWidget(pointers[response["Name"][j]+"_ComboBox"],          i%4, column+2);
-                    ui->gridLayout_2->addWidget(pointers[response["Name"][j]+"_DateEdit"],          i%4, column+3);
-
-                    ComboBox = dynamic_cast<QComboBox*>(pointers[response["Name"][j]+"_ComboBox"]);
-                    ComboBox->addItems(response["Options"][j].split(", "));
-
-                    DateEdit = dynamic_cast<QDateEdit*>(pointers[response["Name"][j]+"_DateEdit"]);
-                    DateEdit->setDate(QDate().currentDate());
-                    DateEdit->setEnabled(false);
-
-                    QObject::connect(pointers[response["Name"][j]+"_ComboBox"],\
-                            SIGNAL(currentTextChanged(const QString &)), this,\
-                            SLOT(currency_changed(const QString &)));
-
-                    column_ends = column+3;
-                    break;
-                case 5:
-                    pointers[response["Name"][j]+"_DoubleSpinBox"]  = new QDoubleSpinBox();
-                    pointers[response["Name"][j]+"_ComboBox"]       = new QComboBox();
-
-                    ui->gridLayout_2->addWidget(new QLabel(response["Name"][j]),                    i%4, column);
-                    ui->gridLayout_2->addWidget(pointers[response["Name"][j]+"_DoubleSpinBox"],     i%4, column+1);
-                    ui->gridLayout_2->addWidget(pointers[response["Name"][j]+"_ComboBox"],          i%4, column+2);
-
-                    column_ends = column+2;
-                    break;
-                case 6:
-                    pointers[response["Name"][j]]                   = new QDoubleSpinBox();
-
-                    ui->gridLayout_2->addWidget(new QLabel(response["Name"][j]),                    i%4, column);
-                    ui->gridLayout_2->addWidget(pointers[response["Name"][j]],                      i%4, column+1);
-                    ui->gridLayout_2->addWidget(new QLabel(response["Unit"][j]),                    i%4, column+2);
-                    column_ends = column+2;
-                    break;
-                case 7:
-                    pointers[response["Name"][j]]                   = new QDoubleSpinBox();
-
-                    ui->gridLayout_2->addWidget(new QLabel(response["Name"][j]),                    i%4, column);
-                    ui->gridLayout_2->addWidget(pointers[response["Name"][j]],                      i%4, column+1);
-                    column_ends = column+1;
-                    break;
-            }
-            i++;
-            if(i%4 == 0){
-                column = column_ends+1;
-            }
-        }
-
-
-
-
-        ui->Umisteni->show();/*
-        ui->Dodavatel->show();
-        ui->Cena->show();
-        ui->Stav->show();
-        ui->Poznamka->show();
-        ui->Polozek->show();
-*/
         ui->Kategorie->setEnabled(1);
         ui->Vyrobce->setEnabled(1);
 
+        ui->Umisteni->show();
+    }
+}
+
+void Prijem_novy_1::set_ComboBox(QMap<QString, QStringList> response, QMap<QString, QWidget*> pointers, int j){
+    if(response["Options_Type"][j] == "0"){
+        dynamic_cast<QComboBox*>(pointers[response["Name"][j]+"_ComboBox"])->addItems(response["Options"][j].split(", "));
+        // Options_Selected
+        //qDebug() << response["Options_Selected"][j].toInt();
+        dynamic_cast<QComboBox*>(pointers[response["Name"][j]+"_ComboBox"])->setCurrentIndex(response["Options_Selected"][j].toInt());
+    }
+    else{
+        //Get Query of response["Options"][j] and response parse as Items for QComboBox
+    }
+}
+
+void Prijem_novy_1::set_Helper(QMap<QString, QStringList> response, int j){
+    if(response["Helper"][j] == "1"){
+
+        QCompleter *Completer;
+        //qDebug() << j; qDebug() << response["Helper"][j]; qDebug() << response["Helper_Querry"][j]; qDebug() << response["Helper_Type"][j];
+        if(response["Helper_Type"][j] == "1"){
+            QMap<QString, QStringList> data = network.getData(response["Helper_Querry"][j]);
+            Completer = new QCompleter(data["Name"], this);
+        }
+        if(response["Helper_Type"][j] == "0"){
+            Completer = new QCompleter(response["Helper_Querry"][j].split(", "), this);
+        }
+
+        Completer->setCaseSensitivity(Qt::CaseInsensitive);
+        dynamic_cast<QLineEdit*>(pointers[response["Name"][j]])->setCompleter(Completer);
     }
 }
 
@@ -342,4 +266,100 @@ void Prijem_novy_1::currency_changed(const QString &text)
 {
     if(text != "Kč") pointers["Cena_DateEdit"]->setEnabled(true);
     else pointers["Cena_DateEdit"]->setEnabled(false);
+}
+
+void Prijem_novy_1::create_input(){
+
+    QString Query = "SELECT IF( `Attributes`.`Alias` IS NULL, `Attributes`.`Attribute_Name`, `Attributes`.`Alias` ) AS 'Name', `Attributes`.`ID` AS 'ID', `Attributes`.`Writable` AS 'Writable', `Attributes`.`Type` AS 'Type', `Attributes`.`Unit` AS 'Unit', `Attributes`.`Options_Type` AS 'Options_Type', `Attributes`.`Options` AS 'Options', `Attributes`.`Options_Selected` AS 'Options_Selected', `Attributes`.`Helper_Type` AS 'Helper_Type', `Attributes`.`Helper_Querry` AS 'Helper_Querry', `Attributes`.`Helper` AS 'Helper' FROM `Attributes`, `Categories_Attributes` WHERE `Categories_Attributes`.`Category` = '"+QString::number(categoryID)+"' AND `Attributes`.`Writable` = '1' AND `Categories_Attributes`.`Attributes` = `Attributes`.`ID`";
+    qDebug() << Query;
+    QMap<QString, QStringList> response = network.getData(Query);
+    qDebug() << response;
+    if(!response.isEmpty()){
+        int i = 0;
+        int column_ends = 0;
+        int column = 0;
+
+        for(int j = 1; j!=response["ID"].size(); j++){ //attributes["ID"].size(); h++){
+
+            switch(response["Type"][j].toInt()){
+                case 0:
+                    i--;
+                    break;
+                case 1:
+                    pointers[response["Name"][j]]                   = new QLineEdit();
+
+                    ui->gridLayout_2->addWidget(new QLabel(response["Name"][j]),                    i%rows, column);
+                    ui->gridLayout_2->addWidget(pointers[response["Name"][j]],                      i%rows, column+1);
+
+                    set_Helper(response, j);
+                    if(column_ends < column+1) column_ends = column+1;
+                    break;
+                case 2:
+                    pointers[response["Name"][j]]                   = new QSpinBox();
+
+                    ui->gridLayout_2->addWidget(new QLabel(response["Name"][j]),                    i%rows, column);
+                    ui->gridLayout_2->addWidget(pointers[response["Name"][j]],                      i%rows, column+1);
+                    if(column_ends < column+1) column_ends = column+1;
+                    break;
+                case 3:
+                    pointers[response["Name"][j]]                   = new QPlainTextEdit();
+
+                    ui->gridLayout_2->addWidget(new QLabel(response["Name"][j]),                    i%rows, column);
+                    ui->gridLayout_2->addWidget(pointers[response["Name"][j]],                      i%rows, column+1);
+                    if(column_ends < column+1) column_ends = column+1;
+                    break;
+                case 4:
+                    pointers[response["Name"][j]+"_DoubleSpinBox"]  = new QDoubleSpinBox();
+                    pointers[response["Name"][j]+"_ComboBox"]       = new QComboBox();
+                    pointers[response["Name"][j]+"_DateEdit"]       = new QDateEdit();
+
+                    ui->gridLayout_2->addWidget(new QLabel(response["Name"][j]),                    i%rows, column);
+                    ui->gridLayout_2->addWidget(pointers[response["Name"][j]+"_DoubleSpinBox"],     i%rows, column+1);
+                    ui->gridLayout_2->addWidget(pointers[response["Name"][j]+"_ComboBox"],          i%rows, column+2);
+                    ui->gridLayout_2->addWidget(pointers[response["Name"][j]+"_DateEdit"],          i%rows, column+3);
+
+                    set_ComboBox(response, pointers, j);
+
+                    dynamic_cast<QDateEdit*>(pointers[response["Name"][j]+"_DateEdit"])->setDate(QDate().currentDate());
+                    if(column_ends < column+2) column_ends = column+2;
+                    break;
+                case 5:
+                    pointers[response["Name"][j]+"_DoubleSpinBox"]  = new QDoubleSpinBox();
+                    pointers[response["Name"][j]+"_ComboBox"]       = new QComboBox();
+
+                    ui->gridLayout_2->addWidget(new QLabel(response["Name"][j]),                    i%rows, column);
+                    ui->gridLayout_2->addWidget(pointers[response["Name"][j]+"_DoubleSpinBox"],     i%rows, column+1);
+                    ui->gridLayout_2->addWidget(pointers[response["Name"][j]+"_ComboBox"],          i%rows, column+2);
+
+                    set_ComboBox(response, pointers, j);
+
+                    if(column_ends < column+6) column_ends = column+6;
+                    break;
+                case 6:
+                    pointers[response["Name"][j]]                   = new QDoubleSpinBox();
+
+                    ui->gridLayout_2->addWidget(new QLabel(response["Name"][j]),                    i%rows, column);
+                    ui->gridLayout_2->addWidget(pointers[response["Name"][j]],                      i%rows, column+1);
+                    ui->gridLayout_2->addWidget(new QLabel(response["Unit"][j]),                    i%rows, column+2);
+
+                    if(column_ends < column+2) column_ends = column+2;
+                    break;
+                case 7:
+                    pointers[response["Name"][j]]                   = new QDoubleSpinBox();
+
+                    ui->gridLayout_2->addWidget(new QLabel(response["Name"][j]),                    i%rows, column);
+                    ui->gridLayout_2->addWidget(pointers[response["Name"][j]],                      i%rows, column+1);
+                    if(column_ends < column+1) column_ends = column+1;
+                    break;
+            }
+            i++;
+            if(i%rows == 0){
+                column = column_ends+1;
+            }
+        }
+        QObject::connect(pointers["Cena_ComboBox"], SIGNAL(currentTextChanged(const QString &)), this, SLOT(currency_changed(const QString &)));
+        dynamic_cast<QDateEdit*>(pointers["Cena_DateEdit"])->setEnabled(false);
+        dynamic_cast<QDateEdit*>(pointers["Cena_DateEdit"])->setMaximumDate(QDate().currentDate());
+    }
+    else qDebug() << "Category: " << categoryID << " is not defined!";
 }

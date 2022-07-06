@@ -62,6 +62,12 @@ private slots:
 
     void on_Stav_2_selectionChanged();
 
+    void set_ComboBox(QMap<QString, QStringList> response, QMap<QString, QWidget*> pointers, int j);
+
+    void set_Helper(QMap<QString, QStringList> response, int j);
+
+    void create_input();
+
 private:
     Ui::Prijem_novy_1 *ui;
 
@@ -71,13 +77,17 @@ private:
     QString Vyr_cislo = "(`Product_number` LIKE '%' OR `Product_number` IS NULL)";
     QString Response = "";
 
+    int rows = 6;
+
     QStringList array;
     QStringList Enabled_Categories;
+
+    QMap<QString, int> Categories;
 
     NetworkSQL network;
     Category category;
 
-    QString categoryID;
+    int categoryID = -1;
 
     void Update_list();
 
