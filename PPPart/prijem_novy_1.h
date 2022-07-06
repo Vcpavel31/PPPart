@@ -77,6 +77,8 @@ private:
 
     void Update_list();
 
+    QMap<QString, QWidget*> pointers;
+
 };
 
 #endif // PRIJEM_NOVY_1_H
