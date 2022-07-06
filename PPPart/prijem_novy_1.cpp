@@ -225,7 +225,7 @@ void Prijem_novy_1::on_New_Part_stateChanged(int arg1)
 
         ui->tableWidget->setEnabled(0);
 
-        QString Query = "SELECT IF(`Alias` IS NULL, `Attribute_Name`, `Alias`) AS 'Name', `Type`, `ID`, `Options` FROM `Attributes` WHERE 1";
+        QString Query = "SELECT IF(`Alias` IS NULL, `Attribute_Name`, `Alias`) AS 'Name', `Type`, `ID`, `Options`, `Unit` FROM `Attributes` WHERE 1";
         QMap<QString, QStringList> response = network.getData(Query);
         qDebug() << response;
 
@@ -240,71 +240,71 @@ void Prijem_novy_1::on_New_Part_stateChanged(int arg1)
                     i--;
                     break;
                 case 1:
-                    pointers[response["Name"][j]+"_Label"]          = new QLabel(response["Name"][j]);
-                    pointers[response["Name"][j]+"_LineEdit"]       = new QLineEdit(response["Name"][j]);
+                    pointers[response["Name"][j]] = new QLineEdit();
 
-                    ui->gridLayout_2->addWidget(pointers[response["Name"][j]+"_Label"],             i%4, column);
-                    ui->gridLayout_2->addWidget(pointers[response["Name"][j]+"_LineEdit"],          i%4, column+1);
+                    ui->gridLayout_2->addWidget(new QLabel(response["Name"][j]),                    i%4, column);
+                    ui->gridLayout_2->addWidget(pointers[response["Name"][j]],                      i%4, column+1);
                     column_ends = column+1;
                     break;
                 case 2:
-                    pointers[response["Name"][j]+"_Label"]          = new QLabel(response["Name"][j]);
-                    pointers[response["Name"][j]+"_SpinBox"]        = new QSpinBox();
+                    pointers[response["Name"][j]] = new QSpinBox();
 
-                    ui->gridLayout_2->addWidget(pointers[response["Name"][j]+"_Label"],             i%4, column);
-                    ui->gridLayout_2->addWidget(pointers[response["Name"][j]+"_SpinBox"],           i%4, column+1);
+                    ui->gridLayout_2->addWidget(new QLabel(response["Name"][j]),                    i%4, column);
+                    ui->gridLayout_2->addWidget(pointers[response["Name"][j]],                      i%4, column+1);
                     column_ends = column+1;
                     break;
                 case 3:
-                    pointers[response["Name"][j]+"_Label"]          = new QLabel(response["Name"][j]);
-                    pointers[response["Name"][j]+"_PlainTextEdit"]  = new QPlainTextEdit();
+                    pointers[response["Name"][j]] = new QPlainTextEdit();
 
-                    ui->gridLayout_2->addWidget(pointers[response["Name"][j]+"_Label"],             i%4, column);
-                    ui->gridLayout_2->addWidget(pointers[response["Name"][j]+"_PlainTextEdit"],     i%4, column+1);
+                    ui->gridLayout_2->addWidget(new QLabel(response["Name"][j]),                    i%4, column);
+                    ui->gridLayout_2->addWidget(pointers[response["Name"][j]],                      i%4, column+1);
                     column_ends = column+1;
                     break;
                 case 4:
-                    pointers[response["Name"][j]+"_Label"]          = new QLabel(response["Name"][j]);
                     pointers[response["Name"][j]+"_DoubleSpinBox"]  = new QDoubleSpinBox();
                     pointers[response["Name"][j]+"_ComboBox"]       = new QComboBox();
                     pointers[response["Name"][j]+"_DateEdit"]       = new QDateEdit();
 
-                    ui->gridLayout_2->addWidget(pointers[response["Name"][j]+"_Label"],             i%4, column);
+                    ui->gridLayout_2->addWidget(new QLabel(response["Name"][j]),                    i%4, column);
                     ui->gridLayout_2->addWidget(pointers[response["Name"][j]+"_DoubleSpinBox"],     i%4, column+1);
                     ui->gridLayout_2->addWidget(pointers[response["Name"][j]+"_ComboBox"],          i%4, column+2);
                     ui->gridLayout_2->addWidget(pointers[response["Name"][j]+"_DateEdit"],          i%4, column+3);
 
-                    qDebug() << response["Options"][j].split(", ");
+                    ComboBox = dynamic_cast<QComboBox*>(pointers[response["Name"][j]+"_ComboBox"]);
+                    ComboBox->addItems(response["Options"][j].split(", "));
 
+                    DateEdit = dynamic_cast<QDateEdit*>(pointers[response["Name"][j]+"_DateEdit"]);
+                    DateEdit->setDate(QDate().currentDate());
+
+                    connect(pointers[response["Name"][j]+"_ComboBox"],\
+                            SIGNAL(currentTextChanged(const QString)), this,\
+                            SLOT(currency_changed(ComboBox, DateEdit)));
 
                     column_ends = column+3;
                     break;
                 case 5:
-                    pointers[response["Name"][j]+"_Label"]          = new QLabel(response["Name"][j]);
                     pointers[response["Name"][j]+"_DoubleSpinBox"]  = new QDoubleSpinBox();
                     pointers[response["Name"][j]+"_ComboBox"]       = new QComboBox();
 
-                    ui->gridLayout_2->addWidget(pointers[response["Name"][j]+"_Label"],             i%4, column);
+                    ui->gridLayout_2->addWidget(new QLabel(response["Name"][j]),                    i%4, column);
                     ui->gridLayout_2->addWidget(pointers[response["Name"][j]+"_DoubleSpinBox"],     i%4, column+1);
                     ui->gridLayout_2->addWidget(pointers[response["Name"][j]+"_ComboBox"],          i%4, column+2);
+
                     column_ends = column+2;
                     break;
                 case 6:
-                    pointers[response["Name"][j]+"_Label"]          = new QLabel(response["Name"][j]);
-                    pointers[response["Name"][j]+"_DoubleSpinBox"]  = new QDoubleSpinBox();
-                    pointers[response["Name"][j]+"_Unit"]           = new QLabel(response["Name"][j]);
+                    pointers[response["Name"][j]]  = new QDoubleSpinBox();
 
-                    ui->gridLayout_2->addWidget(pointers[response["Name"][j]+"_Label"],             i%4, column);
-                    ui->gridLayout_2->addWidget(pointers[response["Name"][j]+"_DoubleSpinBox"],     i%4, column+1);
-                    ui->gridLayout_2->addWidget(pointers[response["Name"][j]+"_Unit"],              i%4, column+2);
+                    ui->gridLayout_2->addWidget(new QLabel(response["Name"][j]),                    i%4, column);
+                    ui->gridLayout_2->addWidget(pointers[response["Name"][j]],                      i%4, column+1);
+                    ui->gridLayout_2->addWidget(new QLabel(response["Unit"][j]),                    i%4, column+2);
                     column_ends = column+2;
                     break;
                 case 7:
-                    pointers[response["Name"][j]+"_Label"]          = new QLabel(response["Name"][j]);
-                    pointers[response["Name"][j]+"_DoubleSpinBox"]  = new QDoubleSpinBox();
+                    pointers[response["Name"][j]]  = new QDoubleSpinBox();
 
-                    ui->gridLayout_2->addWidget(pointers[response["Name"][j]+"_Label"],             i%4, column);
-                    ui->gridLayout_2->addWidget(pointers[response["Name"][j]+"_DoubleSpinBox"],     i%4, column+1);
+                    ui->gridLayout_2->addWidget(new QLabel(response["Name"][j]),                    i%4, column);
+                    ui->gridLayout_2->addWidget(pointers[response["Name"][j]],                      i%4, column+1);
                     column_ends = column+1;
                     break;
             }
@@ -337,8 +337,9 @@ void Prijem_novy_1::on_Stav_2_selectionChanged()
     //ui->Stav_2->completer()->complete();
 }
 
-void Prijem_novy_1::on_Currency_currentTextChanged(const QString &arg1)
+void Prijem_novy_1::currency_changed(QComboBox* select, QDateEdit* date)
 {
-    //if(arg1 != "Kč") ui->Date_exchange->show();
-    //else ui->Date_exchange->hide();
+    if(select->currentText() != "Kč") date->show();
+    else date->hide();
 }
+

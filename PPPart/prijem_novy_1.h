@@ -10,6 +10,8 @@
 #include <QUrl>
 #include <QUrlQuery>
 #include <QCompleter>
+
+
 #include <QPushButton>
 #include <QLabel>
 #include <QLineEdit>
@@ -18,6 +20,7 @@
 #include <QPlainTextEdit>
 #include <QComboBox>
 #include <QDateEdit>
+#include <QWidgetItem>
 
 #include "networksql.h"
 #include "category.h"
@@ -54,7 +57,7 @@ private slots:
 
     void on_New_Part_stateChanged(int arg1);
 
-    void on_Currency_currentTextChanged(const QString &arg1);
+    void currency_changed(QComboBox* select, QDateEdit* date);
 
     void on_Stav_2_selectionChanged();
 
@@ -78,6 +81,9 @@ private:
     void Update_list();
 
     QMap<QString, QWidget*> pointers;
+
+    QComboBox* ComboBox;
+    QDateEdit* DateEdit;
 
 };
 
