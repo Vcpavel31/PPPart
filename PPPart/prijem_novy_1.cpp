@@ -240,21 +240,21 @@ void Prijem_novy_1::on_New_Part_stateChanged(int arg1)
                     i--;
                     break;
                 case 1:
-                    pointers[response["Name"][j]] = new QLineEdit();
+                    pointers[response["Name"][j]]                   = new QLineEdit();
 
                     ui->gridLayout_2->addWidget(new QLabel(response["Name"][j]),                    i%4, column);
                     ui->gridLayout_2->addWidget(pointers[response["Name"][j]],                      i%4, column+1);
                     column_ends = column+1;
                     break;
                 case 2:
-                    pointers[response["Name"][j]] = new QSpinBox();
+                    pointers[response["Name"][j]]                   = new QSpinBox();
 
                     ui->gridLayout_2->addWidget(new QLabel(response["Name"][j]),                    i%4, column);
                     ui->gridLayout_2->addWidget(pointers[response["Name"][j]],                      i%4, column+1);
                     column_ends = column+1;
                     break;
                 case 3:
-                    pointers[response["Name"][j]] = new QPlainTextEdit();
+                    pointers[response["Name"][j]]                   = new QPlainTextEdit();
 
                     ui->gridLayout_2->addWidget(new QLabel(response["Name"][j]),                    i%4, column);
                     ui->gridLayout_2->addWidget(pointers[response["Name"][j]],                      i%4, column+1);
@@ -275,10 +275,11 @@ void Prijem_novy_1::on_New_Part_stateChanged(int arg1)
 
                     DateEdit = dynamic_cast<QDateEdit*>(pointers[response["Name"][j]+"_DateEdit"]);
                     DateEdit->setDate(QDate().currentDate());
+                    DateEdit->setEnabled(false);
 
-                    connect(pointers[response["Name"][j]+"_ComboBox"],\
-                            SIGNAL(currentTextChanged(const QString)), this,\
-                            SLOT(currency_changed(ComboBox, DateEdit)));
+                    QObject::connect(pointers[response["Name"][j]+"_ComboBox"],\
+                            SIGNAL(currentTextChanged(const QString &)), this,\
+                            SLOT(currency_changed(const QString &)));
 
                     column_ends = column+3;
                     break;
@@ -293,7 +294,7 @@ void Prijem_novy_1::on_New_Part_stateChanged(int arg1)
                     column_ends = column+2;
                     break;
                 case 6:
-                    pointers[response["Name"][j]]  = new QDoubleSpinBox();
+                    pointers[response["Name"][j]]                   = new QDoubleSpinBox();
 
                     ui->gridLayout_2->addWidget(new QLabel(response["Name"][j]),                    i%4, column);
                     ui->gridLayout_2->addWidget(pointers[response["Name"][j]],                      i%4, column+1);
@@ -301,7 +302,7 @@ void Prijem_novy_1::on_New_Part_stateChanged(int arg1)
                     column_ends = column+2;
                     break;
                 case 7:
-                    pointers[response["Name"][j]]  = new QDoubleSpinBox();
+                    pointers[response["Name"][j]]                   = new QDoubleSpinBox();
 
                     ui->gridLayout_2->addWidget(new QLabel(response["Name"][j]),                    i%4, column);
                     ui->gridLayout_2->addWidget(pointers[response["Name"][j]],                      i%4, column+1);
@@ -337,9 +338,8 @@ void Prijem_novy_1::on_Stav_2_selectionChanged()
     //ui->Stav_2->completer()->complete();
 }
 
-void Prijem_novy_1::currency_changed(QComboBox* select, QDateEdit* date)
+void Prijem_novy_1::currency_changed(const QString &text)
 {
-    if(select->currentText() != "Kč") date->show();
-    else date->hide();
+    if(text != "Kč") pointers["Cena_DateEdit"]->setEnabled(true);
+    else pointers["Cena_DateEdit"]->setEnabled(false);
 }
-

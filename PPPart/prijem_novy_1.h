@@ -37,6 +37,7 @@ public:
     explicit Prijem_novy_1(QWidget *parent = nullptr);
     ~Prijem_novy_1();
 
+    QMap<QString, QWidget*> pointers;
 
 private slots:
     void on_Nazev_2_textChanged(const QString &arg1);
@@ -57,7 +58,7 @@ private slots:
 
     void on_New_Part_stateChanged(int arg1);
 
-    void currency_changed(QComboBox* select, QDateEdit* date);
+    void currency_changed(const QString &text);
 
     void on_Stav_2_selectionChanged();
 
@@ -79,8 +80,6 @@ private:
     QString categoryID;
 
     void Update_list();
-
-    QMap<QString, QWidget*> pointers;
 
     QComboBox* ComboBox;
     QDateEdit* DateEdit;
