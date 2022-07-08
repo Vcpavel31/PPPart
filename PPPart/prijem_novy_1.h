@@ -68,6 +68,12 @@ private slots:
 
     void create_input();
 
+    void send_DB();
+
+    QColor getIdealTextColor(const QColor rBackgroundColor);
+
+    void ColorPick();
+
 private:
     Ui::Prijem_novy_1 *ui;
 
@@ -86,7 +92,7 @@ private:
 
     NetworkSQL network;
     Category category;
-
+    QColor color = QColor(255, 255, 255, 255);
     int categoryID = -1;
 
     void Update_list();

@@ -15,6 +15,7 @@ SOURCES += \
     main.cpp \
     nastaveni.cpp \
     networksql.cpp \
+    pick_color.cpp \
     pppart.cpp \
     prijem_novy_1.cpp \
     vydej_1.cpp
@@ -23,6 +24,7 @@ HEADERS += \
     category.h \
     nastaveni.h \
     networksql.h \
+    pick_color.h \
     pppart.h \
     prijem_novy_1.h \
     vydej_1.h
@@ -30,6 +32,7 @@ HEADERS += \
 FORMS += \
     category.ui \
     nastaveni.ui \
+    pick_color.ui \
     pppart.ui \
     prijem_novy_1.ui \
     vyber_skladu.ui \

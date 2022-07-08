@@ -279,7 +279,7 @@ void Prijem_novy_1::create_input(){
         int column_ends = 0;
         int column = 0;
 
-        for(int j = 1; j!=response["ID"].size(); j++){ //attributes["ID"].size(); h++){
+        for(int j = 0; j!=response["ID"].size(); j++){ //attributes["ID"].size(); h++){
 
             switch(response["Type"][j].toInt()){
                 case 0:
@@ -321,7 +321,7 @@ void Prijem_novy_1::create_input(){
                     set_ComboBox(response, pointers, j);
 
                     dynamic_cast<QDateEdit*>(pointers[response["Name"][j]+"_DateEdit"])->setDate(QDate().currentDate());
-                    if(column_ends < column+2) column_ends = column+2;
+                    if(column_ends < column+3) column_ends = column+3;
                     break;
                 case 5:
                     pointers[response["Name"][j]+"_DoubleSpinBox"]  = new QDoubleSpinBox();
@@ -333,7 +333,7 @@ void Prijem_novy_1::create_input(){
 
                     set_ComboBox(response, pointers, j);
 
-                    if(column_ends < column+6) column_ends = column+6;
+                    if(column_ends < column+2) column_ends = column+2;
                     break;
                 case 6:
                     pointers[response["Name"][j]]                   = new QDoubleSpinBox();
@@ -342,7 +342,7 @@ void Prijem_novy_1::create_input(){
                     ui->gridLayout_2->addWidget(pointers[response["Name"][j]],                      i%rows, column+1);
                     ui->gridLayout_2->addWidget(new QLabel(response["Unit"][j]),                    i%rows, column+2);
 
-                    if(column_ends < column+2) column_ends = column+2;
+                    if(column_ends < column+1) column_ends = column+1;
                     break;
                 case 7:
                     pointers[response["Name"][j]]                   = new QDoubleSpinBox();
@@ -351,15 +351,66 @@ void Prijem_novy_1::create_input(){
                     ui->gridLayout_2->addWidget(pointers[response["Name"][j]],                      i%rows, column+1);
                     if(column_ends < column+1) column_ends = column+1;
                     break;
+                case 8:
+                    pointers[response["Name"][j]+"_ComboBox"]       = new QComboBox();
+
+                    ui->gridLayout_2->addWidget(new QLabel(response["Name"][j]),                    i%rows, column);
+                    ui->gridLayout_2->addWidget(pointers[response["Name"][j]+"_ComboBox"],          i%rows, column+1);
+
+                    set_ComboBox(response, pointers, j);
+
+                    if(column_ends < column+1) column_ends = column+1;
+                    break;
+                case 9:
+                    qDebug() << "Kantor";
+                    const QString COLOR_STYLE("QPushButton { background-color : %1; color : %2; }");
+                    pointers[response["Name"][j]+"_PushButton"]                   = new QPushButton();
+
+                    //QColor color
+                    ui->gridLayout_2->addWidget(new QLabel(response["Name"][j]),                    i%rows, column);
+                    ui->gridLayout_2->addWidget(pointers[response["Name"][j]+"_PushButton"],        i%rows, column+1);
+
+                    QColor IdealTextColor = getIdealTextColor(color);
+
+                    dynamic_cast<QPushButton*>(pointers[response["Name"][j]+"_PushButton"])->setStyleSheet(COLOR_STYLE.arg(color.name()).arg(IdealTextColor.name()));
+
+                    if(column_ends < column+1) column_ends = column+1;
+                    break;
+
             }
             i++;
             if(i%rows == 0){
                 column = column_ends+1;
             }
+
+            if(response["Name"][j] == "Cena"){
+                QObject::connect(pointers["Cena_ComboBox"], SIGNAL(currentTextChanged(const QString &)), this, SLOT(currency_changed(const QString &)));
+                dynamic_cast<QDateEdit*>(pointers["Cena_DateEdit"])->setEnabled(false);
+                dynamic_cast<QDateEdit*>(pointers["Cena_DateEdit"])->setMaximumDate(QDate().currentDate());
+            }
+            if(response["Name"][j] == "Barva"){
+                QObject::connect(pointers["Barva_PushButton"], SIGNAL(clicked()), this, SLOT(ColorPick()));
+            }
         }
-        QObject::connect(pointers["Cena_ComboBox"], SIGNAL(currentTextChanged(const QString &)), this, SLOT(currency_changed(const QString &)));
-        dynamic_cast<QDateEdit*>(pointers["Cena_DateEdit"])->setEnabled(false);
-        dynamic_cast<QDateEdit*>(pointers["Cena_DateEdit"])->setMaximumDate(QDate().currentDate());
     }
     else qDebug() << "Category: " << categoryID << " is not defined!";
+}
+
+//==============================================================================
+//  Nom : getIdealTextColor
+//! @return an ideal label color, based on the given background color.
+//! Based on http://www.codeproject.com/cs/media/IdealTextColor.asp
+//==============================================================================
+QColor Prijem_novy_1::getIdealTextColor(const QColor rBackgroundColor){
+    const int THRESHOLD = 105;
+    int BackgroundDelta = (rBackgroundColor.red() * 0.299) + (rBackgroundColor.green() * 0.587) + (rBackgroundColor.blue() * 0.114);
+    return QColor((255- BackgroundDelta < THRESHOLD) ? Qt::black : Qt::white);
+}
+
+void Prijem_novy_1::ColorPick(){
+    qDebug() << "Kantor";
+}
+
+void Prijem_novy_1::send_DB(){
+
 }
