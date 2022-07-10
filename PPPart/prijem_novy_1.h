@@ -95,12 +95,16 @@ private:
     Pick_Color Pick_Color;
 
     QColor color = QColor(255, 255, 255, 255);
+    const QString COLOR_STYLE = "QPushButton { background-color : %1; color : %2; }";
+
     int categoryID = -1;
 
     void Update_list();
 
     QComboBox* ComboBox;
     QDateEdit* DateEdit;
+
+
 
 };
 

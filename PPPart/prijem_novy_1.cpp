@@ -332,8 +332,6 @@ void Prijem_novy_1::create_input(){
                     if(column_ends < column+1) column_ends = column+1;
                     break;
                 case 9:
-                    qDebug() << "Kantor";
-                    const QString COLOR_STYLE("QPushButton { background-color : %1; color : %2; }");
                     pointers[response["Name"][j]+"_PushButton"]                   = new QPushButton();
 
                     //QColor color
@@ -359,7 +357,7 @@ void Prijem_novy_1::create_input(){
                 dynamic_cast<QDateEdit*>(pointers["Cena_DateEdit"])->setMaximumDate(QDate().currentDate());
             }
             if(response["Name"][j] == "Barva"){
-                QObject::connect(pointers["Barva_PushButton"], SIGNAL(clicked()), this, SLOT(ColorPick()));
+                QObject::connect(pointers["Barva_PushButton"], SIGNAL(pressed()), this, SLOT(ColorPick()));
             }
         }
     }
@@ -367,15 +365,13 @@ void Prijem_novy_1::create_input(){
 }
 
 void Prijem_novy_1::ColorPick(){
-    qDebug() << "Kantor" << color.name();
     Pick_Color.show();
-    qDebug() << Pick_Color.exec();
     if(Pick_Color.exec() == QDialog::Accepted){
-      // You can access everything you need in dialog object
+       // You can access everything you need in dialog object
         color = Pick_Color.getColor();
-        qDebug() << "Kantor" << color.name();
-        //ui->Kategorie_2->setText(item.text(0));
-        //categoryID = Categories[item.text(1)];
+        QColor IdealTextColor = getIdealTextColor(color);
+
+        dynamic_cast<QPushButton*>(pointers["Barva_PushButton"])->setStyleSheet(COLOR_STYLE.arg(color.name()).arg(IdealTextColor.name()));
     }
 }
 
