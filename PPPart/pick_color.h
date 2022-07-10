@@ -23,6 +23,8 @@ public:
 
     QColor getColor();
 
+    QMap<QString, QColor> colors;
+
 private:
     Ui::Pick_Color *ui;
 
@@ -37,11 +39,16 @@ private slots:
 
     void on_buttonBox_accepted();
 
-    void refresh(QColor target);
+    void refresh();
 
     void on_pushButton_clicked();
 
     void on_RAL_Value_textChanged(const QString &arg1);
+    void on_RAL_stateChanged(int arg1);
+    void on_Pantone_stateChanged(int arg1);
+    void on_NCS_stateChanged(int arg1);
+    void on_Manual_stateChanged(int arg1);
+    void on_Transparent_stateChanged(int arg1);
 };
 
 #endif // PICK_COLOR_H
