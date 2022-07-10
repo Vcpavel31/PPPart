@@ -18,7 +18,7 @@ Prijem_novy_1::Prijem_novy_1(QWidget *parent) :
     QString Query = "SELECT `Categories`.`Name` AS 'Name', `Categories`.`ID` AS 'ID' FROM `Categories`, `Categories_Arrangement` WHERE `Categories`.`Hidden` = 0 AND `Categories`.`ID` = `Categories_Arrangement`.`Category`";
     QMap<QString, QStringList> data = network.getData(Query);
     Enabled_Categories = data["Name"];
-    for(int i; i != data["ID"].size();i++){
+    for(int i = 0; i != data["ID"].size();i++){
         Categories[data["Name"][i]] = data["ID"][i].toInt();
     }
     QCompleter *Category_Completer = new QCompleter(Enabled_Categories, this);
@@ -123,43 +123,20 @@ void Prijem_novy_1::on_tableWidget_doubleClicked(const QModelIndex &index)
     ui->Nazev_2->setText(data["Name"][0]);
     ui->EAN_2->setText(data["EAN"][0]);
     ui->Vyr_cislo_2->setText(data["Product_number"][0]);
-    //ui->Obj_cislo_2->setText(data["obj_cislo"][0]);
-
-
-    /*qDebug() << "Data for vyrobce";
-    if(data["Vyrobce_W"][0] != QString("")) ui->Vyrobce_2->setText(data["Vyrobce_W"][0]);
-    else if(data["Vyrobce_S"][0] != QString("")){
-        QString Query = "SELECT `Název` AS 'Name' FROM `Výrobci` WHERE `ID` = "+data["Vyrobce_S"][0];
-        QMap<QString, QStringList> producer = network.getData(Query);
-        ui->Vyrobce_2->setText(producer["Name"][0]);
-    }
-    else ui->Vyrobce_2->setText(QString(""));
-*/
 
     qDebug() << "Data pro kategorie";
     Query = "SELECT `Categories`.`Name` AS 'Category_Name' FROM `Categories`, `Categories_Items` WHERE `Categories`.`ID` = `Categories_Items`.`ID` AND `Categories_Items`.`Item_ID` = "+ID;
     QMap<QString, QStringList> Category_Name = network.getData(Query);
 
     ui->Kategorie_2->setText(Category_Name["Category_Name"][0]);
-    //qDebug() << "Enabling";
-    //ui->Nazev->setEnabled(0);
-    //ui->EAN->setEnabled(0);
-    //ui->Obj_cislo->setEnabled(0);
-    //ui->Vyr_cislo->setEnabled(0);
-    //ui->New_Part->setEnabled(0);
+
     ui->NewPart->hide();
 
 
     qDebug() << "Showing secondary";
 
 
-    ui->Umisteni->show();/*
-    ui->Dodavatel->show();
-    ui->Cena->show();
-    ui->Stav->show();
-    ui->Poznamka->show();
-    ui->Polozek->show();
-*/
+    ui->Umisteni->show();
 }
 
 void Prijem_novy_1::on_Kategorie_3_pressed()
@@ -253,13 +230,6 @@ void Prijem_novy_1::set_Helper(QMap<QString, QStringList> response, int j){
         Completer->setCaseSensitivity(Qt::CaseInsensitive);
         dynamic_cast<QLineEdit*>(pointers[response["Name"][j]])->setCompleter(Completer);
     }
-}
-
-// Při dvojkliku na textfield stav se zobrazí nabídka
-void Prijem_novy_1::on_Stav_2_selectionChanged()
-{
-    //ui->Stav_2->completer()->setCompletionPrefix("");
-    //ui->Stav_2->completer()->complete();
 }
 
 void Prijem_novy_1::currency_changed(const QString &text)
@@ -396,6 +366,23 @@ void Prijem_novy_1::create_input(){
     else qDebug() << "Category: " << categoryID << " is not defined!";
 }
 
+void Prijem_novy_1::ColorPick(){
+    qDebug() << "Kantor" << color.name();
+    Pick_Color.show();
+    qDebug() << Pick_Color.exec();
+    if(Pick_Color.exec() == QDialog::Accepted){
+      // You can access everything you need in dialog object
+        color = Pick_Color.getColor();
+        qDebug() << "Kantor" << color.name();
+        //ui->Kategorie_2->setText(item.text(0));
+        //categoryID = Categories[item.text(1)];
+    }
+}
+
+void Prijem_novy_1::send_DB(){
+
+}
+
 //==============================================================================
 //  Nom : getIdealTextColor
 //! @return an ideal label color, based on the given background color.
@@ -407,10 +394,3 @@ QColor Prijem_novy_1::getIdealTextColor(const QColor rBackgroundColor){
     return QColor((255- BackgroundDelta < THRESHOLD) ? Qt::black : Qt::white);
 }
 
-void Prijem_novy_1::ColorPick(){
-    qDebug() << "Kantor";
-}
-
-void Prijem_novy_1::send_DB(){
-
-}

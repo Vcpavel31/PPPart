@@ -15,8 +15,15 @@ public:
     explicit Pick_Color(QWidget *parent = nullptr);
     ~Pick_Color();
 
+    QColor getColor();
+
 private:
     Ui::Pick_Color *ui;
+
+private slots:
+    QColor getIdealTextColor(const QColor rBackgroundColor);
+
+    void on_buttonBox_accepted();
 };
 
 #endif // PICK_COLOR_H

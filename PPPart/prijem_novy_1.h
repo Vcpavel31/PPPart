@@ -24,6 +24,7 @@
 
 #include "networksql.h"
 #include "category.h"
+#include "pick_color.h"
 
 namespace Ui {
 class Prijem_novy_1;
@@ -60,8 +61,6 @@ private slots:
 
     void currency_changed(const QString &text);
 
-    void on_Stav_2_selectionChanged();
-
     void set_ComboBox(QMap<QString, QStringList> response, QMap<QString, QWidget*> pointers, int j);
 
     void set_Helper(QMap<QString, QStringList> response, int j);
@@ -70,9 +69,9 @@ private slots:
 
     void send_DB();
 
-    QColor getIdealTextColor(const QColor rBackgroundColor);
-
     void ColorPick();
+
+    QColor getIdealTextColor(const QColor rBackgroundColor);
 
 private:
     Ui::Prijem_novy_1 *ui;
@@ -92,6 +91,9 @@ private:
 
     NetworkSQL network;
     Category category;
+
+    Pick_Color Pick_Color;
+
     QColor color = QColor(255, 255, 255, 255);
     int categoryID = -1;
 
