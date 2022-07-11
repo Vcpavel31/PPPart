@@ -3,11 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Počítač: innodb.endora.cz:3306
-<<<<<<< Updated upstream:DB/PPPART_Data_Test.sql
--- Vytvořeno: Úte 05. čec 2022, 14:35
-=======
 -- Vytvořeno: Pon 11. čec 2022, 19:54
->>>>>>> Stashed changes:DB/PPPART_TestData.sql
 -- Verze serveru: 5.6.45-86.1
 -- Verze PHP: 7.3.9
 
@@ -210,12 +206,8 @@ CREATE TABLE `Categories_Attributes` (
   `ID` mediumint(9) NOT NULL,
   `Category` mediumint(9) UNSIGNED NOT NULL,
   `Attributes` int(11) UNSIGNED NOT NULL,
-<<<<<<< Updated upstream:DB/PPPART_Data_Test.sql
   `Hidden` tinyint(1) UNSIGNED NOT NULL DEFAULT '0',
   `Unit` varchar(3) COLLATE utf8mb4_czech_ci DEFAULT NULL
-=======
-  `Hidden` tinyint(1) UNSIGNED NOT NULL DEFAULT '0'
->>>>>>> Stashed changes:DB/PPPART_TestData.sql
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci;
 
 --
