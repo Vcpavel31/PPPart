@@ -54,9 +54,6 @@ void PPPart::on_categories_itemClicked(QTreeWidgetItem *item, int column)
 
     ui->parts->setColumnCount(0);
 
-    //////////////////////////////////////////////////////////////////////////////////
-    /// TODO: Z DB získat jaké sloupce u vybrané kategorie jsou a na ty připravit Treewidget
-    /// TODO: Připravý z DB query pro další atributy které nejsou v halvní tabulce položek
     QString Query = ("  SELECT  `Attributes`.*\
                         FROM    `Attributes`, `Categories_Attributes`, `Categories_Arrangement`\
                         WHERE   `Attributes`.`ID` = `Categories_Attributes`.`Attributes` AND\

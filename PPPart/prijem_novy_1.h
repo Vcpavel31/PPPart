@@ -11,8 +11,20 @@
 #include <QUrlQuery>
 #include <QCompleter>
 
+
+#include <QPushButton>
+#include <QLabel>
+#include <QLineEdit>
+#include <QSpinBox>
+#include <QDoubleSpinBox>
+#include <QPlainTextEdit>
+#include <QComboBox>
+#include <QDateEdit>
+#include <QWidgetItem>
+
 #include "networksql.h"
 #include "category.h"
+#include "pick_color.h"
 
 namespace Ui {
 class Prijem_novy_1;
@@ -26,6 +38,7 @@ public:
     explicit Prijem_novy_1(QWidget *parent = nullptr);
     ~Prijem_novy_1();
 
+    QMap<QString, QWidget*> pointers;
 
 private slots:
     void on_Nazev_2_textChanged(const QString &arg1);
@@ -46,9 +59,19 @@ private slots:
 
     void on_New_Part_stateChanged(int arg1);
 
-    void on_Currency_currentTextChanged(const QString &arg1);
+    void currency_changed(const QString &text);
 
-    void on_Stav_2_selectionChanged();
+    void set_ComboBox(QMap<QString, QStringList> response, QMap<QString, QWidget*> pointers, int j);
+
+    void set_Helper(QMap<QString, QStringList> response, int j);
+
+    void create_input();
+
+    void send_DB();
+
+    void ColorPick();
+
+    QColor getIdealTextColor(const QColor rBackgroundColor);
 
 private:
     Ui::Prijem_novy_1 *ui;
@@ -59,15 +82,29 @@ private:
     QString Vyr_cislo = "(`Product_number` LIKE '%' OR `Product_number` IS NULL)";
     QString Response = "";
 
+    int rows = 6;
+
     QStringList array;
     QStringList Enabled_Categories;
+
+    QMap<QString, int> Categories;
 
     NetworkSQL network;
     Category category;
 
-    QString categoryID;
+    Pick_Color Pick_Color;
+
+    QColor color = QColor(255, 255, 255, 255);
+    const QString COLOR_STYLE = "QPushButton { background-color : %1; color : %2; }";
+
+    int categoryID = -1;
 
     void Update_list();
+
+    QComboBox* ComboBox;
+    QDateEdit* DateEdit;
+
+
 
 };
 

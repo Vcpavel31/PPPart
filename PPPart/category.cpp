@@ -61,7 +61,7 @@ void Category::on_categories_itemClicked(QTreeWidgetItem *item, int column)
 
 QTreeWidgetItem Category::getSelectedItem()
 {
-        return *selectedItem;
+    return *selectedItem;
 }
 
 void Category::on_categories_itemSelectionChanged() // just to be sure

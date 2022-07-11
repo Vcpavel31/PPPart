@@ -15,7 +15,8 @@
             "cStandard": "c17",
             "cppStandard": "c++17",
             "intelliSenseMode": "windows-msvc-x64",
-            "compilerPath": "C:/Qt/6.2.2/mingw_64/bin/qmake.exe"
+            "compilerPath": "C:/Qt/6.2.2/mingw_64/bin/qmake.exe",
+            "compileCommands": "${workspaceFolder}/build-PPPart-Desktop_Qt_6_4_0_MinGW_64_bit-Debug/.qtc_clangd/compile_commands.json"
         },
         {
             "name": "test",
