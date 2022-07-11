@@ -3,13 +3,12 @@
 -- https://www.phpmyadmin.net/
 --
 -- Počítač: innodb.endora.cz:3306
--- Vytvořeno: Pon 11. čec 2022, 19:54
+-- Vytvořeno: Pon 11. čec 2022, 20:18
 -- Verze serveru: 5.6.45-86.1
 -- Verze PHP: 7.3.9
 
 --
 -- PPPART_pre-Alpha
---
 --
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -33,7 +32,7 @@ USE `vcpave1644611634`;
 --
 -- Struktura tabulky `Amounts`
 --
--- Vytvořeno: Pon 11. čec 2022, 07:34
+-- Vytvořeno: Pon 11. čec 2022, 18:09
 --
 
 DROP TABLE IF EXISTS `Amounts`;
@@ -49,7 +48,7 @@ CREATE TABLE `Amounts` (
 --
 -- Struktura tabulky `Attribute`
 --
--- Vytvořeno: Pon 11. čec 2022, 07:34
+-- Vytvořeno: Pon 11. čec 2022, 18:09
 --
 
 DROP TABLE IF EXISTS `Attribute`;
@@ -67,7 +66,7 @@ CREATE TABLE `Attribute` (
 --
 -- Struktura tabulky `Attributes`
 --
--- Vytvořeno: Pon 11. čec 2022, 07:34
+-- Vytvořeno: Pon 11. čec 2022, 18:07
 --
 
 DROP TABLE IF EXISTS `Attributes`;
@@ -78,6 +77,7 @@ CREATE TABLE `Attributes` (
   `Alias` text COLLATE utf8mb4_czech_ci,
   `Type` int(4) NOT NULL,
   `Unit` text COLLATE utf8mb4_czech_ci,
+  `Default_Value` tinytext COLLATE utf8mb4_czech_ci,
   `Options_Type` tinyint(1) NOT NULL DEFAULT '0',
   `Options` longtext COLLATE utf8mb4_czech_ci,
   `Options_Selected` mediumint(9) DEFAULT '0',
@@ -106,7 +106,7 @@ CREATE TABLE `Categories` (
 --
 -- Struktura tabulky `Categories_Arrangement`
 --
--- Vytvořeno: Pon 11. čec 2022, 07:34
+-- Vytvořeno: Pon 11. čec 2022, 18:09
 --
 
 DROP TABLE IF EXISTS `Categories_Arrangement`;
@@ -119,25 +119,9 @@ CREATE TABLE `Categories_Arrangement` (
 -- --------------------------------------------------------
 
 --
--- Struktura tabulky `Categories_Attributes`
---
--- Vytvořeno: Pon 11. čec 2022, 07:34
---
-
-DROP TABLE IF EXISTS `Categories_Attributes`;
-CREATE TABLE `Categories_Attributes` (
-  `ID` mediumint(9) NOT NULL,
-  `Category` mediumint(9) UNSIGNED NOT NULL,
-  `Attributes` int(11) UNSIGNED NOT NULL,
-  `Hidden` tinyint(1) UNSIGNED NOT NULL DEFAULT '0'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci;
-
--- --------------------------------------------------------
-
---
 -- Struktura tabulky `Categories_Items`
 --
--- Vytvořeno: Pon 11. čec 2022, 07:34
+-- Vytvořeno: Pon 11. čec 2022, 18:09
 --
 
 DROP TABLE IF EXISTS `Categories_Items`;
@@ -199,7 +183,7 @@ CREATE TABLE `Supplier` (
 --
 -- Struktura tabulky `Suppliers`
 --
--- Vytvořeno: Pon 11. čec 2022, 07:34
+-- Vytvořeno: Pon 11. čec 2022, 18:09
 --
 
 DROP TABLE IF EXISTS `Suppliers`;
@@ -253,14 +237,6 @@ ALTER TABLE `Categories_Arrangement`
   ADD KEY `Ordered` (`Ordered`);
 
 --
--- Klíče pro tabulku `Categories_Attributes`
---
-ALTER TABLE `Categories_Attributes`
-  ADD PRIMARY KEY (`ID`),
-  ADD KEY `Category` (`Category`),
-  ADD KEY `Attributes` (`Attributes`);
-
---
 -- Klíče pro tabulku `Categories_Items`
 --
 ALTER TABLE `Categories_Items`
@@ -288,28 +264,8 @@ ALTER TABLE `Supplier`
   ADD PRIMARY KEY (`ID`);
 
 --
--- Klíče pro tabulku `Suppliers`
---
-ALTER TABLE `Suppliers`
-  ADD PRIMARY KEY (`ID`),
-  ADD KEY `Item_ID` (`Item_ID`),
-  ADD KEY `Supplier` (`Supplier`);
-
---
 -- AUTO_INCREMENT pro tabulky
 --
-
---
--- AUTO_INCREMENT pro tabulku `Amounts`
---
-ALTER TABLE `Amounts`
-  MODIFY `ID` bigint(20) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT pro tabulku `Attribute`
---
-ALTER TABLE `Attribute`
-  MODIFY `ID` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT pro tabulku `Attributes`
@@ -322,24 +278,6 @@ ALTER TABLE `Attributes`
 --
 ALTER TABLE `Categories`
   MODIFY `ID` mediumint(8) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT pro tabulku `Categories_Arrangement`
---
-ALTER TABLE `Categories_Arrangement`
-  MODIFY `ID` mediumint(8) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT pro tabulku `Categories_Attributes`
---
-ALTER TABLE `Categories_Attributes`
-  MODIFY `ID` mediumint(9) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT pro tabulku `Categories_Items`
---
-ALTER TABLE `Categories_Items`
-  MODIFY `ID` bigint(20) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT pro tabulku `Items`
@@ -360,61 +298,14 @@ ALTER TABLE `Supplier`
   MODIFY `ID` smallint(5) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT pro tabulku `Suppliers`
---
-ALTER TABLE `Suppliers`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
-
---
 -- Omezení pro exportované tabulky
 --
-
---
--- Omezení pro tabulku `Amounts`
---
-ALTER TABLE `Amounts`
-  ADD CONSTRAINT `Amounts_ibfk_1` FOREIGN KEY (`Item_ID`) REFERENCES `Items` (`ID`);
-
---
--- Omezení pro tabulku `Attribute`
---
-ALTER TABLE `Attribute`
-  ADD CONSTRAINT `Attribute_ibfk_2` FOREIGN KEY (`Attribute_Option`) REFERENCES `Attributes` (`ID`),
-  ADD CONSTRAINT `Attribute_ibfk_3` FOREIGN KEY (`Item_ID`) REFERENCES `Items` (`ID`);
-
---
--- Omezení pro tabulku `Categories_Arrangement`
---
-ALTER TABLE `Categories_Arrangement`
-  ADD CONSTRAINT `Categories_Arrangement_ibfk_1` FOREIGN KEY (`Category`) REFERENCES `Categories` (`ID`),
-  ADD CONSTRAINT `Categories_Arrangement_ibfk_2` FOREIGN KEY (`Ordered`) REFERENCES `Categories` (`ID`);
-
---
--- Omezení pro tabulku `Categories_Attributes`
---
-ALTER TABLE `Categories_Attributes`
-  ADD CONSTRAINT `Categories_Attributes_ibfk_1` FOREIGN KEY (`Category`) REFERENCES `Categories` (`ID`),
-  ADD CONSTRAINT `Categories_Attributes_ibfk_2` FOREIGN KEY (`Attributes`) REFERENCES `Attributes` (`ID`);
-
---
--- Omezení pro tabulku `Categories_Items`
---
-ALTER TABLE `Categories_Items`
-  ADD CONSTRAINT `Categories_Items_ibfk_1` FOREIGN KEY (`Item_ID`) REFERENCES `Items` (`ID`),
-  ADD CONSTRAINT `Categories_Items_ibfk_2` FOREIGN KEY (`Category_ID`) REFERENCES `Categories` (`ID`);
 
 --
 -- Omezení pro tabulku `Items`
 --
 ALTER TABLE `Items`
   ADD CONSTRAINT `Items_ibfk_1` FOREIGN KEY (`Producer`) REFERENCES `Producer` (`ID`);
-
---
--- Omezení pro tabulku `Suppliers`
---
-ALTER TABLE `Suppliers`
-  ADD CONSTRAINT `Suppliers_ibfk_1` FOREIGN KEY (`Item_ID`) REFERENCES `Items` (`ID`),
-  ADD CONSTRAINT `Suppliers_ibfk_2` FOREIGN KEY (`Supplier`) REFERENCES `Supplier` (`ID`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
