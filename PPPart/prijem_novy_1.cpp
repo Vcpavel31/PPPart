@@ -180,7 +180,8 @@ void Prijem_novy_1::on_New_Part_stateChanged(int arg1)
     qDebug()<<arg1;
     if(!arg1){
         ui->tableWidget->setEnabled(1);
-        ui->tableWidget->show();
+        //ui->tableWidget->show();
+        ui->verticalWidget->show();
 
         ui->Umisteni->hide();
 
@@ -192,7 +193,8 @@ void Prijem_novy_1::on_New_Part_stateChanged(int arg1)
         if(categoryID != -1) create_input();
 
         ui->NewPart->hide();
-        ui->tableWidget->hide();
+        //ui->tableWidget->hide();
+        ui->verticalWidget->hide();
 
         ui->tableWidget->setEnabled(0);
         ui->Kategorie->setEnabled(1);
@@ -240,7 +242,13 @@ void Prijem_novy_1::currency_changed(const QString &text)
 
 void Prijem_novy_1::create_input(){
 
-    QString Query = "SELECT IF( `Attributes`.`Alias` IS NULL, `Attributes`.`Attribute_Name`, `Attributes`.`Alias` ) AS 'Name', `Attributes`.`ID` AS 'ID', `Attributes`.`Writable` AS 'Writable', `Attributes`.`Type` AS 'Type', `Attributes`.`Unit` AS 'Unit', `Attributes`.`Options_Type` AS 'Options_Type', `Attributes`.`Options` AS 'Options', `Attributes`.`Options_Selected` AS 'Options_Selected', `Attributes`.`Helper_Type` AS 'Helper_Type', `Attributes`.`Helper_Querry` AS 'Helper_Querry', `Attributes`.`Helper` AS 'Helper' FROM `Attributes`, `Categories_Attributes` WHERE `Categories_Attributes`.`Category` = '"+QString::number(categoryID)+"' AND `Attributes`.`Writable` = '1' AND `Categories_Attributes`.`Attributes` = `Attributes`.`ID`";
+    QString Query = "SELECT `Attributes`.`ID` AS 'ID', IF( `Attributes`.`Alias` IS NULL, `Attributes`.`Attribute_Name`, `Attributes`.`Alias` ) AS 'Name', \
+`Attributes`.`Writable` AS 'Writable', `Attributes`.`Type` AS 'Type',`Attributes`.`Unit` AS 'Unit', `Attributes`.`Default_Value` AS 'Default_Value',\
+`Attributes`.`Options_Type` AS 'Options_Type', `Attributes`.`Options` AS 'Options',`Attributes`.`Options_Selected` AS 'Options_Selected',`Attributes`.`Helper_Type` AS 'Helper_Type',\
+`Attributes`.`Helper_Querry` AS 'Helper_Querry',`Attributes`.`Helper` AS 'Helper' FROM `Attributes`, `Categories_Attributes`\
+WHERE `Categories_Attributes`.`Category` = '"+QString::number(categoryID)+"' AND `Attributes`.`Writable` = '1' AND `Categories_Attributes`.`Attributes` = `Attributes`.`ID`";
+
+
     qDebug() << Query;
     QMap<QString, QStringList> response = network.getData(Query);
     qDebug() << response;
@@ -288,6 +296,8 @@ void Prijem_novy_1::create_input(){
                     ui->gridLayout_2->addWidget(pointers[response["Name"][j]+"_ComboBox"],          i%rows, column+2);
                     ui->gridLayout_2->addWidget(pointers[response["Name"][j]+"_DateEdit"],          i%rows, column+3);
 
+                    dynamic_cast<QDoubleSpinBox*>(pointers[response["Name"][j]+"_DoubleSpinBox"])->setMaximum(999999.99);
+
                     set_ComboBox(response, pointers, j);
 
                     dynamic_cast<QDateEdit*>(pointers[response["Name"][j]+"_DateEdit"])->setDate(QDate().currentDate());
@@ -301,6 +311,8 @@ void Prijem_novy_1::create_input(){
                     ui->gridLayout_2->addWidget(pointers[response["Name"][j]+"_DoubleSpinBox"],     i%rows, column+1);
                     ui->gridLayout_2->addWidget(pointers[response["Name"][j]+"_ComboBox"],          i%rows, column+2);
 
+                    dynamic_cast<QDoubleSpinBox*>(pointers[response["Name"][j]+"_DoubleSpinBox"])->setMaximum(999999.99);
+
                     set_ComboBox(response, pointers, j);
 
                     if(column_ends < column+2) column_ends = column+2;
@@ -312,6 +324,9 @@ void Prijem_novy_1::create_input(){
                     ui->gridLayout_2->addWidget(pointers[response["Name"][j]],                      i%rows, column+1);
                     ui->gridLayout_2->addWidget(new QLabel(response["Unit"][j]),                    i%rows, column+2);
 
+                    dynamic_cast<QDoubleSpinBox*>(pointers[response["Name"][j]])->setMaximum(999999.99);
+                    dynamic_cast<QDoubleSpinBox*>(pointers[response["Name"][j]])->setValue(response["Default_Value"][j].toDouble());
+
                     if(column_ends < column+1) column_ends = column+1;
                     break;
                 case 7:
@@ -319,6 +334,9 @@ void Prijem_novy_1::create_input(){
 
                     ui->gridLayout_2->addWidget(new QLabel(response["Name"][j]),                    i%rows, column);
                     ui->gridLayout_2->addWidget(pointers[response["Name"][j]],                      i%rows, column+1);
+
+                    dynamic_cast<QDoubleSpinBox*>(pointers[response["Name"][j]+"_DoubleSpinBox"])->setMaximum(999999.99);
+
                     if(column_ends < column+1) column_ends = column+1;
                     break;
                 case 8:
