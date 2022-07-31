@@ -257,6 +257,21 @@ WHERE `Categories_Attributes`.`Category` = '"+QString::number(categoryID)+"' AND
         int column_ends = 0;
         int column = 0;
 
+
+        // remove all previous items if there are any
+        QLayoutItem* item;
+        while ( ( item = ui->gridLayout_2->takeAt( 0 ) ) != NULL )
+        {
+            qDebug() << "Removing items\n";
+            delete item->widget();
+        }
+
+        //clear whole pointer QMap
+        for (auto it = pointers.begin(); it != pointers.end();)
+        {
+            it = pointers.erase(it);
+        }
+
         for(int j = 0; j!=response["ID"].size(); j++){ //attributes["ID"].size(); h++){
 
             switch(response["Type"][j].toInt()){
@@ -264,37 +279,37 @@ WHERE `Categories_Attributes`.`Category` = '"+QString::number(categoryID)+"' AND
                     i--;
                     break;
                 case 1:
-                    pointers[response["Name"][j]]                   = new QLineEdit();
+                    pointers[response["Name"][j]] = new QLineEdit();
 
-                    ui->gridLayout_2->addWidget(new QLabel(response["Name"][j]),                    i%rows, column);
-                    ui->gridLayout_2->addWidget(pointers[response["Name"][j]],                      i%rows, column+1);
+                    ui->gridLayout_2->addWidget(new QLabel(response["Name"][j]), i%rows, column);
+                    ui->gridLayout_2->addWidget(pointers[response["Name"][j]], i%rows, column+1);
 
                     set_Helper(response, j);
                     if(column_ends < column+1) column_ends = column+1;
                     break;
                 case 2:
-                    pointers[response["Name"][j]]                   = new QSpinBox();
+                    pointers[response["Name"][j]] = new QSpinBox();
 
-                    ui->gridLayout_2->addWidget(new QLabel(response["Name"][j]),                    i%rows, column);
-                    ui->gridLayout_2->addWidget(pointers[response["Name"][j]],                      i%rows, column+1);
+                    ui->gridLayout_2->addWidget(new QLabel(response["Name"][j]), i%rows, column);
+                    ui->gridLayout_2->addWidget(pointers[response["Name"][j]], i%rows, column+1);
                     if(column_ends < column+1) column_ends = column+1;
                     break;
                 case 3:
-                    pointers[response["Name"][j]]                   = new QPlainTextEdit();
+                    pointers[response["Name"][j]] = new QPlainTextEdit();
 
-                    ui->gridLayout_2->addWidget(new QLabel(response["Name"][j]),                    i%rows, column);
-                    ui->gridLayout_2->addWidget(pointers[response["Name"][j]],                      i%rows, column+1);
+                    ui->gridLayout_2->addWidget(new QLabel(response["Name"][j]), i%rows, column);
+                    ui->gridLayout_2->addWidget(pointers[response["Name"][j]], i%rows, column+1);
                     if(column_ends < column+1) column_ends = column+1;
                     break;
                 case 4: // Currency
-                    pointers[response["Name"][j]+"_DoubleSpinBox"]  = new QDoubleSpinBox();
-                    pointers[response["Name"][j]+"_ComboBox"]       = new QComboBox();
-                    pointers[response["Name"][j]+"_DateEdit"]       = new QDateEdit();
+                    pointers[response["Name"][j]+"_DoubleSpinBox"] = new QDoubleSpinBox();
+                    pointers[response["Name"][j]+"_ComboBox"] = new QComboBox();
+                    pointers[response["Name"][j]+"_DateEdit"] = new QDateEdit();
 
-                    ui->gridLayout_2->addWidget(new QLabel(response["Name"][j]),                    i%rows, column);
-                    ui->gridLayout_2->addWidget(pointers[response["Name"][j]+"_DoubleSpinBox"],     i%rows, column+1);
-                    ui->gridLayout_2->addWidget(pointers[response["Name"][j]+"_ComboBox"],          i%rows, column+2);
-                    ui->gridLayout_2->addWidget(pointers[response["Name"][j]+"_DateEdit"],          i%rows, column+3);
+                    ui->gridLayout_2->addWidget(new QLabel(response["Name"][j]), i%rows, column);
+                    ui->gridLayout_2->addWidget(pointers[response["Name"][j]+"_DoubleSpinBox"], i%rows, column+1);
+                    ui->gridLayout_2->addWidget(pointers[response["Name"][j]+"_ComboBox"], i%rows, column+2);
+                    ui->gridLayout_2->addWidget(pointers[response["Name"][j]+"_DateEdit"], i%rows, column+3);
 
                     dynamic_cast<QDoubleSpinBox*>(pointers[response["Name"][j]+"_DoubleSpinBox"])->setMaximum(999999.99);
 
@@ -311,9 +326,9 @@ WHERE `Categories_Attributes`.`Category` = '"+QString::number(categoryID)+"' AND
                     pointers[response["Name"][j]+"_DoubleSpinBox"]  = new QDoubleSpinBox();
                     pointers[response["Name"][j]+"_ComboBox"]       = new QComboBox();
 
-                    ui->gridLayout_2->addWidget(new QLabel(response["Name"][j]),                    i%rows, column);
-                    ui->gridLayout_2->addWidget(pointers[response["Name"][j]+"_DoubleSpinBox"],     i%rows, column+1);
-                    ui->gridLayout_2->addWidget(pointers[response["Name"][j]+"_ComboBox"],          i%rows, column+2);
+                    ui->gridLayout_2->addWidget(new QLabel(response["Name"][j]), i%rows, column);
+                    ui->gridLayout_2->addWidget(pointers[response["Name"][j]+"_DoubleSpinBox"], i%rows, column+1);
+                    ui->gridLayout_2->addWidget(pointers[response["Name"][j]+"_ComboBox"], i%rows, column+2);
 
                     dynamic_cast<QDoubleSpinBox*>(pointers[response["Name"][j]+"_DoubleSpinBox"])->setMaximum(999999.99);
 
@@ -322,11 +337,11 @@ WHERE `Categories_Attributes`.`Category` = '"+QString::number(categoryID)+"' AND
                     if(column_ends < column+2) column_ends = column+2;
                     break;
                 case 6:
-                    pointers[response["Name"][j]]                   = new QDoubleSpinBox();
+                    pointers[response["Name"][j]] = new QDoubleSpinBox();
 
-                    ui->gridLayout_2->addWidget(new QLabel(response["Name"][j]),                    i%rows, column);
-                    ui->gridLayout_2->addWidget(pointers[response["Name"][j]],                      i%rows, column+1);
-                    ui->gridLayout_2->addWidget(new QLabel(response["Unit"][j]),                    i%rows, column+2);
+                    ui->gridLayout_2->addWidget(new QLabel(response["Name"][j]), i%rows, column);
+                    ui->gridLayout_2->addWidget(pointers[response["Name"][j]], i%rows, column+1);
+                    ui->gridLayout_2->addWidget(new QLabel(response["Unit"][j]), i%rows, column+2);
 
                     dynamic_cast<QDoubleSpinBox*>(pointers[response["Name"][j]])->setMaximum(999999.99);
                     dynamic_cast<QDoubleSpinBox*>(pointers[response["Name"][j]])->setValue(response["Default_Value"][j].toDouble());
@@ -334,31 +349,31 @@ WHERE `Categories_Attributes`.`Category` = '"+QString::number(categoryID)+"' AND
                     if(column_ends < column+2) column_ends = column+2;
                     break;
                 case 7:
-                    pointers[response["Name"][j]]                   = new QDoubleSpinBox();
+                    pointers[response["Name"][j]] = new QDoubleSpinBox();
 
-                    ui->gridLayout_2->addWidget(new QLabel(response["Name"][j]),                    i%rows, column);
-                    ui->gridLayout_2->addWidget(pointers[response["Name"][j]],                      i%rows, column+1);
+                    ui->gridLayout_2->addWidget(new QLabel(response["Name"][j]), i%rows, column);
+                    ui->gridLayout_2->addWidget(pointers[response["Name"][j]], i%rows, column+1);
 
                     dynamic_cast<QDoubleSpinBox*>(pointers[response["Name"][j]+"_DoubleSpinBox"])->setMaximum(999999.99);
 
                     if(column_ends < column+1) column_ends = column+1;
                     break;
                 case 8:
-                    pointers[response["Name"][j]+"_ComboBox"]       = new QComboBox();
+                    pointers[response["Name"][j]+"_ComboBox"] = new QComboBox();
 
-                    ui->gridLayout_2->addWidget(new QLabel(response["Name"][j]),                    i%rows, column);
-                    ui->gridLayout_2->addWidget(pointers[response["Name"][j]+"_ComboBox"],          i%rows, column+1);
+                    ui->gridLayout_2->addWidget(new QLabel(response["Name"][j]), i%rows, column);
+                    ui->gridLayout_2->addWidget(pointers[response["Name"][j]+"_ComboBox"], i%rows, column+1);
 
                     set_ComboBox(response, pointers, j);
 
                     if(column_ends < column+1) column_ends = column+1;
                     break;
                 case 9:
-                    pointers[response["Name"][j]+"_PushButton"]                   = new QPushButton();
+                    pointers[response["Name"][j]+"_PushButton"] = new QPushButton();
 
                     //QColor color
-                    ui->gridLayout_2->addWidget(new QLabel(response["Name"][j]),                    i%rows, column);
-                    ui->gridLayout_2->addWidget(pointers[response["Name"][j]+"_PushButton"],        i%rows, column+1);
+                    ui->gridLayout_2->addWidget(new QLabel(response["Name"][j]), i%rows, column);
+                    ui->gridLayout_2->addWidget(pointers[response["Name"][j]+"_PushButton"], i%rows, column+1);
 
                     dynamic_cast<QPushButton*>(pointers[response["Name"][j]+"_PushButton"])->setStyleSheet(COLOR_STYLE.arg(color.name()).arg(getIdealTextColor(color).name()));
 
@@ -366,28 +381,28 @@ WHERE `Categories_Attributes`.`Category` = '"+QString::number(categoryID)+"' AND
                     break;
 
                 case 10: // Tolerance
-                    pointers[response["Name"][j]]                   = new QDoubleSpinBox();
-                    pointers[response["Name"][j]+"-"]               = new QDoubleSpinBox();
-                    pointers[response["Name"][j]+"+"]               = new QDoubleSpinBox();
+                    pointers[response["Name"][j]] = new QDoubleSpinBox();
+                    pointers[response["Name"][j]+"-"] = new QDoubleSpinBox();
+                    pointers[response["Name"][j]+"+"] = new QDoubleSpinBox();
 
-                    pointers[response["Name"][j]+"_Toleration"]     = new QLabel("Tolerance");
-                    pointers[response["Name"][j]+"_Toleration-"]    = new QLabel("Záporná Tolerance");
-                    pointers[response["Name"][j]+"_Toleration+"]    = new QLabel("Kladná Tolerance");
-                    pointers[response["Name"][j]+"_Unit"]           = new QLabel(response["Unit"][j]);
+                    pointers[response["Name"][j]+"_Toleration"] = new QLabel("Tolerance");
+                    pointers[response["Name"][j]+"_Toleration-"] = new QLabel("Záporná Tolerance");
+                    pointers[response["Name"][j]+"_Toleration+"] = new QLabel("Kladná Tolerance");
+                    pointers[response["Name"][j]+"_Unit"] = new QLabel(response["Unit"][j]);
 
-                    pointers[response["Name"][j]+"_ToolButton"]     = new QToolButton();
+                    pointers[response["Name"][j]+"_ToolButton"] = new QToolButton();
 
-                    ui->gridLayout_2->addWidget(pointers[response["Name"][j]+"_Toleration"],        i%rows, column);
-                    ui->gridLayout_2->addWidget(pointers[response["Name"][j]],                      i%rows, column+2);
+                    ui->gridLayout_2->addWidget(pointers[response["Name"][j]+"_Toleration"], i%rows, column);
+                    ui->gridLayout_2->addWidget(pointers[response["Name"][j]], i%rows, column+2);
 
-                    ui->gridLayout_2->addWidget(pointers[response["Name"][j]+"_Toleration-"],       i%rows, column+4);
-                    ui->gridLayout_2->addWidget(pointers[response["Name"][j]+"-"],                  i%rows, column+5);
+                    ui->gridLayout_2->addWidget(pointers[response["Name"][j]+"_Toleration-"], i%rows, column+4);
+                    ui->gridLayout_2->addWidget(pointers[response["Name"][j]+"-"], i%rows, column+5);
 
-                    ui->gridLayout_2->addWidget(pointers[response["Name"][j]+"_Toleration+"],       i%rows, column+6);
-                    ui->gridLayout_2->addWidget(pointers[response["Name"][j]+"+"],                  i%rows, column+7);
+                    ui->gridLayout_2->addWidget(pointers[response["Name"][j]+"_Toleration+"], i%rows, column+6);
+                    ui->gridLayout_2->addWidget(pointers[response["Name"][j]+"+"], i%rows, column+7);
 
-                    ui->gridLayout_2->addWidget(pointers[response["Name"][j]+"_Unit"],              i%rows, column+3); // %
-                    ui->gridLayout_2->addWidget(pointers[response["Name"][j]+"_ToolButton"],        i%rows, column+1);
+                    ui->gridLayout_2->addWidget(pointers[response["Name"][j]+"_Unit"], i%rows, column+3); // %
+                    ui->gridLayout_2->addWidget(pointers[response["Name"][j]+"_ToolButton"], i%rows, column+1);
 
                     QObject::connect(pointers[response["Name"][j]+"_ToolButton"], SIGNAL(pressed()), this, SLOT(Showtolerances()));
 
