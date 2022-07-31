@@ -10,6 +10,7 @@
 #include <QUrl>
 #include <QUrlQuery>
 #include <QCompleter>
+#include <QToolButton>
 
 
 #include <QPushButton>
@@ -71,7 +72,13 @@ private slots:
 
     void ColorPick();
 
+    void Showtolerances();
+
     QColor getIdealTextColor(const QColor rBackgroundColor);
+
+    void on_Next_part_pressed();
+
+    void on_Done_pressed();
 
 private:
     Ui::Prijem_novy_1 *ui;
@@ -82,7 +89,7 @@ private:
     QString Vyr_cislo = "(`Product_number` LIKE '%' OR `Product_number` IS NULL)";
     QString Response = "";
 
-    int rows = 6;
+    int rows = 4;
 
     QStringList array;
     QStringList Enabled_Categories;
@@ -105,6 +112,8 @@ private:
     QDateEdit* DateEdit;
 
 
+    int Toleration_position;
+    QString Tolaration_name;
 
 };
 

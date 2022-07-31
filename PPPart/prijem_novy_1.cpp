@@ -286,7 +286,7 @@ WHERE `Categories_Attributes`.`Category` = '"+QString::number(categoryID)+"' AND
                     ui->gridLayout_2->addWidget(pointers[response["Name"][j]],                      i%rows, column+1);
                     if(column_ends < column+1) column_ends = column+1;
                     break;
-                case 4:
+                case 4: // Currency
                     pointers[response["Name"][j]+"_DoubleSpinBox"]  = new QDoubleSpinBox();
                     pointers[response["Name"][j]+"_ComboBox"]       = new QComboBox();
                     pointers[response["Name"][j]+"_DateEdit"]       = new QDateEdit();
@@ -297,6 +297,10 @@ WHERE `Categories_Attributes`.`Category` = '"+QString::number(categoryID)+"' AND
                     ui->gridLayout_2->addWidget(pointers[response["Name"][j]+"_DateEdit"],          i%rows, column+3);
 
                     dynamic_cast<QDoubleSpinBox*>(pointers[response["Name"][j]+"_DoubleSpinBox"])->setMaximum(999999.99);
+
+                    QObject::connect(pointers[response["Name"][j]+"_ComboBox"], SIGNAL(currentTextChanged(const QString &)), this, SLOT(currency_changed(const QString &)));
+                    dynamic_cast<QDateEdit*>(pointers[response["Name"][j]+"_DateEdit"])->setEnabled(false);
+                    dynamic_cast<QDateEdit*>(pointers[response["Name"][j]+"_DateEdit"])->setMaximumDate(QDate().currentDate());
 
                     set_ComboBox(response, pointers, j);
 
@@ -327,7 +331,7 @@ WHERE `Categories_Attributes`.`Category` = '"+QString::number(categoryID)+"' AND
                     dynamic_cast<QDoubleSpinBox*>(pointers[response["Name"][j]])->setMaximum(999999.99);
                     dynamic_cast<QDoubleSpinBox*>(pointers[response["Name"][j]])->setValue(response["Default_Value"][j].toDouble());
 
-                    if(column_ends < column+1) column_ends = column+1;
+                    if(column_ends < column+2) column_ends = column+2;
                     break;
                 case 7:
                     pointers[response["Name"][j]]                   = new QDoubleSpinBox();
@@ -356,11 +360,48 @@ WHERE `Categories_Attributes`.`Category` = '"+QString::number(categoryID)+"' AND
                     ui->gridLayout_2->addWidget(new QLabel(response["Name"][j]),                    i%rows, column);
                     ui->gridLayout_2->addWidget(pointers[response["Name"][j]+"_PushButton"],        i%rows, column+1);
 
-                    QColor IdealTextColor = getIdealTextColor(color);
-
-                    dynamic_cast<QPushButton*>(pointers[response["Name"][j]+"_PushButton"])->setStyleSheet(COLOR_STYLE.arg(color.name()).arg(IdealTextColor.name()));
+                    dynamic_cast<QPushButton*>(pointers[response["Name"][j]+"_PushButton"])->setStyleSheet(COLOR_STYLE.arg(color.name()).arg(getIdealTextColor(color).name()));
 
                     if(column_ends < column+1) column_ends = column+1;
+                    break;
+
+                case 10: // Tolerance
+                    pointers[response["Name"][j]]                   = new QDoubleSpinBox();
+                    pointers[response["Name"][j]+"-"]               = new QDoubleSpinBox();
+                    pointers[response["Name"][j]+"+"]               = new QDoubleSpinBox();
+
+                    pointers[response["Name"][j]+"_Toleration"]     = new QLabel("Tolerance");
+                    pointers[response["Name"][j]+"_Toleration-"]    = new QLabel("Záporná Tolerance");
+                    pointers[response["Name"][j]+"_Toleration+"]    = new QLabel("Kladná Tolerance");
+                    pointers[response["Name"][j]+"_Unit"]           = new QLabel(response["Unit"][j]);
+
+                    pointers[response["Name"][j]+"_ToolButton"]     = new QToolButton();
+
+                    ui->gridLayout_2->addWidget(pointers[response["Name"][j]+"_Toleration"],        i%rows, column);
+                    ui->gridLayout_2->addWidget(pointers[response["Name"][j]],                      i%rows, column+2);
+
+                    ui->gridLayout_2->addWidget(pointers[response["Name"][j]+"_Toleration-"],       i%rows, column+4);
+                    ui->gridLayout_2->addWidget(pointers[response["Name"][j]+"-"],                  i%rows, column+5);
+
+                    ui->gridLayout_2->addWidget(pointers[response["Name"][j]+"_Toleration+"],       i%rows, column+6);
+                    ui->gridLayout_2->addWidget(pointers[response["Name"][j]+"+"],                  i%rows, column+7);
+
+                    ui->gridLayout_2->addWidget(pointers[response["Name"][j]+"_Unit"],              i%rows, column+3); // %
+                    ui->gridLayout_2->addWidget(pointers[response["Name"][j]+"_ToolButton"],        i%rows, column+1);
+
+                    QObject::connect(pointers[response["Name"][j]+"_ToolButton"], SIGNAL(pressed()), this, SLOT(Showtolerances()));
+
+                    dynamic_cast<QToolButton*>(pointers[response["Name"][j]+"_ToolButton"])->setText("+/-");
+                    dynamic_cast<QDoubleSpinBox*>(pointers[response["Name"][j]+"-"])->setMaximum(100.00);
+                    dynamic_cast<QDoubleSpinBox*>(pointers[response["Name"][j]+"+"])->setMaximum(100.00);
+                    dynamic_cast<QDoubleSpinBox*>(pointers[response["Name"][j]+"-"])->setHidden(1);
+                    dynamic_cast<QDoubleSpinBox*>(pointers[response["Name"][j]+"+"])->setHidden(1);
+                    dynamic_cast<QLabel*>(pointers[response["Name"][j]+"_Toleration-"])->setVisible(0);
+                    dynamic_cast<QLabel*>(pointers[response["Name"][j]+"_Toleration+"])->setVisible(0);
+                    dynamic_cast<QDoubleSpinBox*>(pointers[response["Name"][j]])->setMaximum(100.00);
+                    dynamic_cast<QDoubleSpinBox*>(pointers[response["Name"][j]])->setValue(response["Default_Value"][j].toDouble());
+                    Tolaration_name = response["Name"][j];
+                    if(column_ends < column+7) column_ends = column+7;
                     break;
 
             }
@@ -369,17 +410,39 @@ WHERE `Categories_Attributes`.`Category` = '"+QString::number(categoryID)+"' AND
                 column = column_ends+1;
             }
 
-            if(response["Name"][j] == "Cena"){
-                QObject::connect(pointers["Cena_ComboBox"], SIGNAL(currentTextChanged(const QString &)), this, SLOT(currency_changed(const QString &)));
-                dynamic_cast<QDateEdit*>(pointers["Cena_DateEdit"])->setEnabled(false);
-                dynamic_cast<QDateEdit*>(pointers["Cena_DateEdit"])->setMaximumDate(QDate().currentDate());
-            }
             if(response["Name"][j] == "Barva"){
                 QObject::connect(pointers["Barva_PushButton"], SIGNAL(pressed()), this, SLOT(ColorPick()));
             }
         }
     }
     else qDebug() << "Category: " << categoryID << " is not defined!";
+}
+
+void Prijem_novy_1::Showtolerances(){
+
+    if(dynamic_cast<QDoubleSpinBox*>(pointers[Tolaration_name+"-"])->isHidden()){
+
+        dynamic_cast<QDoubleSpinBox*>(pointers[Tolaration_name])->setHidden(1);
+        dynamic_cast<QLabel*>(pointers[Tolaration_name+"_Unit"])->setVisible(0);
+
+        dynamic_cast<QLabel*>(pointers[Tolaration_name+"_Toleration-"])->setVisible(1);
+        dynamic_cast<QDoubleSpinBox*>(pointers[Tolaration_name+"-"])->setHidden(0);
+        dynamic_cast<QLabel*>(pointers[Tolaration_name+"_Toleration+"])->setVisible(1);
+        dynamic_cast<QDoubleSpinBox*>(pointers[Tolaration_name+"+"])->setHidden(0);
+
+    }
+    else{
+
+        dynamic_cast<QDoubleSpinBox*>(pointers[Tolaration_name])->setHidden(0);
+        dynamic_cast<QLabel*>(pointers[Tolaration_name+"_Unit"])->setVisible(1);
+
+        dynamic_cast<QLabel*>(pointers[Tolaration_name+"_Toleration-"])->setVisible(0);
+        dynamic_cast<QDoubleSpinBox*>(pointers[Tolaration_name+"-"])->setHidden(1);
+        dynamic_cast<QLabel*>(pointers[Tolaration_name+"_Toleration+"])->setVisible(0);
+        dynamic_cast<QDoubleSpinBox*>(pointers[Tolaration_name+"+"])->setHidden(1);
+
+    }
+
 }
 
 void Prijem_novy_1::ColorPick(){
@@ -395,6 +458,15 @@ void Prijem_novy_1::ColorPick(){
 
 void Prijem_novy_1::send_DB(){
 
+    QString Query = "SELECT `Attributes`.`ID` AS 'ID', IF( `Attributes`.`Alias` IS NULL, `Attributes`.`Attribute_Name`, `Attributes`.`Alias` ) AS 'Name', \
+`Attributes`.`Writable` AS 'Writable', `Attributes`.`Type` AS 'Type',`Attributes`.`Unit` AS 'Unit', `Attributes`.`Default_Value` AS 'Default_Value',\
+`Attributes`.`Options_Type` AS 'Options_Type', `Attributes`.`Options` AS 'Options',`Attributes`.`Options_Selected` AS 'Options_Selected',`Attributes`.`Helper_Type` AS 'Helper_Type',\
+`Attributes`.`Helper_Querry` AS 'Helper_Querry',`Attributes`.`Helper` AS 'Helper' FROM `Attributes`, `Categories_Attributes`\
+WHERE `Categories_Attributes`.`Category` = '"+QString::number(categoryID)+"' AND `Attributes`.`Writable` = '1' AND `Categories_Attributes`.`Attributes` = `Attributes`.`ID`";
+    qDebug() << Query;
+    QMap<QString, QStringList> response = network.getData(Query);
+    qDebug() << response;
+
 }
 
 //==============================================================================
@@ -406,5 +478,19 @@ QColor Prijem_novy_1::getIdealTextColor(const QColor rBackgroundColor){
     const int THRESHOLD = 105;
     int BackgroundDelta = (rBackgroundColor.red() * 0.299) + (rBackgroundColor.green() * 0.587) + (rBackgroundColor.blue() * 0.114);
     return QColor((255- BackgroundDelta < THRESHOLD) ? Qt::black : Qt::white);
+}
+
+
+void Prijem_novy_1::on_Next_part_pressed()
+{
+    send_DB();
+    // Reload empty this window
+}
+
+
+void Prijem_novy_1::on_Done_pressed()
+{
+    send_DB();
+    // Close this window and empty it for new part later
 }
 
