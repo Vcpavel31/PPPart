@@ -482,8 +482,8 @@ QColor Prijem_novy_1::getIdealTextColor(const QColor rBackgroundColor){
     return QColor((255- BackgroundDelta < THRESHOLD) ? Qt::black : Qt::white);
 }
 
-float Money_Conversion(QDate date, QString currency, float value){
-    qDebug() << date << value << currency;
+float Prijem_novy_1::Money_Conversion(QDate date, QString currency, float value){
+    qDebug() << "Currency: " << date << value << currency << "\n";
     return 738.60;
 }
 
