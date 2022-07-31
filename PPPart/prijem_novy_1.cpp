@@ -148,7 +148,7 @@ void Prijem_novy_1::on_Kategorie_3_pressed()
       // You can access everything you need in dialog object
         QTreeWidgetItem item = category.getSelectedItem();
         ui->Kategorie_2->setText(item.text(0));
-        categoryID = Categories[item.text(1)];
+        //int what = categoryID = Categories[item.text(1)]; // do not use... return 0 idk why
     }
 }
 
