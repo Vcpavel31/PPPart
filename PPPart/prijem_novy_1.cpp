@@ -471,19 +471,6 @@ void Prijem_novy_1::ColorPick(){
     }
 }
 
-void Prijem_novy_1::send_DB(){
-
-    QString Query = "SELECT `Attributes`.`ID` AS 'ID', IF( `Attributes`.`Alias` IS NULL, `Attributes`.`Attribute_Name`, `Attributes`.`Alias` ) AS 'Name', \
-`Attributes`.`Writable` AS 'Writable', `Attributes`.`Type` AS 'Type',`Attributes`.`Unit` AS 'Unit', `Attributes`.`Default_Value` AS 'Default_Value',\
-`Attributes`.`Options_Type` AS 'Options_Type', `Attributes`.`Options` AS 'Options',`Attributes`.`Options_Selected` AS 'Options_Selected',`Attributes`.`Helper_Type` AS 'Helper_Type',\
-`Attributes`.`Helper_Querry` AS 'Helper_Querry',`Attributes`.`Helper` AS 'Helper' FROM `Attributes`, `Categories_Attributes`\
-WHERE `Categories_Attributes`.`Category` = '"+QString::number(categoryID)+"' AND `Attributes`.`Writable` = '1' AND `Categories_Attributes`.`Attributes` = `Attributes`.`ID`";
-    qDebug() << Query;
-    QMap<QString, QStringList> response = network.getData(Query);
-    qDebug() << response;
-
-}
-
 //==============================================================================
 //  Nom : getIdealTextColor
 //! @return an ideal label color, based on the given background color.
@@ -495,6 +482,31 @@ QColor Prijem_novy_1::getIdealTextColor(const QColor rBackgroundColor){
     return QColor((255- BackgroundDelta < THRESHOLD) ? Qt::black : Qt::white);
 }
 
+float Money_Conversion(QDate date, QString currency, float value){
+    qDebug() << date << value << currency;
+    return 738.60;
+}
+
+void Prijem_novy_1::send_DB(){
+
+    QString Query = "SELECT `Attributes`.`ID` AS 'ID', IF( `Attributes`.`Alias` IS NULL, `Attributes`.`Attribute_Name`, `Attributes`.`Alias` ) AS 'Name', \
+`Attributes`.`Writable` AS 'Writable', `Attributes`.`Type` AS 'Type',`Attributes`.`Unit` AS 'Unit', `Attributes`.`Default_Value` AS 'Default_Value',\
+`Attributes`.`Options_Type` AS 'Options_Type', `Attributes`.`Options` AS 'Options',`Attributes`.`Options_Selected` AS 'Options_Selected',`Attributes`.`Helper_Type` AS 'Helper_Type',\
+`Attributes`.`Helper_Querry` AS 'Helper_Querry',`Attributes`.`Helper` AS 'Helper' FROM `Attributes`, `Categories_Attributes`\
+WHERE `Categories_Attributes`.`Category` = '"+QString::number(categoryID)+"' AND `Attributes`.`Writable` = '1' AND `Categories_Attributes`.`Attributes` = `Attributes`.`ID`";
+    qDebug() << Query;
+    QMap<QString, QStringList> response = network.getData(Query);
+    qDebug() << response;
+
+    if(1){ // Zkontorlovat zda se má zapisovat cena
+        float value = dynamic_cast<QDoubleSpinBox*>(pointers["Cena_DoubleSpinBox"])->value();
+        QString currency = dynamic_cast<QComboBox*>(pointers["Cena_ComboBox"])->currentText();
+        QDate date = dynamic_cast<QDateEdit*>(pointers["Cena_DateEdit"])->date();
+        float price_Kc = Money_Conversion(date, currency, value);
+        qDebug() << price_Kc;
+    }
+
+}
 
 void Prijem_novy_1::on_Next_part_pressed()
 {

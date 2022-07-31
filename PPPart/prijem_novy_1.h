@@ -80,6 +80,8 @@ private slots:
 
     void on_Done_pressed();
 
+    float Money_Conversion(QDate date, QString currency, float value);
+
 private:
     Ui::Prijem_novy_1 *ui;
 
