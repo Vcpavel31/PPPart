@@ -109,22 +109,6 @@
      </layout>
     </widget>
    </item>
-   <item row="4" column="0">
-    <widget class="QWidget" name="EAN" native="true">
-     <layout class="QHBoxLayout" name="_4">
-      <item>
-       <widget class="QLabel" name="EAN_1">
-        <property name="text">
-         <string>EAN</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLineEdit" name="EAN_2"/>
-      </item>
-     </layout>
-    </widget>
-   </item>
    <item row="8" column="0">
     <widget class="QWidget" name="Kategorie" native="true">
      <layout class="QHBoxLayout" name="horizontalLayout_4">
@@ -214,22 +198,6 @@
       </widget>
      </item>
     </layout>
-   </item>
-   <item row="3" column="0">
-    <widget class="QWidget" name="Nazev" native="true">
-     <layout class="QHBoxLayout" name="horizontalLayout_2">
-      <item>
-       <widget class="QLabel" name="Nazev_1">
-        <property name="text">
-         <string>Název</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLineEdit" name="Nazev_2"/>
-      </item>
-     </layout>
-    </widget>
    </item>
    <item row="2" column="1">
     <widget class="QWidget" name="NewPart" native="true">
@@ -324,6 +292,54 @@
    </item>
    <item row="3" column="3" rowspan="8">
     <layout class="QGridLayout" name="gridLayout_2"/>
+   </item>
+   <item row="2" column="0">
+    <widget class="QWidget" name="Nazev" native="true">
+     <layout class="QHBoxLayout" name="horizontalLayout_2">
+      <item>
+       <widget class="QLabel" name="Nazev_1">
+        <property name="text">
+         <string>Název</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLineEdit" name="Nazev_2"/>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="3" column="0">
+    <widget class="QWidget" name="EAN" native="true">
+     <layout class="QHBoxLayout" name="_4">
+      <item>
+       <widget class="QLabel" name="EAN_1">
+        <property name="text">
+         <string>EAN</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLineEdit" name="EAN_2"/>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="4" column="0">
+    <widget class="QWidget" name="Interni_cislo" native="true">
+     <layout class="QHBoxLayout" name="horizontalLayout">
+      <item>
+       <widget class="QLabel" name="Interni_cislo_1">
+        <property name="text">
+         <string>Interní označení</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLineEdit" name="Interni_cislo_2"/>
+      </item>
+     </layout>
+    </widget>
    </item>
   </layout>
  </widget>

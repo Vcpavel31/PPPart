@@ -31,14 +31,14 @@ Prijem_novy_1::Prijem_novy_1(QWidget *parent) :
     QCompleter *Distribution_Completer = new QCompleter(Enabled_Categories, this);
     Distribution_Completer->setCaseSensitivity(Qt::CaseInsensitive);
     ui->Dodavatel_2->setCompleter(Distribution_Completer);
-
+*/
     Query = "SELECT `Name` FROM `Producer` WHERE 1";
     data = network.getData(Query);
-    Enabled_Categories = data["Name"];
-    QCompleter *Production_Completer = new QCompleter(Enabled_Categories, this);
+    QList Producers = data["Name"];
+    QCompleter *Production_Completer = new QCompleter(Producers, this);
     Production_Completer->setCaseSensitivity(Qt::CaseInsensitive);
     ui->Vyrobce_2->setCompleter(Production_Completer);
-*/
+
 }
 
 Prijem_novy_1::~Prijem_novy_1()
@@ -48,19 +48,22 @@ Prijem_novy_1::~Prijem_novy_1()
 
 void Prijem_novy_1::Update_list()
 {
-    QString Query =     "SELECT `ID`,`Name`,`EAN` FROM `Items` WHERE (`Name` LIKE '"+Nazev+"') AND "
-                  +     EAN+" AND "+Vyr_cislo+Obj_cislo;
+    QString Query = "SELECT `ID`,`Name`,`EAN` FROM `Items` WHERE (`Name` LIKE '"+Nazev+"') AND "+EAN+" AND "+Int_cislo+" AND "+Vyr_cislo+Obj_cislo;
     qDebug() << Query;
     QMap<QString, QStringList> data = network.getData(Query);
     qDebug() << "Data: " << data;
     ui->tableWidget->setRowCount(0);
     if(!data.keys().contains("ID")){    //||!data.keys().contains("Name")||!data.keys().contains("EAN")
-        ui->NewPart->show();
+        if(ui->New_Part->checkState() == 0){
+            ui->NewPart->show();
+        }
         return;
     }
     for(int i = 0; i != data["ID"].size(); i++){
         if(data["ID"].at(i).isEmpty()){
-            ui->NewPart->show();
+            if(ui->New_Part->checkState() == 0){
+                ui->NewPart->show();
+            }
         }
         else{
             ui->tableWidget->insertRow(ui->tableWidget->rowCount());
@@ -110,27 +113,40 @@ void Prijem_novy_1::on_Vyr_cislo_2_textChanged(const QString &arg1)
     Update_list();
 }
 
+void Prijem_novy_1::on_Interni_cislo_2_textChanged(const QString &arg1)
+{
+    if(arg1 == "") Int_cislo = "(`Internal_marking` LIKE '%' OR `Internal_marking` IS NULL)";
+    else Int_cislo = "(`Internal_marking` LIKE '%"+arg1+"%')";;
+    Update_list();
+}
 
 void Prijem_novy_1::on_tableWidget_doubleClicked(const QModelIndex &index)
 {
     QString ID = ui->tableWidget->item(index.row(), 0)->text();
     qDebug()<<ID;
 
-    QString Query = "SELECT `Items`.`Name` AS 'Name', `Items`.`EAN` AS 'EAN', `Items`.`Product_number` AS 'Product_number', `Producer`.`Name` AS 'Producer' FROM `Items`, `Producer` WHERE `Items`.`ID` = '"+ID+"' AND `Producer`.`ID` = `Items`.`Producer`";
+    QString Query = "SELECT `Items`.`Name` AS 'Name', `Items`.`EAN` AS 'EAN', `Items`.`Product_number` AS 'Product_number', `Producer`.`Name` AS 'Producer', `Items`.`Internal_marking` AS 'Internal_marking' FROM `Items`, `Producer` WHERE `Items`.`ID` = '"+ID+"' AND `Producer`.`ID` = `Items`.`Producer`";
 
     QMap<QString, QStringList> data = network.getData(Query);
     qDebug() << "Data for completion" << data;
     ui->Nazev_2->setText(data["Name"][0]);
     ui->EAN_2->setText(data["EAN"][0]);
     ui->Vyr_cislo_2->setText(data["Product_number"][0]);
+    ui->Interni_cislo_2->setText(data["Internal_marking"][0]);
 
     qDebug() << "Data pro kategorie";
-    Query = "SELECT `Categories`.`Name` AS 'Category_Name' FROM `Categories`, `Categories_Items` WHERE `Categories`.`ID` = `Categories_Items`.`ID` AND `Categories_Items`.`Item_ID` = "+ID;
+    Query = "SELECT `Categories`.`Name` AS 'Category_Name',  `Categories`.`ID` AS 'Category_ID' FROM `Categories`, `Categories_Items` WHERE `Categories`.`ID` = `Categories_Items`.`Category_ID` AND `Categories_Items`.`Item_ID` = "+ID;
+    qDebug() << Query;
     QMap<QString, QStringList> Category_Name = network.getData(Query);
-
+    categoryID = Category_Name["Category_ID"][0].toInt();
+    qDebug() << " KATEGORIE              " << categoryID;
     ui->Kategorie_2->setText(Category_Name["Category_Name"][0]);
 
     ui->NewPart->hide();
+
+
+    /////// TODO
+   // create_input();
 
 
     qDebug() << "Showing secondary";
@@ -166,7 +182,6 @@ void Prijem_novy_1::on_Kategorie_2_textChanged(const QString &arg1)
         if(ui->New_Part->checkState()) create_input();
     }
 }
-
 
 void Prijem_novy_1::on_pushButton_pressed()
 {
@@ -277,7 +292,7 @@ WHERE `Categories_Attributes`.`Category` = '"+QString::number(categoryID)+"' AND
             switch(response["Type"][j].toInt()){
                 case 0:
                     i--;
-                    break;
+                break;
                 case 1:
                     pointers[response["Name"][j]] = new QLineEdit();
 
@@ -286,21 +301,21 @@ WHERE `Categories_Attributes`.`Category` = '"+QString::number(categoryID)+"' AND
 
                     set_Helper(response, j);
                     if(column_ends < column+1) column_ends = column+1;
-                    break;
+                break;
                 case 2:
                     pointers[response["Name"][j]] = new QSpinBox();
 
                     ui->gridLayout_2->addWidget(new QLabel(response["Name"][j]), i%rows, column);
                     ui->gridLayout_2->addWidget(pointers[response["Name"][j]], i%rows, column+1);
                     if(column_ends < column+1) column_ends = column+1;
-                    break;
+                break;
                 case 3:
                     pointers[response["Name"][j]] = new QPlainTextEdit();
 
                     ui->gridLayout_2->addWidget(new QLabel(response["Name"][j]), i%rows, column);
                     ui->gridLayout_2->addWidget(pointers[response["Name"][j]], i%rows, column+1);
                     if(column_ends < column+1) column_ends = column+1;
-                    break;
+                break;
                 case 4: // Currency
                     pointers[response["Name"][j]+"_DoubleSpinBox"] = new QDoubleSpinBox();
                     pointers[response["Name"][j]+"_ComboBox"] = new QComboBox();
@@ -321,7 +336,7 @@ WHERE `Categories_Attributes`.`Category` = '"+QString::number(categoryID)+"' AND
 
                     dynamic_cast<QDateEdit*>(pointers[response["Name"][j]+"_DateEdit"])->setDate(QDate().currentDate());
                     if(column_ends < column+3) column_ends = column+3;
-                    break;
+                break;
                 case 5:
                     pointers[response["Name"][j]+"_DoubleSpinBox"]  = new QDoubleSpinBox();
                     pointers[response["Name"][j]+"_ComboBox"]       = new QComboBox();
@@ -335,7 +350,7 @@ WHERE `Categories_Attributes`.`Category` = '"+QString::number(categoryID)+"' AND
                     set_ComboBox(response, pointers, j);
 
                     if(column_ends < column+2) column_ends = column+2;
-                    break;
+                break;
                 case 6:
                     pointers[response["Name"][j]] = new QDoubleSpinBox();
 
@@ -347,7 +362,7 @@ WHERE `Categories_Attributes`.`Category` = '"+QString::number(categoryID)+"' AND
                     dynamic_cast<QDoubleSpinBox*>(pointers[response["Name"][j]])->setValue(response["Default_Value"][j].toDouble());
 
                     if(column_ends < column+2) column_ends = column+2;
-                    break;
+                break;
                 case 7:
                     pointers[response["Name"][j]] = new QDoubleSpinBox();
 
@@ -357,7 +372,7 @@ WHERE `Categories_Attributes`.`Category` = '"+QString::number(categoryID)+"' AND
                     dynamic_cast<QDoubleSpinBox*>(pointers[response["Name"][j]+"_DoubleSpinBox"])->setMaximum(999999.99);
 
                     if(column_ends < column+1) column_ends = column+1;
-                    break;
+                break;
                 case 8:
                     pointers[response["Name"][j]+"_ComboBox"] = new QComboBox();
 
@@ -367,7 +382,7 @@ WHERE `Categories_Attributes`.`Category` = '"+QString::number(categoryID)+"' AND
                     set_ComboBox(response, pointers, j);
 
                     if(column_ends < column+1) column_ends = column+1;
-                    break;
+                break;
                 case 9:
                     pointers[response["Name"][j]+"_PushButton"] = new QPushButton();
 
@@ -378,8 +393,7 @@ WHERE `Categories_Attributes`.`Category` = '"+QString::number(categoryID)+"' AND
                     dynamic_cast<QPushButton*>(pointers[response["Name"][j]+"_PushButton"])->setStyleSheet(COLOR_STYLE.arg(color.name()).arg(getIdealTextColor(color).name()));
 
                     if(column_ends < column+1) column_ends = column+1;
-                    break;
-
+                break;
                 case 10: // Tolerance
                     pointers[response["Name"][j]] = new QDoubleSpinBox();
                     pointers[response["Name"][j]+"-"] = new QDoubleSpinBox();
@@ -417,7 +431,7 @@ WHERE `Categories_Attributes`.`Category` = '"+QString::number(categoryID)+"' AND
                     dynamic_cast<QDoubleSpinBox*>(pointers[response["Name"][j]])->setValue(response["Default_Value"][j].toDouble());
                     Tolaration_name = response["Name"][j];
                     if(column_ends < column+7) column_ends = column+7;
-                    break;
+                break;
 
             }
             i++;
@@ -489,21 +503,124 @@ float Prijem_novy_1::Money_Conversion(QDate date, QString currency, float value)
 
 void Prijem_novy_1::send_DB(){
 
-    QString Query = "SELECT `Attributes`.`ID` AS 'ID', IF( `Attributes`.`Alias` IS NULL, `Attributes`.`Attribute_Name`, `Attributes`.`Alias` ) AS 'Name', \
-`Attributes`.`Writable` AS 'Writable', `Attributes`.`Type` AS 'Type',`Attributes`.`Unit` AS 'Unit', `Attributes`.`Default_Value` AS 'Default_Value',\
-`Attributes`.`Options_Type` AS 'Options_Type', `Attributes`.`Options` AS 'Options',`Attributes`.`Options_Selected` AS 'Options_Selected',`Attributes`.`Helper_Type` AS 'Helper_Type',\
-`Attributes`.`Helper_Querry` AS 'Helper_Querry',`Attributes`.`Helper` AS 'Helper' FROM `Attributes`, `Categories_Attributes`\
-WHERE `Categories_Attributes`.`Category` = '"+QString::number(categoryID)+"' AND `Attributes`.`Writable` = '1' AND `Categories_Attributes`.`Attributes` = `Attributes`.`ID`";
+    QString Query = "SELECT `Attributes`.`ID` AS 'ID', IF( `Attributes`.`Alias` IS NULL, `Attributes`.`Attribute_Name`, `Attributes`.`Alias` ) AS 'Name', `Attributes`.`Writable` AS 'Writable', `Attributes`.`Type` AS 'Type'\
+FROM `Attributes`, `Categories_Attributes` WHERE `Categories_Attributes`.`Category` = '"+QString::number(categoryID)+"' AND `Attributes`.`Writable` = '1' AND `Categories_Attributes`.`Attributes` = `Attributes`.`ID`";
     qDebug() << Query;
     QMap<QString, QStringList> response = network.getData(Query);
     qDebug() << response;
 
-    if(1){ // Zkontorlovat zda se má zapisovat cena
-        float value = dynamic_cast<QDoubleSpinBox*>(pointers["Cena_DoubleSpinBox"])->value();
-        QString currency = dynamic_cast<QComboBox*>(pointers["Cena_ComboBox"])->currentText();
-        QDate date = dynamic_cast<QDateEdit*>(pointers["Cena_DateEdit"])->date();
-        float price_Kc = Money_Conversion(date, currency, value);
-        qDebug() << price_Kc;
+    if(!response.isEmpty()){
+        int inserted_item_ID = 0;
+        if(true){ ////// If adding new part
+
+            // First check producer
+            QString Query = "SELECT `ID` FROM `Producer` WHERE `Name` ='"+ui->Vyrobce_2->text()+"'";
+            //qDebug() << Query;
+            QMap<QString, QStringList> response_producer = network.getData(Query);
+            //qDebug() << response_producer;
+
+            int Producer_ID;
+
+            if(response_producer.isEmpty()){
+                QString Query = "INSERT INTO `Producer`(`Name`) VALUES ('"+ui->Vyrobce_2->text()+"')";
+                qDebug() << Query;
+                network.pushData(Query);
+                Query = "SELECT `ID` FROM `Producer` WHERE `Name` ='"+ui->Vyrobce_2->text()+"'";
+                response_producer = network.getData(Query);
+                Producer_ID = response_producer["ID"][0].toInt();
+            }
+            else{
+                Producer_ID = response_producer["ID"][0].toInt();
+            }
+
+            qDebug() << "Výrobce: ID: " << Producer_ID;
+
+
+
+            Query = "INSERT INTO `Items`(`Name`, `EAN`, `Product_number`, `Producer`, `Internal_marking`)\
+VALUES ('"+ui->Nazev_2->text()+"','"+ui->EAN_2->text()+"','"+ui->Vyr_cislo_2->text()+"','"+QString::number(Producer_ID)+"','"+ui->Interni_cislo_2->text()+"')";
+            //qDebug() << Query;
+            network.pushData(Query);
+            Query = "SELECT `ID` FROM `Items` WHERE `Name` = '"+ui->Nazev_2->text()+"' AND `EAN` = '"+ui->EAN_2->text()+"' AND `Product_number` = '"+ui->Vyr_cislo_2->text()+"' AND `Producer` = '"+QString::number(Producer_ID)+"' AND `Internal_marking` = '"+ui->Interni_cislo_2->text()+"'";
+            QMap<QString, QStringList> inserted_item = network.getData(Query);
+            inserted_item_ID = inserted_item["ID"][0].toInt();
+
+            qDebug() << "ID vložené položky" << inserted_item_ID;
+
+
+
+
+
+
+            qDebug() << "Položka číslo: " << inserted_item_ID << "vložena do kategorie: " << categoryID << network.getData("INSERT INTO `Categories_Items`(`Item_ID`, `Category_ID`) VALUES ('"+QString::number(inserted_item_ID)+"','"+QString::number(categoryID)+"')");
+
+
+        }
+        for(int j = 0; j!=response["ID"].size(); j++){ //attributes["ID"].size(); h++){
+            if(response["Writable"][j] != "0"){
+                //qDebug() << response["Type"][j];
+                switch(response["Type"][j].toInt()){
+                    case 1:
+                        qDebug() << "Vložen atribut 1: " << response["Name"][j] << response["ID"][j];
+                        network.pushData("INSERT INTO `Attribute`(`Item_ID`, `Attribute_Option`, `Attribute_Value`, `Attribute_Info`, `Attribute_Date`) VALUES ('"+QString::number(inserted_item_ID)+"','"+response["ID"][j]+"','"+dynamic_cast<QLineEdit*>(pointers[response["Name"][j]])->text()+"',NULL,NULL)");
+                    break;
+                    case 2:
+                        qDebug() << "Vložen atribut 2: " << response["Name"][j] << response["ID"][j];
+                        network.pushData("INSERT INTO `Attribute`(`Item_ID`, `Attribute_Option`, `Attribute_Value`, `Attribute_Info`, `Attribute_Date`) VALUES ('"+QString::number(inserted_item_ID)+"','"+response["ID"][j]+"','"+dynamic_cast<QSpinBox*>(pointers[response["Name"][j]])->text()+"',NULL,NULL)");
+                    break;
+                    case 3:
+                        qDebug() << "Vložen atribut 3: " << response["Name"][j] << response["ID"][j];
+                        network.pushData("INSERT INTO `Attribute`(`Item_ID`, `Attribute_Option`, `Attribute_Value`, `Attribute_Info`, `Attribute_Date`) VALUES ('"+QString::number(inserted_item_ID)+"','"+response["ID"][j]+"','"+dynamic_cast<QPlainTextEdit*>(pointers[response["Name"][j]])->toPlainText()+"',NULL,NULL)");
+                    break;
+
+                    case 4:
+                        qDebug() << "Vložen atribut 4: " << response["Name"][j] << response["ID"][j];
+                        if(dynamic_cast<QComboBox*>(pointers[response["Name"][j]+"_ComboBox"])->currentText() != "Kč"){
+                            float value = dynamic_cast<QDoubleSpinBox*>(pointers[response["Name"][j]+"_DoubleSpinBox"])->value();
+                            QString currency = dynamic_cast<QComboBox*>(pointers[response["Name"][j]+"_ComboBox"])->currentText();
+                            QDate date = dynamic_cast<QDateEdit*>(pointers[response["Name"][j]+"_DateEdit"])->date();
+                            price_Kc = Money_Conversion(date, currency, value);
+                            //qDebug() << response["Name"][j] << price_Kc << "INSERT INTO `Attribute`(`Item_ID`, `Attribute_Option`, `Attribute_Value`, `Attribute_Info`, `Attribute_Date`) VALUES ('"+QString::number(inserted_item_ID)+"','"+response["ID"][j]+"','"+QString::number(price_Kc)+"','"+QString::number(value)+" "+currency+"','"+date.toString("yyyy-MM-dd")+" 00:00:00')";
+                            network.pushData("INSERT INTO `Attribute`(`Item_ID`, `Attribute_Option`, `Attribute_Value`, `Attribute_Info`, `Attribute_Date`) VALUES ('"+QString::number(inserted_item_ID)+"','"+response["ID"][j]+"','"+QString::number(price_Kc)+"','"+QString::number(value)+" "+currency+"','"+date.toString("yyyy-MM-dd")+" 00:00:00')");
+                        }
+                        else{
+                            price_Kc = dynamic_cast<QDoubleSpinBox*>(pointers[response["Name"][j]+"_DoubleSpinBox"])->value();
+                            //qDebug() << response["Name"][j] << price_Kc << "INSERT INTO `Attribute`(`Item_ID`, `Attribute_Option`, `Attribute_Value`, `Attribute_Info`, `Attribute_Date`) VALUES ('"+QString::number(inserted_item_ID)+"','"+response["ID"][j]+"','"+QString::number(price_Kc)+"',NULL,NULL)";
+                            network.pushData("INSERT INTO `Attribute`(`Item_ID`, `Attribute_Option`, `Attribute_Value`, `Attribute_Info`, `Attribute_Date`) VALUES ('"+QString::number(inserted_item_ID)+"','"+response["ID"][j]+"','"+QString::number(price_Kc)+"',NULL,NULL)");
+
+                        }
+                    break;
+
+
+
+                    case 5:
+                        qDebug() << "Vložen atribut 5: " << response["Name"][j] << response["ID"][j];
+                        network.pushData("INSERT INTO `Attribute`(`Item_ID`, `Attribute_Option`, `Attribute_Value`, `Attribute_Info`, `Attribute_Date`) VALUES ('"+QString::number(inserted_item_ID)+"','"+response["ID"][j]+"','"+QString::number(dynamic_cast<QDoubleSpinBox*>(pointers[response["Name"][j]+"_DoubleSpinBox"])->value())+"','"+dynamic_cast<QComboBox*>(pointers[response["Name"][j]+"_ComboBox"])->currentText()+"',NULL)");
+                    break;
+                    case 6:
+                        qDebug() << "Vložen atribut 6: " << response["Name"][j] << response["ID"][j];
+                        network.pushData("INSERT INTO `Attribute`(`Item_ID`, `Attribute_Option`, `Attribute_Value`, `Attribute_Info`, `Attribute_Date`) VALUES ('"+QString::number(inserted_item_ID)+"','"+response["ID"][j]+"','"+QString::number(dynamic_cast<QDoubleSpinBox*>(pointers[response["Name"][j]])->value())+"',NULL,NULL)");
+                    break;
+                    case 7:
+                        qDebug() << "Vložen atribut 7: " << response["Name"][j] << response["ID"][j];
+                        network.pushData("INSERT INTO `Attribute`(`Item_ID`, `Attribute_Option`, `Attribute_Value`, `Attribute_Info`, `Attribute_Date`) VALUES ('"+QString::number(inserted_item_ID)+"','"+response["ID"][j]+"','"+QString::number(dynamic_cast<QDoubleSpinBox*>(pointers[response["Name"][j]])->value())+"',NULL,NULL)");
+                    break;
+                    case 8:
+                        qDebug() << "Vložen atribut 8: " << response["Name"][j] << response["ID"][j];
+                        network.pushData("INSERT INTO `Attribute`(`Item_ID`, `Attribute_Option`, `Attribute_Value`, `Attribute_Info`, `Attribute_Date`) VALUES ('"+QString::number(inserted_item_ID)+"','"+response["ID"][j]+"','"+dynamic_cast<QComboBox*>(pointers[response["Name"][j]+"_ComboBox"])->currentText()+"',NULL,NULL)");
+                    break;
+                    case 9:
+                        qDebug() << "Nedokončený atribut 9: " << response["Name"][j] << response["ID"][j];
+                        ////// MAGIC work with COLOR
+                    break;
+                    case 10: // Tolerance
+                        qDebug() << "Nedokončený atribut 10: " << response["Name"][j] << response["ID"][j];
+                        ////// MAGIC work with toleration
+                    break;
+                }
+            }
+        }
+
     }
 
 }
@@ -520,4 +637,3 @@ void Prijem_novy_1::on_Done_pressed()
     send_DB();
     // Close this window and empty it for new part later
 }
-
