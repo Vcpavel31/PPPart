@@ -524,7 +524,7 @@ FROM `Attributes`, `Categories_Attributes` WHERE `Categories_Attributes`.`Catego
             if(response_producer.isEmpty()){
                 QString Query = "INSERT INTO `Producer`(`Name`) VALUES ('"+ui->Vyrobce_2->text()+"')";
                 qDebug() << Query;
-                network.pushData(Query);
+                //network.pushData(Query);
                 Query = "SELECT `ID` FROM `Producer` WHERE `Name` ='"+ui->Vyrobce_2->text()+"'";
                 response_producer = network.getData(Query);
                 Producer_ID = response_producer["ID"][0].toInt();
@@ -541,19 +541,13 @@ FROM `Attributes`, `Categories_Attributes` WHERE `Categories_Attributes`.`Catego
 VALUES ('"+ui->Nazev_2->text()+"','"+ui->EAN_2->text()+"','"+ui->Vyr_cislo_2->text()+"','"+QString::number(Producer_ID)+"','"+ui->Interni_cislo_2->text()+"')";
             //qDebug() << Query;
             network.pushData(Query);
-            Query = "SELECT `ID` FROM `Items` WHERE `Name` = '"+ui->Nazev_2->text()+"' AND `EAN` = '"+ui->EAN_2->text()+"' AND `Product_number` = '"+ui->Vyr_cislo_2->text()+"' AND `Producer` = '"+QString::number(Producer_ID)+"' AND `Internal_marking` = '"+ui->Interni_cislo_2->text()+"'";
+            Query = "SELECT `ID` FROM `Items` WHERE `Name` = '"+ui->Nazev_2->text()+"' AND `EAN` = '"+ui->EAN_2->text()+"' AND\
+`Product_number` = '"+ui->Vyr_cislo_2->text()+"' AND `Producer` = '"+QString::number(Producer_ID)+"' AND `Internal_marking` = '"+ui->Interni_cislo_2->text()+"'";
             QMap<QString, QStringList> inserted_item = network.getData(Query);
             inserted_item_ID = inserted_item["ID"][0].toInt();
 
-            qDebug() << "ID vložené položky" << inserted_item_ID;
-
-
-
-
-
-
+            //qDebug() << "ID vložené položky" << inserted_item_ID;
             qDebug() << "Položka číslo: " << inserted_item_ID << "vložena do kategorie: " << categoryID << network.getData("INSERT INTO `Categories_Items`(`Item_ID`, `Category_ID`) VALUES ('"+QString::number(inserted_item_ID)+"','"+QString::number(categoryID)+"')");
-
 
         }
         for(int j = 0; j!=response["ID"].size(); j++){ //attributes["ID"].size(); h++){
