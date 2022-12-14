@@ -1,4 +1,4 @@
-QT       += core gui network opengl
+QT       += core gui network opengl widgets
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets charts
 
@@ -12,45 +12,27 @@ CONFIG += c++11
 
 SOURCES += \
     category.cpp \
-    input_element1.cpp \
-    input_element2.cpp \
-    input_element3.cpp \
-    input_element4.cpp \
-    input_element5.cpp \
-    input_element6.cpp \
-    input_element7.cpp \
     main.cpp \
     nastaveni.cpp \
     networksql.cpp \
+    pick_color.cpp \
     pppart.cpp \
     prijem_novy_1.cpp \
     vydej_1.cpp
 
 HEADERS += \
     category.h \
-    input_element1.h \
-    input_element2.h \
-    input_element3.h \
-    input_element4.h \
-    input_element5.h \
-    input_element6.h \
-    input_element7.h \
     nastaveni.h \
     networksql.h \
+    pick_color.h \
     pppart.h \
     prijem_novy_1.h \
     vydej_1.h
 
 FORMS += \
     category.ui \
-    input_element1.ui \
-    input_element2.ui \
-    input_element3.ui \
-    input_element4.ui \
-    input_element5.ui \
-    input_element6.ui \
-    input_element7.ui \
     nastaveni.ui \
+    pick_color.ui \
     pppart.ui \
     prijem_novy_1.ui \
     vyber_skladu.ui \
