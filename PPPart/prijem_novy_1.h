@@ -10,6 +10,7 @@
 #include <QUrl>
 #include <QUrlQuery>
 #include <QCompleter>
+#include <QToolButton>
 
 
 #include <QPushButton>
@@ -71,7 +72,17 @@ private slots:
 
     void ColorPick();
 
+    void Showtolerances();
+
     QColor getIdealTextColor(const QColor rBackgroundColor);
+
+    void on_Next_part_pressed();
+
+    void on_Done_pressed();
+
+    float Money_Conversion(QDate date, QString currency, float value);
+
+    void on_Interni_cislo_2_textChanged(const QString &arg1);
 
 private:
     Ui::Prijem_novy_1 *ui;
@@ -80,12 +91,14 @@ private:
     QString EAN = "(`EAN` LIKE '%' OR `EAN` IS NULL)";
     QString Obj_cislo = "";
     QString Vyr_cislo = "(`Product_number` LIKE '%' OR `Product_number` IS NULL)";
+    QString Int_cislo = "(`Internal_marking` LIKE '%' OR `Internal_marking` IS NULL)";
     QString Response = "";
 
-    int rows = 6;
+    int rows = 4;
 
     QStringList array;
     QStringList Enabled_Categories;
+    float price_Kc = 0.0;
 
     QMap<QString, int> Categories;
 
@@ -105,6 +118,8 @@ private:
     QDateEdit* DateEdit;
 
 
+    int Toleration_position;
+    QString Tolaration_name;
 
 };
 

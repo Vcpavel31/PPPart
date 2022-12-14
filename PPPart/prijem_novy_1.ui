@@ -14,6 +14,74 @@
    <string>Dialog</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
+   <item row="5" column="0">
+    <widget class="QWidget" name="Obj_cislo" native="true">
+     <layout class="QHBoxLayout" name="Obj_cislo_3">
+      <item>
+       <widget class="QLabel" name="Obj_cislo_1">
+        <property name="text">
+         <string>Objednací číslo</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLineEdit" name="Obj_cislo_2"/>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="11" column="3">
+    <widget class="QPushButton" name="pushButton_2">
+     <property name="text">
+      <string>Přidat další vlastnosti</string>
+     </property>
+    </widget>
+   </item>
+   <item row="6" column="0">
+    <widget class="QWidget" name="Vyr_cislo" native="true">
+     <layout class="QHBoxLayout" name="horizontalLayout_6">
+      <item>
+       <widget class="QLabel" name="Vyr_cislo_1">
+        <property name="text">
+         <string>Číslo výrobce</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLineEdit" name="Vyr_cislo_2"/>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="9" column="0">
+    <widget class="QWidget" name="Vyrobce" native="true">
+     <layout class="QHBoxLayout" name="horizontalLayout_5">
+      <item>
+       <widget class="QLabel" name="Vyrobce_1">
+        <property name="text">
+         <string>Výrobce</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLineEdit" name="Vyrobce_2"/>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="7" column="0">
+    <widget class="QCheckBox" name="New_Part">
+     <property name="font">
+      <font>
+       <pointsize>15</pointsize>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>Nová součástka</string>
+     </property>
+    </widget>
+   </item>
    <item row="10" column="0">
     <widget class="QWidget" name="Umisteni" native="true">
      <layout class="QHBoxLayout" name="Umisteni_4">
@@ -40,125 +108,6 @@
       </item>
      </layout>
     </widget>
-   </item>
-   <item row="1" column="1" colspan="2">
-    <widget class="QWidget" name="NewPart" native="true">
-     <layout class="QVBoxLayout" name="verticalLayout">
-      <item>
-       <widget class="QLabel" name="label">
-        <property name="text">
-         <string>V databázi nebyla nalezne součástka odpovídající zadaným kritériím. Chcete vytvořit novou součástku?</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
-        </property>
-        <property name="wordWrap">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="pushButton">
-        <property name="text">
-         <string>Nová součástka</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item row="1" column="0" rowspan="3">
-    <widget class="QWidget" name="Nazev" native="true">
-     <layout class="QHBoxLayout" name="horizontalLayout_2">
-      <item>
-       <widget class="QLabel" name="Nazev_1">
-        <property name="text">
-         <string>Název</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLineEdit" name="Nazev_2"/>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item row="5" column="0">
-    <widget class="QWidget" name="Obj_cislo" native="true">
-     <layout class="QHBoxLayout" name="Obj_cislo_3">
-      <item>
-       <widget class="QLabel" name="Obj_cislo_1">
-        <property name="text">
-         <string>Objednací číslo</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLineEdit" name="Obj_cislo_2"/>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item row="4" column="0">
-    <widget class="QWidget" name="EAN" native="true">
-     <layout class="QHBoxLayout" name="_4">
-      <item>
-       <widget class="QLabel" name="EAN_1">
-        <property name="text">
-         <string>EAN</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLineEdit" name="EAN_2"/>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item row="7" column="0">
-    <widget class="QCheckBox" name="New_Part">
-     <property name="font">
-      <font>
-       <pointsize>15</pointsize>
-       <bold>true</bold>
-      </font>
-     </property>
-     <property name="text">
-      <string>Nová součástka</string>
-     </property>
-    </widget>
-   </item>
-   <item row="9" column="0">
-    <widget class="QWidget" name="Vyrobce" native="true">
-     <layout class="QHBoxLayout" name="horizontalLayout_5">
-      <item>
-       <widget class="QLabel" name="Vyrobce_1">
-        <property name="text">
-         <string>Výrobce</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLineEdit" name="Vyrobce_2"/>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item row="11" column="1" colspan="2">
-    <spacer name="horizontalSpacer">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-     <property name="sizeType">
-      <enum>QSizePolicy::Fixed</enum>
-     </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>350</width>
-       <height>0</height>
-      </size>
-     </property>
-    </spacer>
    </item>
    <item row="8" column="0">
     <widget class="QWidget" name="Kategorie" native="true">
@@ -209,82 +158,7 @@
      </layout>
     </widget>
    </item>
-   <item row="2" column="1" rowspan="9" colspan="2">
-    <widget class="QTableWidget" name="tableWidget">
-     <property name="autoFillBackground">
-      <bool>true</bool>
-     </property>
-     <property name="editTriggers">
-      <set>QAbstractItemView::NoEditTriggers</set>
-     </property>
-     <property name="showDropIndicator" stdset="0">
-      <bool>false</bool>
-     </property>
-     <property name="dragDropOverwriteMode">
-      <bool>false</bool>
-     </property>
-     <property name="alternatingRowColors">
-      <bool>true</bool>
-     </property>
-     <property name="selectionMode">
-      <enum>QAbstractItemView::SingleSelection</enum>
-     </property>
-     <property name="selectionBehavior">
-      <enum>QAbstractItemView::SelectRows</enum>
-     </property>
-     <property name="cornerButtonEnabled">
-      <bool>false</bool>
-     </property>
-     <column>
-      <property name="text">
-       <string>ID</string>
-      </property>
-     </column>
-     <column>
-      <property name="text">
-       <string>Název</string>
-      </property>
-     </column>
-     <column>
-      <property name="text">
-       <string>EAN</string>
-      </property>
-     </column>
-    </widget>
-   </item>
-   <item row="6" column="0">
-    <widget class="QWidget" name="Vyr_cislo" native="true">
-     <layout class="QHBoxLayout" name="horizontalLayout_6">
-      <item>
-       <widget class="QLabel" name="Vyr_cislo_1">
-        <property name="text">
-         <string>Číslo výrobce</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLineEdit" name="Vyr_cislo_2"/>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item row="1" column="3">
-    <spacer name="horizontalSpacer_2">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>40</width>
-       <height>20</height>
-      </size>
-     </property>
-    </spacer>
-   </item>
-   <item row="2" column="3" rowspan="10">
-    <layout class="QGridLayout" name="gridLayout_2"/>
-   </item>
-   <item row="12" column="0" rowspan="2" colspan="4">
+   <item row="13" column="0" rowspan="2" colspan="4">
     <layout class="QGridLayout" name="gridLayout_3">
      <item row="0" column="1" rowspan="4">
       <widget class="QPushButton" name="Print">
@@ -303,7 +177,7 @@
        </property>
        <property name="sizeHint" stdset="0">
         <size>
-         <width>500</width>
+         <width>590</width>
          <height>20</height>
         </size>
        </property>
@@ -324,6 +198,148 @@
       </widget>
      </item>
     </layout>
+   </item>
+   <item row="2" column="1">
+    <widget class="QWidget" name="NewPart" native="true">
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <item>
+       <widget class="QLabel" name="label">
+        <property name="text">
+         <string>V databázi nebyla nalezne součástka odpovídající zadaným kritériím. Chcete vytvořit novou součástku?</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+        <property name="wordWrap">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="pushButton">
+        <property name="text">
+         <string>Nová součástka</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="3" column="1" rowspan="9">
+    <widget class="QWidget" name="verticalWidget" native="true">
+     <layout class="QVBoxLayout" name="verticalLayout_2">
+      <item>
+       <widget class="QTableWidget" name="tableWidget">
+        <property name="autoFillBackground">
+         <bool>true</bool>
+        </property>
+        <property name="editTriggers">
+         <set>QAbstractItemView::NoEditTriggers</set>
+        </property>
+        <property name="showDropIndicator" stdset="0">
+         <bool>false</bool>
+        </property>
+        <property name="dragDropOverwriteMode">
+         <bool>false</bool>
+        </property>
+        <property name="alternatingRowColors">
+         <bool>true</bool>
+        </property>
+        <property name="selectionMode">
+         <enum>QAbstractItemView::SingleSelection</enum>
+        </property>
+        <property name="selectionBehavior">
+         <enum>QAbstractItemView::SelectRows</enum>
+        </property>
+        <property name="cornerButtonEnabled">
+         <bool>false</bool>
+        </property>
+        <column>
+         <property name="text">
+          <string>ID</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>Název</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>EAN</string>
+         </property>
+        </column>
+       </widget>
+      </item>
+      <item>
+       <spacer name="horizontalSpacer">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeType">
+         <enum>QSizePolicy::Fixed</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>350</width>
+          <height>0</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="3" column="3" rowspan="8">
+    <layout class="QGridLayout" name="gridLayout_2"/>
+   </item>
+   <item row="2" column="0">
+    <widget class="QWidget" name="Nazev" native="true">
+     <layout class="QHBoxLayout" name="horizontalLayout_2">
+      <item>
+       <widget class="QLabel" name="Nazev_1">
+        <property name="text">
+         <string>Název</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLineEdit" name="Nazev_2"/>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="3" column="0">
+    <widget class="QWidget" name="EAN" native="true">
+     <layout class="QHBoxLayout" name="_4">
+      <item>
+       <widget class="QLabel" name="EAN_1">
+        <property name="text">
+         <string>EAN</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLineEdit" name="EAN_2"/>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="4" column="0">
+    <widget class="QWidget" name="Interni_cislo" native="true">
+     <layout class="QHBoxLayout" name="horizontalLayout">
+      <item>
+       <widget class="QLabel" name="Interni_cislo_1">
+        <property name="text">
+         <string>Interní označení</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLineEdit" name="Interni_cislo_2"/>
+      </item>
+     </layout>
+    </widget>
    </item>
   </layout>
  </widget>
