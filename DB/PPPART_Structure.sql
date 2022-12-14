@@ -1,17 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.9.1
+-- version 5.0.4deb2+deb11u1
 -- https://www.phpmyadmin.net/
 --
 -- Počítač: innodb.endora.cz:3306
--- Vytvořeno: Pon 11. čec 2022, 20:18
--- Verze serveru: 5.6.45-86.1
--- Verze PHP: 7.3.9
+-- Vytvořeno: Stř 14. pro 2022, 22:19
+-- Verze serveru: 10.3.35-MariaDB
+-- Verze PHP: 7.4.33
 
---
--- PPPART_pre-Alpha
---
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -24,177 +20,159 @@ SET time_zone = "+00:00";
 --
 -- Databáze: `vcpave1644611634`
 --
-CREATE DATABASE IF NOT EXISTS `vcpave1644611634` DEFAULT CHARACTER SET utf8 COLLATE utf8_czech_ci;
-USE `vcpave1644611634`;
 
 -- --------------------------------------------------------
 
 --
 -- Struktura tabulky `Amounts`
 --
--- Vytvořeno: Pon 11. čec 2022, 18:09
---
 
-DROP TABLE IF EXISTS `Amounts`;
 CREATE TABLE `Amounts` (
   `ID` bigint(20) NOT NULL,
   `Item_ID` bigint(20) UNSIGNED NOT NULL,
-  `Date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `Date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `Amount` double NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci ROW_FORMAT=DYNAMIC;
 
 -- --------------------------------------------------------
 
 --
 -- Struktura tabulky `Attribute`
 --
--- Vytvořeno: Pon 11. čec 2022, 18:09
---
 
-DROP TABLE IF EXISTS `Attribute`;
 CREATE TABLE `Attribute` (
   `ID` bigint(20) UNSIGNED NOT NULL,
   `Item_ID` bigint(20) UNSIGNED NOT NULL,
   `Attribute_Option` int(10) UNSIGNED NOT NULL,
   `Attribute_Value` tinytext COLLATE utf8mb4_czech_ci NOT NULL,
-  `Attribute_Info` text COLLATE utf8mb4_czech_ci,
+  `Attribute_Info` text COLLATE utf8mb4_czech_ci DEFAULT NULL,
   `Attribute_Date` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci ROW_FORMAT=DYNAMIC;
 
 -- --------------------------------------------------------
 
 --
 -- Struktura tabulky `Attributes`
 --
--- Vytvořeno: Pon 11. čec 2022, 18:07
---
 
-DROP TABLE IF EXISTS `Attributes`;
 CREATE TABLE `Attributes` (
   `ID` int(10) UNSIGNED NOT NULL,
   `Attribute_Name` tinytext COLLATE utf8mb4_czech_ci NOT NULL,
-  `Writable` tinyint(1) NOT NULL DEFAULT '0',
-  `Alias` text COLLATE utf8mb4_czech_ci,
+  `Writable` tinyint(1) NOT NULL DEFAULT 0,
+  `Alias` text COLLATE utf8mb4_czech_ci DEFAULT NULL,
   `Type` int(4) NOT NULL,
-  `Unit` text COLLATE utf8mb4_czech_ci,
-  `Default_Value` tinytext COLLATE utf8mb4_czech_ci,
-  `Options_Type` tinyint(1) NOT NULL DEFAULT '0',
-  `Options` longtext COLLATE utf8mb4_czech_ci,
-  `Options_Selected` mediumint(9) DEFAULT '0',
-  `Helper_Type` tinyint(1) NOT NULL DEFAULT '0',
-  `Helper_Querry` longtext COLLATE utf8mb4_czech_ci,
-  `Helper` tinyint(2) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci;
+  `Unit` text COLLATE utf8mb4_czech_ci DEFAULT NULL,
+  `Default_Value` tinytext COLLATE utf8mb4_czech_ci DEFAULT NULL,
+  `Options_Type` tinyint(1) NOT NULL DEFAULT 0,
+  `Options` longtext COLLATE utf8mb4_czech_ci DEFAULT NULL,
+  `Options_Selected` mediumint(9) DEFAULT 0,
+  `Helper_Type` tinyint(1) NOT NULL DEFAULT 0,
+  `Helper_Querry` longtext COLLATE utf8mb4_czech_ci DEFAULT NULL,
+  `Helper` tinyint(2) NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci ROW_FORMAT=DYNAMIC;
 
 -- --------------------------------------------------------
 
 --
 -- Struktura tabulky `Categories`
 --
--- Vytvořeno: Pon 11. čec 2022, 07:34
---
 
-DROP TABLE IF EXISTS `Categories`;
 CREATE TABLE `Categories` (
   `ID` mediumint(8) UNSIGNED NOT NULL,
   `Name` tinytext COLLATE utf8mb4_czech_ci NOT NULL,
-  `Hidden` tinyint(1) UNSIGNED NOT NULL DEFAULT '0'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci;
+  `Hidden` tinyint(1) UNSIGNED NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci ROW_FORMAT=DYNAMIC;
 
 -- --------------------------------------------------------
 
 --
 -- Struktura tabulky `Categories_Arrangement`
 --
--- Vytvořeno: Pon 11. čec 2022, 18:09
---
 
-DROP TABLE IF EXISTS `Categories_Arrangement`;
 CREATE TABLE `Categories_Arrangement` (
   `ID` mediumint(8) UNSIGNED NOT NULL,
   `Category` mediumint(8) UNSIGNED NOT NULL,
   `Ordered` mediumint(8) UNSIGNED DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci ROW_FORMAT=DYNAMIC;
+
+-- --------------------------------------------------------
+
+--
+-- Struktura tabulky `Categories_Attributes`
+--
+
+CREATE TABLE `Categories_Attributes` (
+  `ID` int(11) NOT NULL,
+  `Category` mediumint(9) UNSIGNED NOT NULL,
+  `Attributes` int(11) UNSIGNED NOT NULL,
+  `Hidden` tinyint(1) UNSIGNED NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci ROW_FORMAT=DYNAMIC;
 
 -- --------------------------------------------------------
 
 --
 -- Struktura tabulky `Categories_Items`
 --
--- Vytvořeno: Pon 11. čec 2022, 18:09
---
 
-DROP TABLE IF EXISTS `Categories_Items`;
 CREATE TABLE `Categories_Items` (
   `ID` bigint(20) NOT NULL,
   `Item_ID` bigint(20) UNSIGNED NOT NULL,
   `Category_ID` mediumint(8) UNSIGNED NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci ROW_FORMAT=DYNAMIC;
 
 -- --------------------------------------------------------
 
 --
 -- Struktura tabulky `Items`
 --
--- Vytvořeno: Pon 11. čec 2022, 07:34
---
 
-DROP TABLE IF EXISTS `Items`;
 CREATE TABLE `Items` (
   `ID` bigint(20) UNSIGNED NOT NULL,
   `Name` tinytext COLLATE utf8mb4_czech_ci NOT NULL,
   `EAN` bigint(11) DEFAULT NULL,
-  `Product_number` tinytext COLLATE utf8mb4_czech_ci,
-  `Producer` smallint(5) UNSIGNED NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci;
+  `Product_number` tinytext COLLATE utf8mb4_czech_ci DEFAULT NULL,
+  `Producer` smallint(5) UNSIGNED NOT NULL,
+  `Internal_marking` mediumtext COLLATE utf8mb4_czech_ci DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci ROW_FORMAT=DYNAMIC;
 
 -- --------------------------------------------------------
 
 --
 -- Struktura tabulky `Producer`
 --
--- Vytvořeno: Pon 11. čec 2022, 07:34
---
 
-DROP TABLE IF EXISTS `Producer`;
 CREATE TABLE `Producer` (
   `ID` smallint(6) UNSIGNED NOT NULL,
   `Name` tinytext COLLATE utf8mb4_czech_ci NOT NULL,
-  `URL` text COLLATE utf8mb4_czech_ci
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci;
+  `URL` text COLLATE utf8mb4_czech_ci DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci ROW_FORMAT=DYNAMIC;
 
 -- --------------------------------------------------------
 
 --
 -- Struktura tabulky `Supplier`
 --
--- Vytvořeno: Pon 11. čec 2022, 07:34
---
 
-DROP TABLE IF EXISTS `Supplier`;
 CREATE TABLE `Supplier` (
   `ID` smallint(5) UNSIGNED NOT NULL,
   `Supplier_Name` tinytext COLLATE utf8mb4_czech_ci NOT NULL,
   `Supplier_Site` tinytext COLLATE utf8mb4_czech_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci ROW_FORMAT=DYNAMIC;
 
 -- --------------------------------------------------------
 
 --
 -- Struktura tabulky `Suppliers`
 --
--- Vytvořeno: Pon 11. čec 2022, 18:09
---
 
-DROP TABLE IF EXISTS `Suppliers`;
 CREATE TABLE `Suppliers` (
   `ID` int(11) NOT NULL,
   `Item_ID` bigint(20) UNSIGNED NOT NULL,
   `Supplier` smallint(6) UNSIGNED NOT NULL,
-  `Supplier_Name` tinytext COLLATE utf8mb4_czech_ci,
-  `Supplier_Code` tinytext COLLATE utf8mb4_czech_ci,
-  `Supplier_Link` mediumtext COLLATE utf8mb4_czech_ci
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci;
+  `Supplier_Name` tinytext COLLATE utf8mb4_czech_ci DEFAULT NULL,
+  `Supplier_Code` tinytext COLLATE utf8mb4_czech_ci DEFAULT NULL,
+  `Supplier_Link` mediumtext COLLATE utf8mb4_czech_ci DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci ROW_FORMAT=DYNAMIC;
 
 --
 -- Klíče pro exportované tabulky
@@ -237,6 +215,12 @@ ALTER TABLE `Categories_Arrangement`
   ADD KEY `Ordered` (`Ordered`);
 
 --
+-- Klíče pro tabulku `Categories_Attributes`
+--
+ALTER TABLE `Categories_Attributes`
+  ADD PRIMARY KEY (`ID`);
+
+--
 -- Klíče pro tabulku `Categories_Items`
 --
 ALTER TABLE `Categories_Items`
@@ -268,6 +252,12 @@ ALTER TABLE `Supplier`
 --
 
 --
+-- AUTO_INCREMENT pro tabulku `Attribute`
+--
+ALTER TABLE `Attribute`
+  MODIFY `ID` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT pro tabulku `Attributes`
 --
 ALTER TABLE `Attributes`
@@ -278,6 +268,18 @@ ALTER TABLE `Attributes`
 --
 ALTER TABLE `Categories`
   MODIFY `ID` mediumint(8) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pro tabulku `Categories_Attributes`
+--
+ALTER TABLE `Categories_Attributes`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pro tabulku `Categories_Items`
+--
+ALTER TABLE `Categories_Items`
+  MODIFY `ID` bigint(20) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT pro tabulku `Items`
