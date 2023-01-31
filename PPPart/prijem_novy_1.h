@@ -105,7 +105,7 @@ private:
     NetworkSQL network;
     Category category;
 
-    Pick_Color Pick_Color;
+    Pick_Color Pick_Color_Window;
 
     QColor color = QColor(255, 255, 255, 255);
     const QString COLOR_STYLE = "QPushButton { background-color : %1; color : %2; }";

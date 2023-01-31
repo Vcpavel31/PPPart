@@ -1,3 +1,7 @@
+// Debian11 -> Missing OpenGL -> apt-file search "/usr/include/GL/gl.h" -> apt-file search "/usr/include/GL/gl.h"
+//          -> Missing XCB -> /Qt/6.5.0/gcc_64/plugins/platforms$ ldd libqxcb.so | grep "not" -> sudo apt install libxcb-cursor-dev libxcb-util-dev
+//                         -> sudo apt install '^libxcb.*-dev' libx11-xcb-dev libglu1-mesa-dev libxrender-dev libxi-dev libxkbcommon-dev libxkbcommon-x11-dev
+
 #include "pppart.h"
 
 #include <QApplication>
