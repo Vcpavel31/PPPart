@@ -31,6 +31,10 @@ public:
     ~PPPart();
 
 public slots:
+
+private slots:
+    void on_parts_itemClicked(QTreeWidgetItem *item, int column);
+
     void on_categories_itemClicked(QTreeWidgetItem *item, int column);
 
     void on_settings_pressed();
@@ -39,11 +43,7 @@ public slots:
 
     void on_income_pressed();
 
-private slots:
-    void on_parts_itemClicked(QTreeWidgetItem *item, int column);
-
 private:
-
     Ui::PPPart *ui;
 
     Prijem_novy_1 income;
@@ -51,6 +51,10 @@ private:
     NetworkSQL network;
 
     QStringList hodnoty;
+
+    int getIDColumnIndex() const;
+
+    void createGraph(QTreeWidgetItem* item, int idColumnIndex);
 
     void getAllData();
 };
