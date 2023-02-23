@@ -3,159 +3,135 @@
 NetworkSQL::NetworkSQL(QObject *parent)
     : QObject{parent}
 {
-    settings->setValue("User_ID", 1);
+    //settings->setValue("User_ID", 1);
     Address = settings->value("Address").toString();
     User = settings->value("User").toString();
     Pass = settings->value("Pass").toString();
     User_ID = settings->value("User_ID").toString();
-    qDebug() << settings->fileName();
+    //qDebug() << settings->fileName() << " " << Address << " " << User << " " << Pass << " " << User_ID;
 }
 
-QNetworkReply::NetworkError NetworkSQL::pushData(QString Query)
+QNetworkReply::NetworkError NetworkSQL::pushData(const QString& query)
 {
     QUrl url(Address);
     QNetworkRequest request(url);
-
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
 
     QUrlQuery params;
     params.addQueryItem("User", User);
     params.addQueryItem("Pass", Pass);
     params.addQueryItem("Debug", "False");
-    params.addQueryItem("Query", Query);
+    params.addQueryItem("Query", query);
 
-    QNetworkReply* reply = manager->post(request, params.query().toUtf8());
+    QByteArray postData = params.query(QUrl::FullyEncoded).toUtf8();
+
+    QNetworkReply* reply = manager->post(request, postData);
 
     QEventLoop loop;
-    connect(reply, SIGNAL(finished()), &loop, SLOT(quit()));
+    QObject::connect(reply, &QNetworkReply::finished, &loop, &QEventLoop::quit);
     loop.exec();
-
-    //reply->readAll();
 
     return reply->error();
 }
 
-//TODO bug fix when enter more unknown component in to name
+
 QMap<QString, QStringList> NetworkSQL::getData(QString Query)
 {
-
-    //qDebug() << "URL: " << Address << " Query: " << Query;
-
-    QMap<QString, QStringList> temp;
-
+    // Construct the request
     QUrl url(Address);
     QNetworkRequest request(url);
-
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
 
     QUrlQuery params;
     params.addQueryItem("User", User);
     params.addQueryItem("Pass", Pass);
-    params.addQueryItem("Debug", "False");
-    params.addQueryItem("Query", Query);
+    params.addQueryItem("Debug", "True");
+    params.addQueryItem("Query", Query.replace("+", "%2B").replace("-", "%2D"));
 
-    QNetworkReply* reply = manager->post(request, params.query().toUtf8().replace("+", "%2b"));
+    QByteArray postData = params.query(QUrl::FullyEncoded).toUtf8();
 
+    // Send the request and wait for the reply
+    QNetworkReply* reply = manager->post(request, postData);
     QEventLoop loop;
-    connect(reply, SIGNAL(finished()), &loop, SLOT(quit()));
+    connect(reply, &QNetworkReply::finished, &loop, &QEventLoop::quit);
     loop.exec();
 
-    //data received
-
+    // Parse the data received
+    QMap<QString, QStringList> result;
     QByteArray data = reply->readAll();
-    qDebug() << "all: " << data;
-    if(!data.contains("[")) // bad reply?
-        {
-            qDebug() << "Something wrong?";
-            return temp; // any data recieved
+    //qDebug() << "Received: " << data;
+    if(!data.contains("[")) {
+        qWarning() << "getData: Bad reply: " << data;
+        return result;
     }
 
-    QStringList indexes;
-    QStringList values;
-
-    while(data.contains("["))
-        {
-        indexes << QString::fromUtf8(data.sliced(data.indexOf("[")+1, data.indexOf("]")-data.indexOf("[")-1).toStdString()); // returns Interni_ID, EAN, etc
+    QRegularExpression space("^\\s+|\\s+$");
+    while(data.contains("[")) {
+        QString index = QString::fromUtf8(data.sliced(data.indexOf("[")+1, data.indexOf("]")-data.indexOf("[")-1).toStdString());
         data.remove(0, data.indexOf("=>")+2);
-        QRegularExpression space("^\\s+|\\s+$"); // remove only whitespaces on start and end
-        values << QString::fromUtf8(data.sliced(0, data.indexOf("\n"))).replace(space, ""); // return value without whitespaces
+        QString value = QString::fromUtf8(data.sliced(0, data.indexOf("\n"))).replace(space, "");
+        result[index] << value;
     }
-
-    for(int i=0;i<indexes.count();i++)
-    {
-        if(indexes[0] != indexes[i]) // all indexes are not the same, save to array
-            {
-            qDebug() << "Multiple indexes";
-            for(int i=0;i<indexes.count();i++)
-            {
-                    temp[indexes[i]] << values[i];
-            }
-            return temp;
-        }
-
+/*
+    if(result.count() > 1) {
+        qWarning() << "getData: Multiple indexes: " << result.keys();
     }
-
-    //not all indexes are the same
-
-    temp[indexes[0]] = values;
-    qDebug() << "Same indexes\n";
-    return temp;
+*/
+    return result;
 }
 
-QString NetworkSQL::getStringData(QString Query)
+QString NetworkSQL::getStringData(const QString& Query)
 {
-    QString temp;
-
     QUrl url(Address);
-    QNetworkRequest request(url);
-
-    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
+    url.setUserName(User);
+    url.setPassword(Pass);
 
     QUrlQuery params;
-    params.addQueryItem("User", User);
-    params.addQueryItem("Pass", Pass);
     params.addQueryItem("Debug", "False");
     params.addQueryItem("Query", Query);
 
-    QNetworkReply* reply = manager->post(request, params.query().toUtf8());
+    QNetworkRequest request(url);
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
 
+    QNetworkReply* reply = manager->post(request, params.query().toUtf8());
     QEventLoop loop;
-    connect(reply, SIGNAL(finished()), &loop, SLOT(quit()));
+    QObject::connect(reply, &QNetworkReply::finished, &loop, &QEventLoop::quit);
     loop.exec();
 
-    //data received
-
     QByteArray data = reply->readAll();
-    qDebug() << "all: " << data;
-    if(!data.contains("[")) // bad reply?
-        {
-            qDebug() << "Something wrong?";
-            return temp; // any data recieved
+    //qDebug() << "all: " << data;
+
+    if (!data.contains('[')) {
+        qDebug() << "Something wrong?";
+        return QString();
     }
 
     QStringList indexes;
     QStringList values;
-
-    while(data.contains("["))
-        {
-        indexes << QString::fromUtf8(data.sliced(data.indexOf("[")+1, data.indexOf("]")-data.indexOf("[")-1).toStdString()); // returns Interni_ID, EAN, etc
-        data.remove(0, data.indexOf("=>")+2);
-        QRegularExpression space("^\\s+|\\s+$"); // remove only whitespaces on start and end
-        values << QString::fromUtf8(data.sliced(0, data.indexOf("\n"))).replace(space, ""); // return value without whitespaces
+    while (data.contains('[')) {
+        const auto startIndex = data.indexOf('[') + 1;
+        const auto endIndex = data.indexOf(']');
+        const auto indexLength = endIndex - startIndex;
+        const auto index = QString::fromUtf8(data.mid(startIndex, indexLength));
+        indexes << index;
+        const auto valueStartIndex = data.indexOf("=>", endIndex) + 2;
+        const auto valueEndIndex = data.indexOf('\n', valueStartIndex);
+        const auto value = QString::fromUtf8(data.mid(valueStartIndex, valueEndIndex - valueStartIndex).trimmed());
+        values << value;
+        data = data.mid(valueEndIndex + 1);
     }
 
-    for(int i=0;i<indexes.count();i++)
-    {
-        if(indexes[0] != indexes[i]) // all indexes are not the same, save to array
-            {
-            qDebug() << "Multiple indexes - badly used function";
-            return QString(); // return empty string
-        }
+    if (indexes.count() != values.count()) {
+        //qDebug() << "Indexes and values count mismatch";
+        return QString();
     }
 
-    //not all indexes are the same
+    QSet<QString> uniqueIndexes(indexes.begin(), indexes.end());
+    if (uniqueIndexes.count() > 1) {
+        //qDebug() << "Multiple indexes - badly used function";
+        return QString();
+    }
 
-    temp = values[0];
-    qDebug() << "Same indexes\n";
-    return temp;
+    return values.first();
+
 }

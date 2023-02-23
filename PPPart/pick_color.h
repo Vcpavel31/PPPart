@@ -35,8 +35,6 @@ private:
 private slots:
     QColor getIdealTextColor(const QColor rBackgroundColor);
 
-    QColor hexToRGB(QString hex);
-
     void on_buttonBox_accepted();
 
     void refresh();
@@ -49,6 +47,8 @@ private slots:
     void on_NCS_stateChanged(int arg1);
     void on_Manual_stateChanged(int arg1);
     void on_Transparent_stateChanged(int arg1);
+
+    QColor hexToRGB(const QString& hex);
 };
 
 #endif // PICK_COLOR_H

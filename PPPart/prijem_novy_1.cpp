@@ -475,10 +475,10 @@ void Prijem_novy_1::Showtolerances(){
 }
 
 void Prijem_novy_1::ColorPick(){
-    Pick_Color.show();
-    if(Pick_Color.exec() == QDialog::Accepted){
+    Pick_Color_Window.show();
+    if(Pick_Color_Window.exec() == QDialog::Accepted){
        // You can access everything you need in dialog object
-        color = Pick_Color.getColor();
+        color = Pick_Color_Window.getColor();
         QColor IdealTextColor = getIdealTextColor(color);
 
         dynamic_cast<QPushButton*>(pointers["Barva_PushButton"])->setStyleSheet(COLOR_STYLE.arg(color.name()).arg(IdealTextColor.name()));
