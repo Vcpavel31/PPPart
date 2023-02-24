@@ -5,31 +5,45 @@ PPPart::PPPart(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::PPPart)
 {
+    // Set up UI
     ui->setupUi(this);
-    //settings->setDefaultFormat(QSettings::IniFormat);
-    //qDebug() << settings->status() << " " << settings->fileName();
 
+    // Hide vertical header for Information table and set column width for parts table
     ui->Information->verticalHeader()->hide();
-    ui->parts->setColumnWidth(0,0);
+    ui->parts->setColumnWidth(0, 0);
 
+    // Get all data
     getAllData();
 
+    // Get category data from networkSQL
     QMap<QString, QStringList> data = network.getData("MACRO(CategoryList)");
-    ui->categories->setColumnHidden(1, 1);
+
+    // Hide second column of categories table and clear it
+    ui->categories->setColumnHidden(1, true);
     ui->categories->clear();
-    for(int i = 0; i != data["ID"].size(); i++){
-        if(data["Ordered"][i].isEmpty()){
-            ui->categories->insertTopLevelItem(ui->categories->topLevelItemCount(), new QTreeWidgetItem(QStringList({data["Name"][i], data["ID"][i]})));
-        }
-        else{
-            QList<QTreeWidgetItem *> items = ui->categories->findItems(data["Ordered"][i], Qt::MatchExactly|Qt::MatchRecursive, 1);
-            if(!items.isEmpty()){ // parent item exists
-                //only one item with same ID => at(0)
-                items.at(0)->addChild(new QTreeWidgetItem(QStringList({data["Name"][i], data["ID"][i]})));
-                qDebug() << "Parent item exists: " << items.at(0)->text(0);
+
+    // Iterate over category data and insert items into categories table
+    for (int i = 0; i < data["ID"].size(); i++) {
+        QString categoryName = data["Name"][i];
+        QString categoryId = data["ID"][i];
+        QString ordered = data["Ordered"][i];
+
+        // Check if category is ordered
+        if (ordered.isEmpty()) {
+            // Insert top-level item for unordered category
+            ui->categories->addTopLevelItem(new QTreeWidgetItem({categoryName, categoryId}));
+        } else {
+            // Find parent item for ordered category
+            QList<QTreeWidgetItem*> parentItems = ui->categories->findItems(ordered, Qt::MatchExactly|Qt::MatchRecursive, 1);
+            if (!parentItems.isEmpty()) {
+                // Add child item to parent item
+                QTreeWidgetItem* parentItem = parentItems.first();
+                parentItem->addChild(new QTreeWidgetItem({categoryName, categoryId}));
+                qDebug() << "Added child item to parent item: " << parentItem->text(0);
             }
         }
     }
+
 }
 
 PPPart::~PPPart()
@@ -43,9 +57,9 @@ void PPPart::getAllData()
 
 void PPPart::on_categories_itemClicked(QTreeWidgetItem *item, int column)
 {
+    (void) column; // dont care
 
     ui->parts->clear();
-    qDebug() << "left bar" << item->text(1);
 
     ui->parts->setColumnCount(0);
 
@@ -54,31 +68,22 @@ void PPPart::on_categories_itemClicked(QTreeWidgetItem *item, int column)
 
     QStringList labels = {"ID", "Množství"};
 
-    for(int h = 0; h!= attributes["ID"].size(); h++){
-        //qDebug() << attributes["Attribute_Name"][h];
-        //ui->parts->setColumnCount(ui->parts->columnCount()+1);
+    for(int h = 0; h!= attributes["ID"].size(); h++)
         labels << attributes["Attribute_Name"][h];
-    }
-    //labels.sort(Qt::CaseSensitive);
+
     ui->parts->setColumnCount(labels.count());
     ui->parts->setHeaderLabels(labels);
+
     /////////////////////////////////////////////////////////////////////////////////
     /// \brief Data součástek
     /// Získání informací o jednotlivých položkách ve skladu odpovídajícím kategorii
 
-    QString Query = ("  SELECT `Categories_Items`.`Item_ID` AS 'ID'\
-                FROM `Categories_Items`, `Categories_Arrangement`\
-                WHERE `Categories_Items`.`Category_ID` = `Categories_Arrangement`.`Category` AND (\
-                (`Categories_Arrangement`.`Ordered` = "+item->text(1)+") OR\
-                (`Categories_Arrangement`.`Category` = "+item->text(1)+")\
-            )");
-    QMap<QString, QStringList> items = network.getData(Query);
-    qDebug() << "AHA" << items;
+    const auto items = network.getData("MACRO(Items_in_Category(" + item->text(1) + "(" + item->text(1) + ")))");
+
     for(int i = 0; i != items["ID"].size(); i++){
         hodnoty = {};
         QMap<QString, QStringList> data;
-        qDebug() << items["ID"][i];
-        Query = ("SELECT `ID`,`Name` AS 'Název', `EAN`, `Product_number` FROM `Items` WHERE `ID` = "+items["ID"][i]);
+        QString Query = ("SELECT `ID`,`Name` AS 'Název', `EAN`, `Product_number` FROM `Items` WHERE `ID` = "+items["ID"][i]);
         QMap<QString, QStringList> response = network.getData(Query);
         qDebug() << "RESPONSE Default" << response;
         QMapIterator<QString, QStringList> why(response);
@@ -88,38 +93,29 @@ void PPPart::on_categories_itemClicked(QTreeWidgetItem *item, int column)
         }
 
         response = network.getData("MACRO(Attribute("+items["ID"][i]+"))");
-        //qDebug() << "RESPONSE Attributes" << response;
+
         for(int j = 0; j != response["Attribute_Name"].count(); j++)
             data[response["Attribute_Name"][j]] << response["Attribute_Value"][j];
 
         /////////////////////////////////////////////////////////////////////// Zíksat Množství a zapsat ho
 
         response = network.getData("MACRO(Item_Amount("+items["ID"][i]+"))");
-        //qDebug() << "RESPONSE Amount" << response;
+
         data["Množství"] << response["Amount"];
 
         for(int k = 0; k != labels.count(); k++){
-            if(data[labels[k]].isEmpty()){
-                //qDebug() << labels[k] << data[labels[k]];
+            if(data[labels[k]].isEmpty())
                 hodnoty += "";
-            }
             else{
-                //qDebug() << labels[k] << data[labels[k]];
-
                 data[labels[k]].removeAll(QString(""));
-
                 hodnoty += data[labels[k]];
             }
         }
-        //qDebug() << hodnoty;
 
         ui->parts->insertTopLevelItem(ui->parts->topLevelItemCount(), new QTreeWidgetItem(hodnoty));
     }
 
     ui->parts->update();
-
-    (void) item; // dont care
-    (void) column; // dont care
 
     int nazev, id = 0;
     QTreeWidgetItem *header = ui->parts->headerItem();
@@ -149,36 +145,42 @@ void PPPart::on_settings_pressed()
     // network.getData("SELECT `Interni_ID`, `EAN` FROM `EAN` WHERE `EAN` LIKE '%12%'");
 }
 
-void PPPart::on_parts_itemDoubleClicked(QTreeWidgetItem *item, int column)
-{
-    (void) column; // dont care about column probably
-    bool ok;
-    int mnozstvi = 0;
-    QTreeWidgetItem *header = ui->parts->headerItem();
-    for (int i = 0; i < header->columnCount(); i++) {
-        if(header->text(i) == "Množství"){
-            qDebug() << "Sloupec Množství: " << i;
+void PPPart::on_parts_itemDoubleClicked(QTreeWidgetItem* item, int column) {
+    (void) column; // dont care
+
+    if (item->childCount()) {
+        return;
+    }
+
+    static const QString MNOZSTVI_TEXT = QStringLiteral("Množství");
+    int mnozstvi = -1;
+    QTreeWidgetItem* header = ui->parts->headerItem();
+    for (int i = 0; i < header->columnCount(); ++i) {
+        if (header->text(i) == MNOZSTVI_TEXT) {
             mnozstvi = i;
+            break;
         }
     }
-    //qDebug() << "Množství" << ;//ui->parts->find("Množství", Qt::MatchContains|Qt::MatchRecursive, 0);
-    if(!item->childCount()) //if havent any children
-        {
-            QString text = QInputDialog::getText(this, tr("Počet kusů"), item->text(mnozstvi), QLineEdit::Normal, "1",  &ok);
-            if (ok && !text.isEmpty()) // ok pressed?
-                {
-                    if(item->text(1).toInt() >= text.toInt()) //enought parts?
-                        {
-                            qDebug() << "Noice";
-                    } else
-                        {
-                            QMessageBox msgBox;
-                            msgBox.setText(tr("Nedostatečné množství na skladu. Opakujte akci."));
-                            msgBox.exec();
-                    }
-            }
+    if (mnozstvi == -1) {
+        qWarning() << "Sloupec s množstvím nenalezen!";
+        return;
     }
+
+    const int itemMnozstvi = item->text(mnozstvi).toInt();
+    bool ok;
+    const QString text = QInputDialog::getText(this, tr("Počet kusů"), item->text(mnozstvi), QLineEdit::Normal, "1", &ok);
+    if (!ok || text.isEmpty()) {
+        return;
+    }
+    const int enteredMnozstvi = text.toInt();
+    if (enteredMnozstvi > itemMnozstvi) {
+        QMessageBox::warning(this, tr("Nedostatečné množství na skladu."), tr("Nedostatečné množství na skladu. Opakujte akci."));
+        return;
+    }
+
+    ////// Přidání do výdeje
 }
+
 
 
 void PPPart::on_income_pressed()
