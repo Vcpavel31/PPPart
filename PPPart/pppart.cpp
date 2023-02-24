@@ -39,7 +39,6 @@ PPPart::PPPart(QWidget *parent)
                 // Add child item to parent item
                 QTreeWidgetItem* parentItem = parentItems.first();
                 parentItem->addChild(new QTreeWidgetItem({categoryName, categoryId}));
-                qDebug() << "Added child item to parent item: " << parentItem->text(0);
             }
         }
     }
@@ -55,95 +54,80 @@ void PPPart::getAllData()
 {
 }
 
-void PPPart::on_categories_itemClicked(QTreeWidgetItem *item, int column)
-{
-    (void) column; // dont care
-
+void PPPart::on_categories_itemClicked(QTreeWidgetItem *item, int column) {
+    (void) column;
     ui->parts->clear();
+    ui->parts->setUpdatesEnabled(false);
 
-    ui->parts->setColumnCount(0);
-
-    QMap<QString, QStringList> attributes = network.getData("MACRO(Attributes("+item->text(1)+"))");
-    qDebug() << "Attributes: " << attributes;
+    QMap<QString, QStringList> attributes = network.getData("MACRO(Attributes(" + item->text(1) + "))");
 
     QStringList labels = {"ID", "Množství"};
-
-    for(int h = 0; h!= attributes["ID"].size(); h++)
+    for (int h = 0; h != attributes["ID"].size(); ++h) {
         labels << attributes["Attribute_Name"][h];
+    }
 
-    ui->parts->setColumnCount(labels.count());
+    ui->parts->setColumnCount(labels.size());
     ui->parts->setHeaderLabels(labels);
 
-    /////////////////////////////////////////////////////////////////////////////////
-    /// \brief Data součástek
-    /// Získání informací o jednotlivých položkách ve skladu odpovídajícím kategorii
-
     const auto items = network.getData("MACRO(Items_in_Category(" + item->text(1) + "(" + item->text(1) + ")))");
+    const auto ID_Items = items["ID"];
 
-    for(int i = 0; i != items["ID"].size(); i++){
-        hodnoty = {};
+    for (int i = 0; i != ID_Items.size(); ++i) {
         QMap<QString, QStringList> data;
-        QString Query = ("SELECT `ID`,`Name` AS 'Název', `EAN`, `Product_number` FROM `Items` WHERE `ID` = "+items["ID"][i]);
+        QString Query = ("SELECT `ID`,`Name` AS 'Název', `EAN`, `Product_number` FROM `Items` WHERE `ID` = " + ID_Items[i]);
         QMap<QString, QStringList> response = network.getData(Query);
-        qDebug() << "RESPONSE Default" << response;
         QMapIterator<QString, QStringList> why(response);
         while (why.hasNext()) {
             why.next();
             data[why.key()] = why.value();
         }
 
-        response = network.getData("MACRO(Attribute("+items["ID"][i]+"))");
+        response = network.getData("MACRO(Attribute(" + ID_Items[i] + "))");
 
-        for(int j = 0; j != response["Attribute_Name"].count(); j++)
+        for (int j = 0; j != response["Attribute_Name"].count(); ++j) {
             data[response["Attribute_Name"][j]] << response["Attribute_Value"][j];
+        }
 
-        /////////////////////////////////////////////////////////////////////// Zíksat Množství a zapsat ho
-
-        response = network.getData("MACRO(Item_Amount("+items["ID"][i]+"))");
+        response = network.getData("MACRO(Item_Amount(" + ID_Items[i] + "))");
 
         data["Množství"] << response["Amount"];
 
-        for(int k = 0; k != labels.count(); k++){
-            if(data[labels[k]].isEmpty())
-                hodnoty += "";
-            else{
+        QStringList hodnoty(labels.count());
+        for (int k = 0; k != labels.count(); ++k) {
+            if (data[labels[k]].isEmpty()) {
+                hodnoty[k] = "";
+            } else {
                 data[labels[k]].removeAll(QString(""));
-                hodnoty += data[labels[k]];
+                hodnoty[k] = data[labels[k]].join(" ");
             }
         }
 
-        ui->parts->insertTopLevelItem(ui->parts->topLevelItemCount(), new QTreeWidgetItem(hodnoty));
+        ui->parts->addTopLevelItem(new QTreeWidgetItem(hodnoty));
     }
 
-    ui->parts->update();
+    ui->parts->setUpdatesEnabled(true);
+    ui->parts->header()->setSectionResizeMode(QHeaderView::ResizeToContents);
 
-    int nazev, id = 0;
+    int nameColumn = -1, idColumn = -1;
     QTreeWidgetItem *header = ui->parts->headerItem();
-    for (int i = 0; i < header->columnCount(); i++) {
-
-        // Set column width to fit content in every column
-        ui->parts->resizeColumnToContents(i);
-
-        if(header->text(i) == "Název"){
-            qDebug() << "Sloupec Název: " << i;
-            nazev = i;
-        }
-        if(header->text(i) == "ID"){
-            qDebug() << "Sloupec ID: " << i;
-            id = i;
+    for (int i = 0; i < header->columnCount(); ++i) {
+        if (header->text(i) == "Název") {
+            nameColumn = i;
+        } else if (header->text(i) == "ID") {
+            idColumn = i;
         }
     }
-    ui->parts->setColumnHidden(id, 1);
-    ui->parts->sortItems(nazev, Qt::AscendingOrder);
-    ui->parts->sortColumn();
+
+    ui->parts->setColumnHidden(idColumn, true);
+    ui->parts->sortByColumn(nameColumn, Qt::AscendingOrder);
+
 }
 
 
-void PPPart::on_settings_pressed()
-{
-    // ?????????????????????????????????????????????????????????????
-    // network.getData("SELECT `Interni_ID`, `EAN` FROM `EAN` WHERE `EAN` LIKE '%12%'");
+void PPPart::on_settings_pressed() {
+
 }
+
 
 void PPPart::on_parts_itemDoubleClicked(QTreeWidgetItem* item, int column) {
     (void) column; // dont care
